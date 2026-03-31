@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply font-sans bg-[#0d1117] text-[#c9d1d9] min-h-screen p-8;
+  }
+  a {
+    @apply no-underline;
+  }
+}
+
+@layer components {
+  .app {
+    @apply max-w-2xl mx-auto;
+  }
+  .app h1 {
+    @apply text-2xl font-bold text-[#f0f6fc] mb-6;
+  }
+  .search-form {
+    @apply flex gap-2 mb-6;
+  }
+  .search-input {
+    @apply flex-1 bg-[#161b22] border border-[#30363d] rounded-lg px-3.5 py-2.5 text-sm text-[#c9d1d9] outline-none focus:border-[#58a6ff] transition-colors placeholder:text-[#484f58];
+  }
+  .search-btn {
+    @apply bg-[#238636] text-white border-none rounded-lg px-5 py-2.5 text-sm cursor-pointer font-medium hover:bg-[#2ea043] transition-colors;
+  }
+  .status {
+    @apply text-[#8b949e] py-8 text-center;
+  }
+  .status.error {
+    @apply text-[#f85149];
+  }
+  .profile-card {
+    @apply bg-[#161b22] border border-[#30363d] rounded-xl p-6 flex gap-5;
+  }
+  .profile-avatar {
+    @apply w-20 h-20 rounded-full shrink-0;
+  }
+  .profile-info h2 {
+    @apply text-xl text-[#f0f6fc] mb-1.5;
+  }
+  .bio {
+    @apply text-[#8b949e] text-sm mb-4 leading-relaxed;
+  }
+  .stats {
+    @apply flex gap-5 mb-4 text-sm text-[#8b949e];
+  }
+  .stats strong {
+    @apply text-[#f0f6fc];
+  }
+  .gh-link {
+    @apply inline-block bg-[#21262d] border border-[#30363d] rounded-md px-3.5 py-1.5 text-sm text-[#c9d1d9] hover:bg-[#30363d] transition-colors;
+  }
+}

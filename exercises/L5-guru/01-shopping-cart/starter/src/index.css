@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply font-sans bg-gray-50;
+  }
+}
+
+@layer components {
+  .shop-layout {
+    @apply grid min-h-screen;
+    grid-template-columns: 1fr 320px;
+  }
+  .product-grid {
+    @apply p-8;
+  }
+  .product-grid h1 {
+    @apply text-2xl font-bold mb-6 text-gray-900;
+  }
+  .grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .product-card {
+    @apply bg-white rounded-xl overflow-hidden shadow-sm flex flex-col;
+  }
+  .product-image {
+    @apply w-full object-cover bg-gray-100;
+    aspect-ratio: 1;
+  }
+  .product-body {
+    @apply p-3.5 flex-1 flex flex-col;
+  }
+  .product-name {
+    @apply font-semibold text-sm text-gray-900 mb-1;
+  }
+  .product-price {
+    @apply text-indigo-600 font-bold text-base mb-3;
+  }
+  .add-btn {
+    @apply bg-indigo-600 text-white border-none rounded-lg p-2 text-sm cursor-pointer font-medium mt-auto hover:bg-indigo-800 transition-colors;
+  }
+  .cart-panel {
+    @apply bg-white border-l border-gray-200 p-6 flex flex-col;
+  }
+  .cart-panel h2 {
+    @apply text-lg font-bold text-gray-900 mb-4 pb-3 border-b border-gray-100;
+  }
+  .cart-empty {
+    @apply text-gray-400 text-sm text-center py-8;
+  }
+  .cart-items {
+    @apply flex-1 overflow-y-auto;
+  }
+  .cart-item {
+    @apply flex gap-3 py-3 border-b border-gray-50 items-center;
+  }
+  .cart-item-name {
+    @apply text-sm font-medium text-gray-900 flex-1;
+  }
+  .cart-item-price {
+    @apply text-sm text-gray-500;
+  }
+  .qty-controls {
+    @apply flex items-center gap-1.5;
+  }
+  .qty-btn {
+    @apply bg-gray-100 border-none rounded w-6 h-6 cursor-pointer text-sm flex items-center justify-center hover:bg-gray-200 transition-colors;
+  }
+  .qty-display {
+    @apply text-sm min-w-6 text-center;
+  }
+  .remove-btn {
+    @apply bg-transparent border-none text-gray-300 cursor-pointer text-sm p-0.5 hover:text-red-500 transition-colors;
+  }
+  .cart-footer {
+    @apply pt-4 border-t border-gray-200 mt-auto;
+  }
+  .cart-total {
+    @apply flex justify-between font-bold text-base mb-3;
+  }
+  .checkout-btn {
+    @apply w-full bg-indigo-600 text-white border-none rounded-lg py-3 text-sm cursor-pointer font-semibold hover:bg-indigo-800 transition-colors;
+  }
+  .clear-btn {
+    @apply w-full bg-transparent border border-gray-200 rounded-lg py-2 text-sm cursor-pointer text-gray-500 mt-2 hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-colors;
+  }
+}

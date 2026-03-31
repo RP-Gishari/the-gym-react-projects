@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply font-sans bg-slate-100 p-8;
+  }
+}
+
+@layer components {
+  .feed {
+    @apply max-w-md mx-auto;
+  }
+  .post-card {
+    @apply bg-white rounded-xl p-5 mb-4 shadow-sm;
+  }
+  .post-header {
+    @apply flex items-center gap-3 mb-3;
+  }
+  .avatar {
+    @apply w-10 h-10 rounded-full object-cover;
+  }
+  .author {
+    @apply font-semibold text-sm text-gray-900;
+  }
+  .content {
+    @apply text-gray-700 leading-relaxed mb-4;
+  }
+  .post-actions {
+    @apply flex items-center gap-2;
+  }
+  .like-btn {
+    @apply bg-transparent border border-gray-200 rounded-full px-3 py-1.5 cursor-pointer text-base transition-all hover:border-red-300 hover:bg-red-50;
+  }
+  .like-btn.liked {
+    @apply bg-red-100 border-red-300 text-red-600;
+  }
+  .like-count {
+    @apply text-gray-500 text-sm;
+  }
+}
