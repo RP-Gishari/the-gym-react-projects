@@ -15,15 +15,30 @@ export default function App() {
 
   const question = questions[currentIndex]
 
-  function handleSelectedOption(i){
+  function handleSelectedOption(optionIndex){
     if(answered) return
 
-    if (i == question.correct) {
-      setSelectionOption(i)
+    setSelectionOption(optionIndex)
+
+    if (optionIndex == question.correct) {
       setScore(prev => prev + 1)
     }
 
     setAnswered(true)
+  }
+
+  function getOptions(optionIndex) {
+    if (!answered) return
+
+    if (optionIndex == question.correct) {
+      return 'bg-green-100 border-green-400'
+    }  
+    
+    if (optionIndex == selectedOption) {
+      return 'bg-red-100 border-red-400'
+    }
+
+    return ''
   }
 
   return (
@@ -55,7 +70,7 @@ export default function App() {
             <li key={i}>
               <button
                 onClick={() => handleSelectedOption(i)}
-                className="w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors"
+                className={`w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors ${getOptions(i)}`}
               >
                 {option}
               </button>
