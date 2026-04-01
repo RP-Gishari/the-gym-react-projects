@@ -41,6 +41,12 @@ export default function App() {
     return ''
   }
 
+  function handleNext(){
+    setCurrentIndex(prev => prev + 1)
+    setAnswered(false)
+    selectedOption(null)
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
@@ -79,7 +85,7 @@ export default function App() {
         </ul>
 
         {/* Next button — hidden until an answer is selected */}
-        <button disabled={!answered} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed disabled:border-gray-500">
+        <button onClick={handleNext} disabled={!answered} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed disabled:border-gray-500">
           Next →
         </button>
 
