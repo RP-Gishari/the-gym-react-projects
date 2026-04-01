@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { questions } from './data/questions'
 
 // The UI below is complete and styled — run npm run dev to see it.
@@ -7,9 +8,72 @@ import { questions } from './data/questions'
 
 export default function App() {
   // hardcoded for display — you will replace these with state
-  const question = questions[0]
-  const currentIndex = 0
-  const score = 0
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [score, setScore] = useState(0)
+  const [answered, setAnswered] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
+
+  const question = questions[currentIndex]
+
+  const isLastQuestion = currentIndex === questions.length - 1
+  const isFinished = currentIndex === questions.length
+
+  function handleSelectedOption(optionIndex){
+    if(answered) return
+
+    setSelectedOption(optionIndex)
+
+    if (optionIndex === question.correct) {
+      setScore(prev => prev + 1)
+    }
+
+    setAnswered(true)
+  }
+
+  function getOptions(optionIndex) {
+    if (!answered) return
+
+    if (optionIndex === question.correct) {
+      return 'bg-green-100 border-green-400'
+    }  
+    
+    if (optionIndex === selectedOption) {
+      return 'bg-red-100 border-red-400'
+    }
+
+    return ''
+  }
+
+  function handleNext(){
+    if (isFinished) return
+
+    setCurrentIndex(prev => prev + 1)
+    setAnswered(false)
+    setSelectedOption(null)
+  }
+
+  function handleRestart(){
+    setCurrentIndex(0)
+    setAnswered(false)
+    setSelectedOption(null)
+    setScore(0)
+  }
+
+  if (isFinished) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
+          <div className='grid text-center justify-center items-center'>
+            <h1 className=''>Congrats 🥳</h1>
+            <p className={score >= questions.length / 2 ? 'text-green-600 font-semibold' : 'text-red-500 font-semibold'}>{score} / {questions.length}</p>
+          <button onClick={handleRestart} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors hover:cursor-pointer">
+            Play Again
+          </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
@@ -25,7 +89,7 @@ export default function App() {
         <div className="w-full bg-slate-100 rounded-full h-1 mb-8">
           <div
             className="bg-indigo-500 h-1 rounded-full transition-all"
-            style={{ width: `${((currentIndex) / questions.length) * 100}%` }}
+            style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
           />
         </div>
 
@@ -39,7 +103,8 @@ export default function App() {
           {question.options.map((option, i) => (
             <li key={i}>
               <button
-                className="w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors"
+                onClick={() => handleSelectedOption(i)}
+                className={`w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors ${getOptions(i)} ${answered ? 'cursor-default' : ''}`}
               >
                 {option}
               </button>
@@ -48,8 +113,8 @@ export default function App() {
         </ul>
 
         {/* Next button — hidden until an answer is selected */}
-        <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
-          Next →
+        <button onClick={handleNext} disabled={!answered} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed disabled:border-gray-500">
+          {isLastQuestion ? 'Finish' : 'Next →'}
         </button>
 
       </div>
