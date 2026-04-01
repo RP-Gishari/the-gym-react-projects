@@ -11,16 +11,18 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(false)
-  const [selectedOption, setSelectionOption] = useState(null)
+  const [selectedOption, setSelectedOption] = useState(null)
 
   const question = questions[currentIndex]
+
+  const isFinished = currentIndex === questions.length
 
   function handleSelectedOption(optionIndex){
     if(answered) return
 
-    setSelectionOption(optionIndex)
+    setSelectedOption(optionIndex)
 
-    if (optionIndex == question.correct) {
+    if (optionIndex === question.correct) {
       setScore(prev => prev + 1)
     }
 
@@ -30,11 +32,11 @@ export default function App() {
   function getOptions(optionIndex) {
     if (!answered) return
 
-    if (optionIndex == question.correct) {
+    if (optionIndex === question.correct) {
       return 'bg-green-100 border-green-400'
     }  
     
-    if (optionIndex == selectedOption) {
+    if (optionIndex === selectedOption) {
       return 'bg-red-100 border-red-400'
     }
 
@@ -42,9 +44,34 @@ export default function App() {
   }
 
   function handleNext(){
+    if (isFinished) return
+
     setCurrentIndex(prev => prev + 1)
     setAnswered(false)
-    selectedOption(null)
+    setSelectedOption(null)
+  }
+
+  function handleRestart(){
+    setCurrentIndex(0)
+    setAnswered(false)
+    setSelectedOption(null)
+    setScore(0)
+  }
+
+  if (isFinished) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
+          <div className='grid text-center justify-center items-center'>
+            <h1 className=''>Congrats 🥳</h1>
+            <p className=''>{score} / {questions.length}</p>
+          <button onClick={handleRestart} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors hover:cursor-pointer">
+            Play Again
+          </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -61,7 +88,7 @@ export default function App() {
         <div className="w-full bg-slate-100 rounded-full h-1 mb-8">
           <div
             className="bg-indigo-500 h-1 rounded-full transition-all"
-            style={{ width: `${((currentIndex) / questions.length) * 100}%` }}
+            style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
           />
         </div>
 
