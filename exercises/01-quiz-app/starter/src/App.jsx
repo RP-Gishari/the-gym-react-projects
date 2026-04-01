@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { questions } from './data/questions'
 
 // The UI below is complete and styled — run npm run dev to see it.
@@ -7,9 +8,23 @@ import { questions } from './data/questions'
 
 export default function App() {
   // hardcoded for display — you will replace these with state
-  const question = questions[0]
-  const currentIndex = 0
-  const score = 0
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [score, setScore] = useState(0)
+  const [answered, setAnswered] = useState(false)
+  const [selectedOption, setSelectionOption] = useState(null)
+
+  const question = questions[currentIndex]
+
+  function handleSelectedOption(i){
+    if(answered) return
+
+    if (i == question.correct) {
+      setSelectionOption(i)
+      setScore(prev => prev + 1)
+    }
+
+    setAnswered(true)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
@@ -39,6 +54,7 @@ export default function App() {
           {question.options.map((option, i) => (
             <li key={i}>
               <button
+                onClick={() => handleSelectedOption(i)}
                 className="w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors"
               >
                 {option}
@@ -48,7 +64,7 @@ export default function App() {
         </ul>
 
         {/* Next button — hidden until an answer is selected */}
-        <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+        <button disabled={!answered} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed disabled:border-gray-500">
           Next →
         </button>
 
