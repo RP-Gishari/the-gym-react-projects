@@ -15,6 +15,7 @@ export default function App() {
 
   const question = questions[currentIndex]
 
+  const isLastQuestion = currentIndex === questions.length - 1
   const isFinished = currentIndex === questions.length
 
   function handleSelectedOption(optionIndex){
@@ -64,7 +65,7 @@ export default function App() {
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
           <div className='grid text-center justify-center items-center'>
             <h1 className=''>Congrats 🥳</h1>
-            <p className=''>{score} / {questions.length}</p>
+            <p className={score >= questions.length / 2 ? 'text-green-600 font-semibold' : 'text-red-500 font-semibold'}>{score} / {questions.length}</p>
           <button onClick={handleRestart} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors hover:cursor-pointer">
             Play Again
           </button>
@@ -103,7 +104,7 @@ export default function App() {
             <li key={i}>
               <button
                 onClick={() => handleSelectedOption(i)}
-                className={`w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors ${getOptions(i)}`}
+                className={`w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors ${getOptions(i)} ${answered ? 'cursor-default' : ''}`}
               >
                 {option}
               </button>
@@ -113,7 +114,7 @@ export default function App() {
 
         {/* Next button — hidden until an answer is selected */}
         <button onClick={handleNext} disabled={!answered} className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed disabled:border-gray-500">
-          Next →
+          {isLastQuestion ? 'Finish' : 'Next →'}
         </button>
 
       </div>
