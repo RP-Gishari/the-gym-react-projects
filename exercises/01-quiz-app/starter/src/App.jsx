@@ -22,14 +22,19 @@ if(i===question.correct)//Handles the incrementation of scores when the answer i
    setScore(score + 1 )
   }
 
-  function handleCurrentIndex(){
+  function handleCurrentIndex(){//changes the question index as we move on to the next question
     setAnswers(null)
     setCurrentIndex(prev=> prev + 1)
   }
 
+  function handleRestart(){//Handles the restart button
+    setCurrentIndex(prev=>prev=0)
+    setScore(0)
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
+      {currentIndex !== questions.length &&<div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
 
         {/* Header */}
         <div  className="flex justify-between text-sm text-slate-400 mb-2">
@@ -74,9 +79,34 @@ if(i===question.correct)//Handles the incrementation of scores when the answer i
           >
           Next →
         </button>
+        </div>
+      }
+      
+
+        {/* Final page- shows the total score gained and restart chance*/}
+
+        {/* Header */}
+         {currentIndex === questions.length && 
+         <div>
+        <div  className="text-lg text-black ">
+          <span className="font-bold">Quiz complete🎉</span>
+          <br/>
+          <span>Your score: {score}/{questions.length}</span>
+        </div>
+
+       
+        {/* Restart button */}
+        <button  onClick={handleRestart} className={ 
+          "w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700"
+          }
+          >
+          Restart
+        </button>
+        </div>}
+      
 
       </div>
-    </div>
+    
   )
 }
 
