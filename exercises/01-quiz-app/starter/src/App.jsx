@@ -37,14 +37,22 @@ export default function App() {
   function handleNext() {
     setCurrentIndex(currentIndex + 1);
     setSelectedAnswer(null);
-    if(currentIndex +1 < questions.length){
+    if(currentIndex +1 === questions.length){
       setShowResults(true);
     }
+  }
+  function restart(){
+    setCurrentIndex(0);
+    setScore(0);
+    setSelectedAnswer(null);
+    setShowResults(false)
   }
   
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+    <>
+    {!showResults && (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
 
         {/* Header */}
@@ -91,5 +99,24 @@ export default function App() {
 
       </div>
     </div>
+    )}
+
+
+{ showResults && (
+  <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+    
+    <div className='absolute'>
+      <h1 className='text-xl'><b>Quiz Complete 🥳 </b></h1>
+      <h2 className='pt-5 pr-20'>Your score: {score}/{questions.length}</h2>
+      <div className='pl-5 pt-5'>
+        <button className='bg-purple-950 text-white rounded-md w-20 h-10'
+        onClick={restart}
+        >Restart</button>
+      </div>
+    </div>
+  </div>
+)}
+
+</>
   )
 }
