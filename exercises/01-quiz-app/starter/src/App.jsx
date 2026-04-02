@@ -8,25 +8,31 @@ import { questions } from './data/questions'
 
 export default function App() {
   // hardcoded for display — you will replace these with state
-  const question = questions[0]
- // const [question,setQuestion] = useState(questions)// handle the changes in questions displayed
-const [answers, setAnswers]= useState(null)// checks whether the answer is correct or not 
-  const currentIndex = 0
-  const score = 0
-  // const [score,setScore]= useState(0) // tracks the number of questions the user has answered correctly.
+
+  const [answers, setAnswers]= useState(null)// checks whether the answer is correct or not 
+  const [currentIndex, setCurrentIndex] = useState(0)// tracks the change in the index of questions
+  const question = questions[currentIndex] // display the number of the question on the page
+  const [score,setScore]= useState(0) // tracks the number of questions the user has answered correctly.
+
 
 function handleAnswers(i){
 if(answers !== null)return 
 setAnswers(i)
+if(i===question.correct)//Handles the incrementation of scores when the answer is correct
+   setScore(score + 1 )
   }
 
+  function handleCurrentIndex(){
+    setAnswers(null)
+    setCurrentIndex(prev=> prev + 1)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
 
         {/* Header */}
-        <div className="flex justify-between text-sm text-slate-400 mb-2">
+        <div  className="flex justify-between text-sm text-slate-400 mb-2">
           <span>Question {currentIndex + 1} of {questions.length}</span>
           <span>Score: {score}</span>
         </div>
@@ -61,10 +67,10 @@ setAnswers(i)
         </ul>
 
         {/* Next button — hidden until an answer is selected */}
-        <button  className={ 
+        <button  onClick={handleCurrentIndex} className={ 
           `w-full transition-colors 
          ${answers === null?"hidden":"bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700"} `
-          }// Button is hidden when no answer is selected
+          }
           >
           Next →
         </button>
