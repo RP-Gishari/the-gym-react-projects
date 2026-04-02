@@ -51,12 +51,14 @@ export default function App() {
 
   return (
     <>
+    {/* conditional rendering if showResults is false to render quiz ui */}
     {!showResults && (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
 
         {/* Header */}
         <div className="flex justify-between text-sm text-slate-400 mb-2">
+          {/* used currentIndex to update the progress of questions */}
           <span>Question {currentIndex + 1} of {questions.length}</span>
           <span>Score: {score}</span>
         </div>
@@ -71,6 +73,7 @@ export default function App() {
 
         {/* Question */}
         <h2 className="text-base font-semibold text-slate-800 mb-6 leading-snug">
+          {/* tracking current q with create variable to access current qs   */}
           {question.question}
         </h2>
 
@@ -79,8 +82,8 @@ export default function App() {
           {question.options.map((option, i) => (
             <li key={i}>
               <button
+              // usd conditional rendering to apply ui to answer i've attached outer function to handle that
                 className={`w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors  ${colors(i)}`}
-                // className= {i=== question.correct ? "text-green-500" : "text-red-500"}
                 onClick={()=> selectAns(i)}
               >
                 {option}
@@ -101,7 +104,7 @@ export default function App() {
     </div>
     )}
 
-
+{/* added conditonal rendering if true to render finish page */}
 { showResults && (
   <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
     
@@ -109,6 +112,7 @@ export default function App() {
       <h1 className='text-xl'><b>Quiz Complete 🥳 </b></h1>
       <h2 className='pt-5 pr-20'>Your score: {score}/{questions.length}</h2>
       <div className='pl-5 pt-5'>
+        {/* attached resetting button to start the quiz */}
         <button className='bg-purple-950 text-white rounded-md w-20 h-10'
         onClick={restart}
         >Restart</button>
