@@ -34,6 +34,13 @@ export default function App() {
     return optionStyle
   }
   
+  function handleNext() {
+    setCurrentIndex(currentIndex + 1);
+    setSelectedAnswer(null);
+    if(currentIndex +1 < questions.length){
+      setShowResults(true);
+    }
+  }
   
 
   return (
@@ -76,7 +83,8 @@ export default function App() {
 
         {/* Next button — hidden until an answer is selected */}
         {selectedAnswer !== null && (
-          <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+          <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors"
+          onClick={handleNext}>
           Next →
         </button>
         )}
