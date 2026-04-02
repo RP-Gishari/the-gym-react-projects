@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { questions } from './data/questions'
 
 // The UI below is complete and styled — run npm run dev to see it.
@@ -7,9 +8,13 @@ import { questions } from './data/questions'
 
 export default function App() {
   // hardcoded for display — you will replace these with state
-  const question = questions[0]
-  const currentIndex = 0
-  const score = 0
+  // const question = questions[0]
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [score,setScore] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [showResults, setShowResults] = useState(false);
+
+  const question = questions[currentIndex]
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
