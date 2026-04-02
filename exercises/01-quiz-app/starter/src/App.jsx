@@ -75,9 +75,11 @@ export default function App() {
         </ul>
 
         {/* Next button — hidden until an answer is selected */}
-        <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+        {selectedAnswer !== null && (
+          <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
           Next →
         </button>
+        )}
 
       </div>
     </div>
