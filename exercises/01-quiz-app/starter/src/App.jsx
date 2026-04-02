@@ -14,7 +14,27 @@ export default function App() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showResults, setShowResults] = useState(false);
 
-  const question = questions[currentIndex]
+  const question = questions[currentIndex];
+  function selectAns(i){
+    if(selectedAnswer !== null) return
+    setSelectedAnswer(i)
+    if(i === question.correct){
+      setScore(score+1)
+    }
+  }
+  function colors(i){
+    let optionStyle = '';
+    if(selectedAnswer !==null) {
+      if(i === question.correct){
+        optionStyle ="bg-green-400 border-green-400 text-green-700";
+      } else if(i===selectedAnswer){
+         optionStyle = 'bg-red-400 border-red-400 text-red-700';
+      }
+    }
+    return optionStyle
+  }
+  
+  
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
@@ -44,7 +64,9 @@ export default function App() {
           {question.options.map((option, i) => (
             <li key={i}>
               <button
-                className="w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors"
+                className={`w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors  ${colors(i)}`}
+                // className= {i=== question.correct ? "text-green-500" : "text-red-500"}
+                onClick={()=> selectAns(i)}
               >
                 {option}
               </button>
