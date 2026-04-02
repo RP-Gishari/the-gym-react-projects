@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { questions } from './data/questions'
 
 // The UI below is complete and styled — run npm run dev to see it.
@@ -8,8 +9,16 @@ import { questions } from './data/questions'
 export default function App() {
   // hardcoded for display — you will replace these with state
   const question = questions[0]
+ // const [question,setQuestion] = useState(questions)// handle the changes in questions displayed
+const [answers, setAnswers]= useState(null)// checks whether the answer is correct or not 
   const currentIndex = 0
   const score = 0
+  // const [score,setScore]= useState(0) // tracks the number of questions the user has answered correctly.
+
+function handleAnswers(i){
+if(answers !== null)return 
+setAnswers(i)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
@@ -38,8 +47,11 @@ export default function App() {
         <ul className="space-y-2 mb-8">
           {question.options.map((option, i) => (
             <li key={i}>
-              <button
-                className="w-full text-left rounded-lg px-4 py-3 text-sm border border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 transition-colors"
+              <button onClick={()=>handleAnswers(i)}
+                className={
+                  `w-full text-left rounded-lg px-4 py-3 text-sm border transition-colors
+                  ${answers === null? " border-slate-200 text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 ": i===question.correct? "border-green-600 text-green-600": i===answers? "border-red-600 text-red-600":" border-slate-200 text-slate-700  hover:border-indigo-400 hover:shadow-lg"}`
+                }
               >
                 {option}
               </button>
@@ -48,7 +60,11 @@ export default function App() {
         </ul>
 
         {/* Next button — hidden until an answer is selected */}
-        <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+        <button className={
+          `w-full transition-colors
+         ${answers === question.correct?"bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700":"text-white bg-gray-300"} `
+          }// condition needed is the one that checks whether an option is selected
+          >
           Next →
         </button>
 
@@ -56,3 +72,5 @@ export default function App() {
     </div>
   )
 }
+
+

@@ -3,7 +3,7 @@ export const questions = [
     id: 1,
     question: 'What does JSX stand for?',
     options: [
-      'JavaScript XML',
+      'JavaScript XML', 
       'JavaScript Extension',
       'JSON Syntax Exchange',
       'Java Syntax XML',
