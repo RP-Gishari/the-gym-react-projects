@@ -20,6 +20,7 @@ if(answers !== null)return
 setAnswers(i)
   }
 
+
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full max-w-lg">
@@ -60,10 +61,10 @@ setAnswers(i)
         </ul>
 
         {/* Next button — hidden until an answer is selected */}
-        <button className={
-          `w-full transition-colors
-         ${answers === question.correct?"bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700":"text-white bg-gray-300"} `
-          }// condition needed is the one that checks whether an option is selected
+        <button  className={ 
+          `w-full transition-colors 
+         ${answers === null?"hidden":"bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700"} `
+          }// Button is hidden when no answer is selected
           >
           Next →
         </button>
