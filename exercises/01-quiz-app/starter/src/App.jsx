@@ -109,7 +109,11 @@ setScore(prev => prev = 0)
 
       </div>}
 
+     { currIndex === questions.length && <div> <h3 className='font-bold'>Quiz complete 🎉</h3> <div className=' mt-3.5 '>Your score : {score} /{questions.length}</div>
+
+     <button className="w-full bg-indigo-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-indigo-700 transition-colors mt-10" onClick={handleRestart}>Restart </button>
     
+    </div>} 
 
     </div>
 
