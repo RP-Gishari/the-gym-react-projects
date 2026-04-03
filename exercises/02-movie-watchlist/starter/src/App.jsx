@@ -1,3 +1,5 @@
+import {useState, useEffect} from 'react'
+
 import { movies } from './data/movies'
 
 // The UI below is complete and styled — run npm run dev to see it.
@@ -9,12 +11,18 @@ import { movies } from './data/movies'
 const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 
 export default function App() {
-  const search = ''
+  //const search = ''
+  const [search, setSearch]= useState('')// handles the search input
   const selectedGenre = 'All'
   const watchlistIds = []
 
   // display all movies for now — you will filter this with state
-  const visibleMovies = movies
+  const filteredMovies= movies.filter(movie=> movie.title.toLowerCase().includes(search.toLowerCase()) || movie.director.toLowerCase().includes(search.toLowerCase()))
+  const visibleMovies = filteredMovies
+
+  function handleSearch(e){//handles the event of typing in the search input that is triggered by the user
+  setSearch(e.target.value)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -34,11 +42,12 @@ export default function App() {
           <input
             type="text"
             value={search}
+            onChange={handleSearch}
             placeholder="Search by title or director..."
             className="w-full border border-slate-200 rounded-lg px-3.5 py-2 text-sm outline-none focus:border-indigo-400 mb-4"
-            readOnly
+            // readOnly
           />
-
+      
           {/* Genre filters */}
           <div className="flex gap-2 flex-wrap mb-6">
             {GENRES.map(genre => (
