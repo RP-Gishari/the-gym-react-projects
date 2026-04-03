@@ -1,13 +1,8 @@
 import { useState } from 'react'
 import { questions } from './data/questions'
 
-// The UI below is complete and styled — run npm run dev to see it.
-// Your job: make it interactive using React.
-// Nothing here is wired up — no state, no handlers, no logic.
-// Do not change the className values. Focus on React.
 
 export default function App() {
-  // hardcoded for display — you will replace these with state
 
   const [answers, setAnswers]= useState(null)// checks whether the answer is correct or not 
   const [currentIndex, setCurrentIndex] = useState(0)// tracks the change in the index of questions
