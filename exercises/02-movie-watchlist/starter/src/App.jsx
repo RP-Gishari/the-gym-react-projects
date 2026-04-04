@@ -12,7 +12,7 @@ const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 export default function App() {
   //added states to manage changes
   const [search, setSearch] = useState(''); 
-  const selectedGenre = 'All'
+  const [selectedGenre, setSelectedGenre] = useState('All')
   const watchlistIds = []
 
   // filtering movies depending on user input to search
@@ -21,15 +21,20 @@ export default function App() {
     const directorr = movie.director.toLowerCase();
     const searchh = search.toLowerCase();
 
-    return(
-      titlee.includes(searchh) || 
-      directorr.includes(searchh)
-    )
+    const matchesSearch = titlee.includes(searchh) || 
+      directorr.includes(searchh);
+    const matchesGenre = selectedGenre === 'All' || movie.genre === selectedGenre;
+
+    return matchesSearch && matchesGenre;
   })
   //fn to update the user search inputs
   function searcher(e){
     let valueSearched = e.target.value;
     setSearch(valueSearched)
+  }
+  //genre selector
+  function genreSelector(genre){
+    setSelectedGenre(genre)
   }
   return (
     <div className="min-h-screen bg-slate-50">
@@ -64,6 +69,7 @@ export default function App() {
                     ? 'bg-indigo-600 border-indigo-600 text-white'
                     : 'border-slate-200 text-slate-500 hover:border-slate-400'
                 }`}
+                onClick={()=>genreSelector(genre)}
               >
                 {genre}
               </button>
