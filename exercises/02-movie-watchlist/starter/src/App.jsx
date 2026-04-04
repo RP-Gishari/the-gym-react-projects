@@ -13,7 +13,7 @@ export default function App() {
   //added states to manage changes
   const [search, setSearch] = useState(''); 
   const [selectedGenre, setSelectedGenre] = useState('All')
-  const watchlistIds = []
+  const [watchlistIds, setWatchlistIds] = useState([])
 
   // filtering movies depending on user input to search
   const visibleMovies = movies.filter(movie => {
@@ -35,6 +35,16 @@ export default function App() {
   //genre selector
   function genreSelector(genre){
     setSelectedGenre(genre)
+  }
+
+  function toggleWatch(movieId){
+    const movieExist = watchlistIds.includes(movieId);
+    if(movieExist === true){
+     newWatch = watchlistIds.filter(id => id !== movieId)
+    } else{
+      newWatch = [...watchlistIds, movieId]
+    }
+    setWatchlistIds(newWatch);
   }
   return (
     <div className="min-h-screen bg-slate-50">
@@ -92,7 +102,9 @@ export default function App() {
                   <p className="text-xs text-slate-400 mb-3">
                     {movie.year} · {movie.genre}
                   </p>
-                  <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
+                  <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors"
+                  onClick={()=> toggleWatch(movie.id)}
+                  >
                     + Add
                   </button>
                 </div>
