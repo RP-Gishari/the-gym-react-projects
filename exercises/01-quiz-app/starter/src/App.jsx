@@ -44,11 +44,17 @@ const handleNextClick = () =>{
   }
 
   if(showResult){
+    let styles = "border-grey-200"
+    if(score >= 5){
+      styles = "bg-green-500"
+    }else{
+      styles = "bg-red-500"
+    }
       return(
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-centet">
-            <h1 className="text-2xl font-bold mb-4">Final Score: {score} out of {questions.length}</h1>
-            <button onClick={handleReset} className="text-white text-2xl font-bold text-center bg-blue-500 px-4 py-2 rounded">Play Again</button>
+            <h1 className="text-2xl text-blue-500 font-bold mb-4">Final Score: {score} out of {questions.length}</h1>
+            <button onClick={handleReset} className={`text-white text-2xl font-bold text-center bg-blue-500 px-4 py-2 rounded ${styles}`}>Play Again</button>
           </div>
         </div>
       )
