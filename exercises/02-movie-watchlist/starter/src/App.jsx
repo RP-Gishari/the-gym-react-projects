@@ -38,14 +38,11 @@ export default function App() {
   }
 
   function toggleWatch(movieId){
-    const movieExist = watchlistIds.includes(movieId);
-    if(movieExist === true){
-     newWatch = watchlistIds.filter(id => id !== movieId)
-    } else{
-      newWatch = [...watchlistIds, movieId]
-    }
-    setWatchlistIds(newWatch);
+    setWatchlistIds(prev =>prev.includes(movieId)
+    ?prev.filter(id => id !== movieId) 
+    : [...prev, movieId]);
   }
+  
   return (
     <div className="min-h-screen bg-slate-50">
 
@@ -88,8 +85,10 @@ export default function App() {
 
           {/* Movie grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {visibleMovies.map(movie => (
-              <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            {visibleMovies.map(movie => {
+              //changing ux for add n remove button
+              const isSaved = watchlistIds.includes(movie.id)
+             return <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
                   src={movie.poster}
                   alt={movie.title}
@@ -105,11 +104,11 @@ export default function App() {
                   <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors"
                   onClick={()=> toggleWatch(movie.id)}
                   >
-                    + Add
+                    {isSaved ? 'Remove'  : '+ Add'}
                   </button>
                 </div>
               </div>
-            ))}
+             })}
           </div>
         </main>
 
