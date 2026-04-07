@@ -6,7 +6,7 @@ export const movies = [
     year: 2010,
     rating: 8.8,
     runtime: 148,
-    director: 'Christopher Nolan',
+    director: 'Christopher Nolna',
     poster: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop',
   },
   {
