@@ -17,14 +17,20 @@ export default function App() {
 
 
 
-
-const filteredMovies= movies.filter(movie=>{//filters the movies by title, director, or by genre
-const  forSearching= movie.title.toLowerCase().includes(search.toLowerCase()) || movie.director.toLowerCase().includes(search.toLowerCase()) 
-const forGenres = selectedGenre=== "All" ||selectedGenre ===  movie.genre
-return forSearching && forGenres;
+  //filters the movies by title, director, or by genre
+    const filteredMovies= movies.filter(movie=>{
+    const  forSearching= movie.title.toLowerCase().includes(search.toLowerCase()) || movie.director.toLowerCase().includes(search.toLowerCase()) 
+    const forGenres = selectedGenre=== "All" ||selectedGenre ===  movie.genre
+    return forSearching && forGenres;
   }
   )
-  const visibleMovies = filteredMovies
+    const visibleMovies = filteredMovies
+
+  //Adding a runtime (hours and minutes)
+     const watchlist=  movies.filter(movie => watchlistIds.includes(movie.id))
+     const totalMinutes = watchlist.reduce((sum, movie) => sum + movie.runtime, 0)
+     const hours = Math.floor(totalMinutes / 60)
+     const mins = totalMinutes % 60
 
   function handleSearch(e){//handles the event of typing in the search input that is triggered by the user
   setSearch(e.target.value)
@@ -88,6 +94,7 @@ setWatchlistIds(prev=> prev.filter(id=>id !== movie.id))
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {visibleMovies.map(movie => {
             const movieSaved= watchlistIds.some(id=>id === movie.id)
+
             return(
               <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
@@ -123,7 +130,7 @@ setWatchlistIds(prev=> prev.filter(id=>id !== movie.id))
         <aside className="w-64 shrink-0">
           <div className="bg-white border border-slate-200 rounded-xl p-4 sticky top-8">
             <h2 className="font-semibold text-sm text-slate-800 mb-4">My Watchlist</h2>
-            <p className="text-xs text-slate-400 text-center py-6">{watchlistIds.length} saved movies</p>
+            <p className="text-xs text-slate-400 text-center py-6">{hours} hour(s) {mins} min(s) saved movies</p>
           </div>
         </aside>
 
