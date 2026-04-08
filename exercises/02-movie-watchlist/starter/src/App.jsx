@@ -8,14 +8,26 @@ const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 
 export default function App() {
 
+//This search state stores every value that user types in the search input 
+
 const [search, setSearch] = useState('')
+
+
+//This selectedGenre states store the genre selected by the user 
 
 const [selectedGenre, setSelectedGenre] = useState('All')
 
+
+//This state stores ids of watchlisted movies 
+//It then get ids added in the local storage on first load 
+//This helps movies to persist after refresh a
 const [watchlistIds , setWatchlistIds] = useState(()=> {
 const saved = localStorage.getItem('watchLists') 
 return saved ? JSON.parse(saved) : []
 })
+
+
+
 
 
 
@@ -34,8 +46,8 @@ localStorage.setItem('watchLists', JSON.stringify(watchlistIds))
 
 
 
-function handleSelectedGenre(mappedGenre){
-  setSelectedGenre(mappedGenre)
+function handleSelectedGenre(genreSelected){
+  setSelectedGenre(genreSelected)
 }
 
   // display all movies for now — you will filter this with state
@@ -131,6 +143,9 @@ function handleClearWatchList(){
                 </div>
               </div>
             ))}
+
+
+           
           </div> 
     
         </main>
