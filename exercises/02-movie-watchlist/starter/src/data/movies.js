@@ -119,4 +119,24 @@ export const movies = [
     director: 'Coen Brothers',
     poster: 'https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300&h=450&fit=crop',
   },
+  {
+    id:13,
+    title: "The spy next door",
+    genre: "Action",
+    year: 2006,
+    rating: 9,
+    runtime: 145,
+    director: "Jackie Chan",
+    poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJWVZfJ4I3TK8AR2jdRq7bfj7tVmf8ZjEoaoNr9rh1ouxOdOmR5qhWjx_liu-1kTC1Gf-BjIpmbEiXGLbYIIGrHpsAp6Tj-epsNnSYPV7kIA&s=10"
+  },
+  {
+    id:13,
+    title: "Wheels on the meals",
+    genre: "Action",
+    year: 2004,
+    rating: 8,
+    runtime: 178,
+    director: "Jackie Chan",
+    poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfya-Aztk3RgWnArBmdJtdSyavrv1Ky4QTWvPBUAxAANnYr_2-kwlLFSr03FOqJ4RwRswyeMdZ54EYcaieHMWyv84bRKtWp8lOaIuau2aBvA&s=10"
+  }
 ]
