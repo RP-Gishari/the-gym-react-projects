@@ -11,17 +11,24 @@ import { movies } from './data/movies'
 const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 
 export default function App() {
-  //const search = ''
   const [search, setSearch]= useState('')// handles the search input
-  const selectedGenre = 'All'
+  const [selectedGenre, setSelectedGenre]= useState('All')// handle the buttons based on genre
   const watchlistIds = []
 
-  // display all movies for now — you will filter this with state
-  const filteredMovies= movies.filter(movie=> movie.title.toLowerCase().includes(search.toLowerCase()) || movie.director.toLowerCase().includes(search.toLowerCase()))
+const filteredMovies= movies.filter(movie=>{//filters the movies by title, director, or by genre
+const  forSearching= movie.title.toLowerCase().includes(search.toLowerCase()) || movie.director.toLowerCase().includes(search.toLowerCase()) 
+const forGenres = selectedGenre=== "All" ||selectedGenre ===  movie.genre
+return forSearching && forGenres;
+  }
+  )
   const visibleMovies = filteredMovies
 
   function handleSearch(e){//handles the event of typing in the search input that is triggered by the user
   setSearch(e.target.value)
+  }
+
+  function handleSelectedGenre(genre){
+    setSelectedGenre(genre)
   }
 
   return (
@@ -53,6 +60,7 @@ export default function App() {
             {GENRES.map(genre => (
               <button
                 key={genre}
+                onClick={()=> handleSelectedGenre(genre)}
                 className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
                   genre === selectedGenre
                     ? 'bg-indigo-600 border-indigo-600 text-white'
