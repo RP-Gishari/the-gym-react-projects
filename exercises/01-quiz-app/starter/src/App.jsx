@@ -8,15 +8,15 @@ import { useState } from 'react'
 
 export default function App() {
   // hardcoded for display — you will replace these with state
-  const [index, setIndex] = useState(0)
-  const [selectedAnswered, setSelectedAnswered] = useState(null)
-  const [answered, setAnswered] = useState(false)
-  const [score, setScore] = useState(0)
-  const [showResult, setShowResult] = useState(false)
+  const [index, setIndex] = useState(0) // tracks current question index
+  const [selectedAnswered, setSelectedAnswered] = useState(null) // stores selected option index
+  const [answered, setAnswered] = useState(false) // This prevent multiple answers for the same question
+  const [score, setScore] = useState(0) // track the user score
+  const [showResult, setShowResult] = useState(false)// show the final result
 
-const question = questions[index]
-//console.log(question)
+const question = questions[index] // Get current question based on index
 
+// handle selecting an answered
 const handleSelect = (i) =>{
    if(answered) return
    setSelectedAnswered(i)
@@ -26,6 +26,7 @@ const handleSelect = (i) =>{
    }
 }
 
+// help to move to the next question or show result if last question
 const handleNextClick = () =>{
   if(index + 1 < questions.length){
     setAnswered(false)
@@ -35,6 +36,7 @@ const handleNextClick = () =>{
     setShowResult(true)
   }}
 
+  // Reset entire quiz state
     const handleReset = () =>{
     setIndex(0)
     setSelectedAnswered(null)
@@ -43,7 +45,9 @@ const handleNextClick = () =>{
     setShowResult(false)
   }
 
+  // Render result screen when quiz is finished
   if(showResult){
+    // change result color based on performance
     let styles = "border-grey-200"
     if(score >= 5){
       styles = "bg-green-500"
