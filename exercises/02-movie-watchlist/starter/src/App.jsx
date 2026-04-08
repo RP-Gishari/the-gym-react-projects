@@ -82,7 +82,9 @@ setWatchlistIds(prev=> [...prev,movie.id])
 
           {/* Movie grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {visibleMovies.map(movie => (
+            {visibleMovies.map(movie => {
+const movieSaved= watchlistIds.some(id=>id===movie.id)
+            return(
               <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
                   src={movie.poster}
@@ -96,14 +98,18 @@ setWatchlistIds(prev=> [...prev,movie.id])
                   <p className="text-xs text-slate-400 mb-3">
                     {movie.year} · {movie.genre}
                   </p>
-                  <button 
+                { movieSaved?  <button 
+  
+                  className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
+                    - Remove
+                  </button>:<button 
                   onClick= {()=>handleWatchlist(movie)}
                   className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
                     + Add
-                  </button>
+                  </button>}
                 </div>
               </div>
-            ))}
+            )})}
           </div>
         </main>
 
