@@ -10,12 +10,8 @@ import { useState, useEffect } from 'react'
 const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 
 export default function App() {
-  // const search = ''
-  // const selectedGenre = 'All'
-  // const watchlistIds = []
 
   // display all movies for now — you will filter this with state
-  //const visibleMovies = movies
   const [search, setSearch] = useState("") // search input value
   const [selectedGenre, setSelectedGenre] = useState('All') // currently selected genre filter
   const [watchlistIds, setWatchlistIds] = useState([]) // store IDS of movies to watchlist
@@ -26,7 +22,7 @@ export default function App() {
     if(stored) setWatchlistIds(JSON.parse(stored))
   }, [])
 
-  // Runs everytime watchlist change
+  // Runs everytime watchlist changes
   useEffect(() =>{
     localStorage.setItem('watchlist', JSON.stringify(watchlistIds))
   }, [watchlistIds])
@@ -53,8 +49,8 @@ export default function App() {
   const toggleWatchlist = (id) => {
     setWatchlistIds(prev =>
       prev.includes(id)
-        ? prev.filter(i => i !== id)
-        : [...prev, id]
+        ? prev.filter(i => i !== id) // remove
+        : [...prev, id] // add 
     )
   }
 
