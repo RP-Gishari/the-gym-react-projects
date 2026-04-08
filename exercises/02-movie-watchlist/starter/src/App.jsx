@@ -13,7 +13,10 @@ const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 export default function App() {
   const [search, setSearch]= useState('')// handles the search input
   const [selectedGenre, setSelectedGenre]= useState('All')// handle the buttons based on genre
-  const watchlistIds = []
+  const [watchlistIds,setWatchlistIds] = useState([])
+
+
+
 
 const filteredMovies= movies.filter(movie=>{//filters the movies by title, director, or by genre
 const  forSearching= movie.title.toLowerCase().includes(search.toLowerCase()) || movie.director.toLowerCase().includes(search.toLowerCase()) 
@@ -29,6 +32,11 @@ return forSearching && forGenres;
 
   function handleSelectedGenre(genre){
     setSelectedGenre(genre)
+  }
+
+  function handleWatchlist(movie){// helps to handle/ add the clicked movie
+setWatchlistIds(prev=> [...prev,movie.id])
+
   }
 
   return (
@@ -88,7 +96,9 @@ return forSearching && forGenres;
                   <p className="text-xs text-slate-400 mb-3">
                     {movie.year} · {movie.genre}
                   </p>
-                  <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
+                  <button 
+                  onClick= {()=>handleWatchlist(movie)}
+                  className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
                     + Add
                   </button>
                 </div>
@@ -101,7 +111,7 @@ return forSearching && forGenres;
         <aside className="w-64 shrink-0">
           <div className="bg-white border border-slate-200 rounded-xl p-4 sticky top-8">
             <h2 className="font-semibold text-sm text-slate-800 mb-4">My Watchlist</h2>
-            <p className="text-xs text-slate-400 text-center py-6">Nothing saved yet.</p>
+            <p className="text-xs text-slate-400 text-center py-6">{watchlistIds.length} saved movies</p>
           </div>
         </aside>
 
