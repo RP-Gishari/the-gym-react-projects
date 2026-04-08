@@ -13,7 +13,7 @@ const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 export default function App() {
   const [search, setSearch]= useState('')// handles the search input
   const [selectedGenre, setSelectedGenre]= useState('All')// handle the buttons based on genre
-  const [watchlistIds,setWatchlistIds] = useState([])
+  const [watchlistIds,setWatchlistIds] = useState([])// tracks the addition or removal of movies to watchlist
 
 
 
@@ -30,13 +30,17 @@ return forSearching && forGenres;
   setSearch(e.target.value)
   }
 
-  function handleSelectedGenre(genre){
+  function handleSelectedGenre(genre){//helps to select movies by genre
     setSelectedGenre(genre)
   }
 
-  function handleWatchlist(movie){// helps to handle/ add the clicked movie
+  function handleWatchlist(movie){// helps to handle/add the clicked movie
 setWatchlistIds(prev=> [...prev,movie.id])
 
+  }
+
+  function handleRemove(movie){// helps to flip the add button to remove and remove movies from watchlist
+setWatchlistIds(prev=> prev.filter(id=>id !== movie.id))
   }
 
   return (
@@ -83,7 +87,7 @@ setWatchlistIds(prev=> [...prev,movie.id])
           {/* Movie grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {visibleMovies.map(movie => {
-const movieSaved= watchlistIds.some(id=>id===movie.id)
+            const movieSaved= watchlistIds.some(id=>id === movie.id)
             return(
               <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
@@ -99,10 +103,12 @@ const movieSaved= watchlistIds.some(id=>id===movie.id)
                     {movie.year} · {movie.genre}
                   </p>
                 { movieSaved?  <button 
-  
+                  onClick={()=>handleRemove(movie)}
                   className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
-                    - Remove
-                  </button>:<button 
+                    Remove
+                  </button> 
+                  :
+                  <button 
                   onClick= {()=>handleWatchlist(movie)}
                   className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
                     + Add
