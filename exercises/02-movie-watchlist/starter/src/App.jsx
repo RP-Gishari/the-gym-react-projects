@@ -42,6 +42,11 @@ export default function App() {
     ?prev.filter(id => id !== movieId) 
     : [...prev, movieId]);
   }
+
+  const watchlistMovies = movies.filter(movie =>
+  watchlistIds.includes(movie.id)
+  ) 
+
   
   return (
     <div className="min-h-screen bg-slate-50">
@@ -88,7 +93,7 @@ export default function App() {
             {visibleMovies.map(movie => {
               //changing ux for add n remove button
               const isSaved = watchlistIds.includes(movie.id)
-             return <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              return <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
                   src={movie.poster}
                   alt={movie.title}
@@ -101,7 +106,7 @@ export default function App() {
                   <p className="text-xs text-slate-400 mb-3">
                     {movie.year} · {movie.genre}
                   </p>
-                  <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors"
+                  <button className={isSaved ? "bg-red-500 text-white w-full rounded-md":"w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors"}
                   onClick={()=> toggleWatch(movie.id)}
                   >
                     {isSaved ? 'Remove'  : '+ Add'}
@@ -115,8 +120,33 @@ export default function App() {
         {/* Watchlist — right side */}
         <aside className="w-64 shrink-0">
           <div className="bg-white border border-slate-200 rounded-xl p-4 sticky top-8">
-            <h2 className="font-semibold text-sm text-slate-800 mb-4">My Watchlist</h2>
-            <p className="text-xs text-slate-400 text-center py-6">Nothing saved yet.</p>
+            <h2 className="font-semibold text-sm text-slate-800 mb-4">
+  My Watchlist
+</h2>
+
+{watchlistMovies.length === 0 ? (
+  <p className="text-xs text-slate-400 text-center py-6">
+    Nothing saved yet.
+  </p>
+) : (
+  <div className="flex flex-col gap-2">
+    {watchlistMovies.map(movie => (
+      <div
+        key={movie.id}
+        className="flex justify-between items-center text-xs"
+      >
+        <span className="truncate">{movie.title}</span>
+
+        <button
+          className="text-red-500"
+          onClick={() => toggleWatch(movie.id)}
+        >
+          Remove
+        </button>
+      </div>
+    ))}
+  </div>
+)}
           </div>
         </aside>
 
