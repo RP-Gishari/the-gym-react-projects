@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { movies } from './data/movies'
+import { useEffect } from 'react';
 
 // The UI below is complete and styled — run npm run dev to see it.
 // Your job: make it interactive using React.
@@ -13,7 +14,18 @@ export default function App() {
   //added states to manage changes
   const [search, setSearch] = useState(''); 
   const [selectedGenre, setSelectedGenre] = useState('All')
-  const [watchlistIds, setWatchlistIds] = useState([])
+  const [watchlistIds, setWatchlistIds] = useState(()=> {
+    try {
+      const saved = localStorage.getItem('watchlist')
+      return saved ? JSON.parse(saved) : []
+    } catch (error) {
+      return []
+    }
+  })
+  //saving to localstorage with useEffect hook
+  useEffect(() => {
+    localStorage.setItem('watchlist', JSON.stringify(watchlistIds))
+  }, [watchlistIds])
 
   // filtering movies depending on user input to search
   const visibleMovies = movies.filter(movie => {
