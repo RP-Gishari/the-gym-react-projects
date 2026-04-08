@@ -9,25 +9,19 @@ const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 export default function App() {
 
 //This search state stores every value that user types in the search input 
-
 const [search, setSearch] = useState('')
 
 
 //This selectedGenre states store the genre selected by the user 
-
 const [selectedGenre, setSelectedGenre] = useState('All')
-
 
 //This state stores ids of watchlisted movies 
 //It then get ids added in the local storage on first load 
-//This helps movies to persist after refresh a
+//This helps movies to persist after full page refresh 
 const [watchlistIds , setWatchlistIds] = useState(()=> {
 const saved = localStorage.getItem('watchLists') 
 return saved ? JSON.parse(saved) : []
 })
-
-
-
 
 
 
@@ -37,11 +31,9 @@ function handleSearch(event){
 }
 
 
-
 useEffect(()=>{
 localStorage.setItem('watchLists', JSON.stringify(watchlistIds))
 },[watchlistIds])
-
 
 
 
@@ -50,24 +42,23 @@ function handleSelectedGenre(genreSelected){
   setSelectedGenre(genreSelected)
 }
 
-  // display all movies for now — you will filter this with state
+  // Filtering movies by genres and then filter by search in order 
+  // to get accurate search based on genre that the user has selected
   const visibleMovies = movies.filter(allMovies => {return selectedGenre === 'All' || allMovies.genre === selectedGenre})
-
-  .filter(allMovies =>{ return allMovies.title.toLowerCase().includes(search.toLowerCase()) || 
+   .filter(allMovies =>{ return allMovies.title.toLowerCase().includes(search.toLowerCase()) || 
     allMovies.director.toLowerCase().includes(search.toLowerCase())})
 
 
 function handleWatchLists(id){
-setWatchlistIds(prev => prev.includes(id) ? prev :  [...prev, id])
-
-}
+setWatchlistIds(prev => prev.includes(id) ? prev :  [...prev, id])}
 
 let watchlistedMovies = movies.filter(mov => watchlistIds.includes(mov.id))
 
-function handleDeleteWatchList(id){
 
-  setWatchlistIds(prev => prev.filter(allIds => allIds !== id))
+function handleDeleteWatchList(id){
+setWatchlistIds(prev => prev.filter(allIds => allIds !== id))
 }
+
 
 function handleClearWatchList(){
   setWatchlistIds([])
@@ -136,10 +127,16 @@ function handleClearWatchList(){
                   <p className="text-xs text-slate-400 mb-3">
                     {movie.year} · {movie.genre}
                   </p>
+              {  watchlistIds.includes(movie.id) ? <button className="w-full bg-red-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-red-700 transition-colors"
+                  onClick={()=>handleDeleteWatchList(movie.id)}>
+                    X remove
+                  </button> : 
                   <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors"
                   onClick={()=>handleWatchLists(movie.id)}>
                     + Add
-                  </button>
+                  </button>                 
+                  
+                  } 
                 </div>
               </div>
             ))}
