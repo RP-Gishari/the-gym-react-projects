@@ -7,10 +7,10 @@ const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 export default function App() {
   const [search, setSearch]= useState('')// handles the search input
   const [selectedGenre, setSelectedGenre]= useState('All')// handle the buttons based on genre
-  const [watchlistIds,setWatchlistIds] = useState(()=>{
-    const listIds= localStorage.getItem('watchlistIds')
+  const [watchlistIds,setWatchlistIds] = useState(()=>{// holds the list of movies on the catalogue
+    const listIds= localStorage.getItem('watchlistIds')//localStorage helps to save data on browser in order to not lose it after refreshing the page.
     return listIds? JSON.parse(listIds): []
-  })// tracks the addition or removal of movies to watchlist
+  })
 
 useEffect(()=>{
   localStorage.setItem('watchlistIds', JSON.stringify(watchlistIds))
@@ -69,7 +69,6 @@ setWatchlistIds(prev=> prev.filter(id=>id !== movie.id))
             onChange={handleSearch}
             placeholder="Search by title or director..."
             className="w-full border border-slate-200 rounded-lg px-3.5 py-2 text-sm outline-none focus:border-indigo-400 mb-4"
-            // readOnly
           />
       
           {/* Genre filters */}
