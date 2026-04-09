@@ -2,12 +2,6 @@ import {useState, useEffect} from 'react'
 
 import { movies } from './data/movies'
 
-// The UI below is complete and styled — run npm run dev to see it.
-// Your job: make it interactive using React.
-// Nothing here is wired up — no state, no handlers, no persistence.
-// Do not change the className values. Focus on React.
-
-// hardcoded for display — you will replace these with state
 const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 
 export default function App() {
