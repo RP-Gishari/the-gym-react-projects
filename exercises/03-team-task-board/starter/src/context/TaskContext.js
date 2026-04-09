@@ -1,8 +1,6 @@
-import { useReducer } from "react";
-import { createContext } from "react";
-import {taskReducer} from "./reducer/taskReducer.js"
-import {initialState} from "./reducer/taskReducer.js"
-import { useContext } from "react";
+import { useReducer, useContext, createContext } from "react";
+import {taskReducer, initialState} from "./reducer/taskReducer.js"
+
 
 export const TaskContext = createContext();
 
