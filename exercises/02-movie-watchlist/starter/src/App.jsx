@@ -13,9 +13,14 @@ const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 export default function App() {
   const [search, setSearch]= useState('')// handles the search input
   const [selectedGenre, setSelectedGenre]= useState('All')// handle the buttons based on genre
-  const [watchlistIds,setWatchlistIds] = useState([])// tracks the addition or removal of movies to watchlist
+  const [watchlistIds,setWatchlistIds] = useState(()=>{
+    const listIds= localStorage.getItem('watchlistIds')
+    return listIds? JSON.parse(listIds): []
+  })// tracks the addition or removal of movies to watchlist
 
-
+useEffect(()=>{
+  localStorage.setItem('watchlistIds', JSON.stringify(watchlistIds))
+}, [watchlistIds])
 
   //filters the movies by title, director, or by genre
     const filteredMovies= movies.filter(movie=>{
@@ -74,7 +79,7 @@ setWatchlistIds(prev=> prev.filter(id=>id !== movie.id))
           />
       
           {/* Genre filters */}
-          <div className="flex gap-2 flex-wrap mb-6">
+           <div className="flex gap-2 flex-wrap mb-6">
             {GENRES.map(genre => (
               <button
                 key={genre}
@@ -91,6 +96,7 @@ setWatchlistIds(prev=> prev.filter(id=>id !== movie.id))
           </div>
 
           {/* Movie grid */}
+          {visibleMovies.length !== 0 ?  
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {visibleMovies.map(movie => {
             const movieSaved= watchlistIds.some(id=>id === movie.id)
@@ -124,7 +130,9 @@ setWatchlistIds(prev=> prev.filter(id=>id !== movie.id))
               </div>
             )})}
           </div>
+: <div className='flex justify-center font-semibold  text-2xl p-25'>No results</div>}
         </main>
+          
 
         {/* Watchlist — right side */}
         <aside className="w-64 shrink-0">
