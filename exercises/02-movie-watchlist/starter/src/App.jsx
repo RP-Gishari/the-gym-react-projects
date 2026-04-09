@@ -112,7 +112,7 @@ function handleClearWatchList(){
 
           {/* Movie grid */}
       
-       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      { visibleMovies.length !== 0 ?<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {visibleMovies.map(movie => (
               <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
@@ -143,7 +143,7 @@ function handleClearWatchList(){
 
 
            
-          </div> 
+          </div> : <div className='text-black-100  ml-100 mt-40 font-bold'> Your search: <span className='text-red-600'>{search}</span> is not available</div>} 
     
         </main>
 
