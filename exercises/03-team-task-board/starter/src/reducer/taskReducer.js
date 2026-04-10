@@ -12,7 +12,7 @@ To centralize all task-related state changes and keep logic predictable.
 */
 
 
-const initialState = {
+export const initialState = {
     tasks: [],
     filters: {
         assigneeId: null,
@@ -21,7 +21,7 @@ const initialState = {
 }
 
 
-function taskReducer(state, action) {
+export function taskReducer(state, action) {
     switch(action.type) {
         case 'ADD_TASK': {
             const {title, priority, assigneeId} = action.payload;

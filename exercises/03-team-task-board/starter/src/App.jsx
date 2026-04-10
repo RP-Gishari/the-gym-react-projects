@@ -1,4 +1,5 @@
 import { teamMembers } from './data/team'
+import { useTasks } from './context/TaskContext.jsx'; 
 
 // The UI below is complete and styled — run npm run dev to see it.
 // Your job: make it interactive using React (useReducer + Context API).
@@ -28,6 +29,10 @@ const PRIORITY_COLORS = {
 }
 
 export default function App() {
+
+  const {state} = useTasks();
+
+
   return (
     <div className="min-h-screen bg-slate-100 flex">
 
@@ -95,7 +100,7 @@ export default function App() {
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
-            const colTasks = PLACEHOLDER_TASKS.filter(t => t.status === col.status)
+            const colTasks = state.tasks.filter(t => t.status === col.status)
             return (
               <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
