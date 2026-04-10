@@ -1,5 +1,6 @@
 import { teamMembers } from './data/team'
 import { useTasks } from './context/TaskContext.jsx'; 
+import { useState } from 'react';
 
 // The UI below is complete and styled — run npm run dev to see it.
 // Your job: make it interactive using React (useReducer + Context API).
@@ -31,6 +32,10 @@ const PRIORITY_COLORS = {
 export default function App() {
 
   const {state} = useTasks();
+  const [title, setTitle] = useState('');
+  const [priority, setPriority] = useState('hight');
+  const [assigneeId,  setAssigneeId] = useState(1);
+
 
 
   return (
@@ -65,7 +70,6 @@ export default function App() {
               type="text"
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
-              readOnly
             />
             <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               <option>High</option>
