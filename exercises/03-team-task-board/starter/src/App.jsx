@@ -33,7 +33,7 @@ export default function App() {
 
   const {state} = useTasks();
   const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('hight');
+  const [priority, setPriority] = useState('high');
   const [assigneeId,  setAssigneeId] = useState(1);
 
 
@@ -70,6 +70,7 @@ export default function App() {
               type="text"
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
+              onChange={(e) => setTitle(e.target.value)}
             />
             <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               <option>High</option>
