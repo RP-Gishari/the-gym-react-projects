@@ -1,25 +1,22 @@
+import { useTask } from './context/taskContext'
 import { teamMembers } from './data/team'
 
-// The UI below is complete and styled — run npm run dev to see it.
-// Your job: make it interactive using React (useReducer + Context API).
-// Nothing here is wired up — no state, no dispatch, no context.
-// Do not change the className values. Focus on React.
 
-// Columns the board will always show
+
 const COLUMNS = [
   { status: 'todo', label: 'To Do' },
   { status: 'inprogress', label: 'In Progress' },
-  { status: 'done', label: 'Done' },
+  { status: 'done', label: 'Done' }, 
 ]
 
 // Placeholder tasks — hardcoded for display only.
 // Your real tasks will come from useReducer state via Context.
-const PLACEHOLDER_TASKS = [
-  { id: 1, title: 'Set up project structure', priority: 'high', assigneeId: 1, status: 'done' },
-  { id: 2, title: 'Build the task form', priority: 'medium', assigneeId: 2, status: 'inprogress' },
-  { id: 3, title: 'Wire up Context API', priority: 'high', assigneeId: 1, status: 'todo' },
-  { id: 4, title: 'Add priority filters', priority: 'low', assigneeId: 3, status: 'todo' },
-]
+// const PLACEHOLDER_TASKS = [
+//   { id: 1, title: 'Set up project structure', priority: 'high', assigneeId: 1, status: 'done' },
+//   { id: 2, title: 'Build the task form', priority: 'medium', assigneeId: 2, status: 'inprogress' },
+//   { id: 3, title: 'Wire up Context API', priority: 'high', assigneeId: 1, status: 'todo' },
+//   { id: 4, title: 'Add priority filters', priority: 'low', assigneeId: 3, status: 'todo' },
+// ]
 
 const PRIORITY_COLORS = {
   high: 'bg-red-100 text-red-600',
@@ -27,7 +24,12 @@ const PRIORITY_COLORS = {
   low: 'bg-green-100 text-green-700',
 }
 
+
 export default function App() {
+
+  const {state, dispatch} = useTask() // this line gives cpts access to everything
+
+
   return (
     <div className="min-h-screen bg-slate-100 flex">
 
@@ -43,7 +45,7 @@ export default function App() {
                 <p className="text-xs text-slate-400">{member.role}</p>
               </div>
             </li>
-          ))}
+          ))} 
         </ul>
       </aside>
 
@@ -60,7 +62,7 @@ export default function App() {
               type="text"
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
-              readOnly
+              //readOnly
             />
             <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               <option>High</option>
@@ -72,7 +74,7 @@ export default function App() {
                 <option key={m.id} value={m.id}>{m.name.split(' ')[0]}</option>
               ))}
             </select>
-            <button className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+            <button   className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
               Add
             </button>
           </div>
@@ -95,7 +97,7 @@ export default function App() {
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
-            const colTasks = PLACEHOLDER_TASKS.filter(t => t.status === col.status)
+            const colTasks =state.tasks.filter(t => t.status === col.status)//state-> real live state managed by reducer
             return (
               <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
@@ -123,6 +125,12 @@ export default function App() {
                               className="w-5 h-5 rounded-full"
                             />
                           )}
+                        </div>
+                       { /*Move controls*/}
+                        <div>
+                          <button   onClick={() => dispatch({ type: 'MOVE_TASK', payload: { id: task.id, direction: 'back' } })}
+      className="text-xs text-slate-400 hover:text-slate-600 px-1"> ← Back</button>
+                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate600 px-1">Forward →</button>
                         </div>
                       </div>
                     )
