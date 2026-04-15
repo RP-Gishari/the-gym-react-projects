@@ -1,20 +1,71 @@
+import {useState , useEffect} from 'react'
 import { movies } from './data/movies'
 
-// The UI below is complete and styled — run npm run dev to see it.
-// Your job: make it interactive using React.
-// Nothing here is wired up — no state, no handlers, no persistence.
-// Do not change the className values. Focus on React.
 
-// hardcoded for display — you will replace these with state
+
+
 const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 
 export default function App() {
-  const search = ''
-  const selectedGenre = 'All'
-  const watchlistIds = []
 
-  // display all movies for now — you will filter this with state
-  const visibleMovies = movies
+//This search state stores every value that user types in the search input 
+const [search, setSearch] = useState('')
+
+
+//This selectedGenre states store the genre selected by the user 
+const [selectedGenre, setSelectedGenre] = useState('All')
+
+//This state stores ids of watchlisted movies 
+//It then get ids added in the local storage on first load 
+//This helps movies to persist after full page refresh 
+const [watchlistIds , setWatchlistIds] = useState(()=> {
+const saved = localStorage.getItem('watchLists') 
+return saved ? JSON.parse(saved) : []
+})
+
+
+
+function handleSearch(event){
+  const {value} = event.currentTarget
+  setSearch(value)
+}
+
+
+useEffect(()=>{
+localStorage.setItem('watchLists', JSON.stringify(watchlistIds))
+},[watchlistIds])
+
+
+
+
+function handleSelectedGenre(genreSelected){
+  setSelectedGenre(genreSelected)
+}
+
+  // Filtering movies by genres and then filter by search in order 
+  // to get accurate search based on genre that the user has selected
+  const visibleMovies = movies.filter(allMovies => {return selectedGenre === 'All' || allMovies.genre === selectedGenre})
+   .filter(allMovies =>{ return allMovies.title.toLowerCase().includes(search.toLowerCase()) || 
+    allMovies.director.toLowerCase().includes(search.toLowerCase())})
+
+
+function handleWatchLists(id){
+setWatchlistIds(prev => prev.includes(id) ? prev :  [...prev, id])}
+
+let watchlistedMovies = movies.filter(mov => watchlistIds.includes(mov.id))
+
+
+function handleDeleteWatchList(id){
+setWatchlistIds(prev => prev.filter(allIds => allIds !== id))
+}
+
+
+function handleClearWatchList(){
+  setWatchlistIds([])
+  localStorage.clear()
+}
+
+
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -31,19 +82,23 @@ export default function App() {
         <main className="flex-1 min-w-0">
 
           {/* Search */}
-          <input
-            type="text"
+      
+           <input type="text"
             value={search}
             placeholder="Search by title or director..."
             className="w-full border border-slate-200 rounded-lg px-3.5 py-2 text-sm outline-none focus:border-indigo-400 mb-4"
-            readOnly
-          />
+            onChange={handleSearch} 
+                />
+          
+
+          
 
           {/* Genre filters */}
-          <div className="flex gap-2 flex-wrap mb-6">
+         <div className="flex gap-2 flex-wrap mb-6">
             {GENRES.map(genre => (
               <button
                 key={genre}
+                onClick={()=>handleSelectedGenre(genre)}
                 className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
                   genre === selectedGenre
                     ? 'bg-indigo-600 border-indigo-600 text-white'
@@ -53,10 +108,11 @@ export default function App() {
                 {genre}
               </button>
             ))}
-          </div>
+          </div> 
 
           {/* Movie grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      
+      { visibleMovies.length !== 0 ?<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {visibleMovies.map(movie => (
               <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
@@ -71,24 +127,72 @@ export default function App() {
                   <p className="text-xs text-slate-400 mb-3">
                     {movie.year} · {movie.genre}
                   </p>
-                  <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
+              {  watchlistIds.includes(movie.id) ? <button className="w-full bg-red-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-red-700 transition-colors"
+                  onClick={()=>handleDeleteWatchList(movie.id)}>
+                    X remove
+                  </button> : 
+                  <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors"
+                  onClick={()=>handleWatchLists(movie.id)}>
                     + Add
-                  </button>
+                  </button>                 
+                  
+                  } 
                 </div>
               </div>
             ))}
-          </div>
+
+
+           
+          </div> : <div className='text-black-100  ml-100 mt-40 font-bold'> Your search: <span className='text-red-600'>{search}</span> is not available</div>} 
+    
         </main>
 
         {/* Watchlist — right side */}
         <aside className="w-64 shrink-0">
+
+           
           <div className="bg-white border border-slate-200 rounded-xl p-4 sticky top-8">
             <h2 className="font-semibold text-sm text-slate-800 mb-4">My Watchlist</h2>
-            <p className="text-xs text-slate-400 text-center py-6">Nothing saved yet.</p>
+
+           { watchlistIds.length <=0 && <p className="text-xs text-slate-400 text-center py-6">Nothing saved yet  </p>}
+
+           <div className="grid  grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-2">
+            {watchlistedMovies.map(listed => (
+              <div key={listed.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <img
+                  src={listed.poster}
+                  alt={listed.title}
+                  className="w-30 h-20 object-cover"
+                />
+                <div className="p-3">
+                  <p className="font-medium text-sm text-slate-800 leading-tight mb-0.5 truncate">
+                    {listed.title}
+                  </p>
+                  <p className="text-xs text-slate-400 mb-3">
+                    {listed.year} · {listed.genre}
+                  </p>
+                <button className="w-full bg-blue-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-red-600 transition-colors"
+                  onClick={()=>handleDeleteWatchList(listed.id)}
+                  >
+                    X remove
+                  </button>
+                </div>
+              </div> 
+            ))}
+
+
+            
+          </div> 
+    
           </div>
         </aside>
 
       </div>
-    </div>
+
+{ watchlistIds.length > 0 &&<button  onClick={handleClearWatchList}
+ className="w-2xs bg-red-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-red-700 transition-colors ml-240" >Clear watchLists</button> }
+
+    </div> 
   )
+
 }
