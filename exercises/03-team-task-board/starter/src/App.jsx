@@ -1,9 +1,13 @@
 import { teamMembers } from './data/team'
+import { useReducer, useContext, useState } from 'react'
+import { createContext } from 'react'
 
 // The UI below is complete and styled — run npm run dev to see it.
 // Your job: make it interactive using React (useReducer + Context API).
 // Nothing here is wired up — no state, no dispatch, no context.
 // Do not change the className values. Focus on React.
+
+
 
 // Columns the board will always show
 const COLUMNS = [
@@ -12,8 +16,22 @@ const COLUMNS = [
   { status: 'done', label: 'Done' },
 ]
 
+const ACTION = {
+  ADD_TASK: "ADD_TASK",
+  MOVE_TASK: "MOVE_TASK",
+  DELETE_TASK: "DELETE_TASK",
+  SET_FILTER: "SET_FILTER"
+}
+
 // Placeholder tasks — hardcoded for display only.
+
+const initialState = {
+  tasks:[], filters: {assignee: null, priority: null}
+}
+
+const TaskContext = createContext()
 // Your real tasks will come from useReducer state via Context.
+
 const PLACEHOLDER_TASKS = [
   { id: 1, title: 'Set up project structure', priority: 'high', assigneeId: 1, status: 'done' },
   { id: 2, title: 'Build the task form', priority: 'medium', assigneeId: 2, status: 'inprogress' },
@@ -21,13 +39,76 @@ const PLACEHOLDER_TASKS = [
   { id: 4, title: 'Add priority filters', priority: 'low', assigneeId: 3, status: 'todo' },
 ]
 
+
+
 const PRIORITY_COLORS = {
   high: 'bg-red-100 text-red-600',
   medium: 'bg-amber-100 text-amber-600',
   low: 'bg-green-100 text-green-700',
 }
 
-export default function App() {
+// reducer function 
+function Reducer(state, action){
+  switch(action.type){
+
+    case "ADD_TASK":
+      return {
+        ...state, tasks: [...state.tasks, action.payload]
+      };
+
+    case "MOVE_TASK":
+      return {
+        ...state, tasks: state.tasks.map(task => 
+                   task.id === action.payload.id 
+          ? {...task, status: action.payload.status}
+          : task
+          )
+      };
+    case "DELETE_TASK":
+      return {...state, 
+              tasks: state.tasks.filter(task => 
+                task.id !== action.payload)}
+
+      case "SET_FILTER":
+        return {
+          ...state, filters: {
+            ...state.filters,
+            ...action.payload
+          }
+        };
+    default: 
+      return state
+  }
+}
+
+function TaskProvider({children}){
+  const [state, dispatch] = useReducer(Reducer, initialState)
+  return( 
+  <TaskContext.Provider value={{state, dispatch}}>
+           {children}
+   </TaskContext.Provider>)
+}
+export default function Root(){
+  return (<TaskProvider>
+    <App />
+  </TaskProvider>)
+}
+
+ function ShareAbleTask(){
+  const {state, dispatch} = useContext(TaskContext)
+  return {state, dispatch}
+ }
+
+
+
+function App() {
+
+  const {state, dispatch} = useContext(TaskContext)
+  const [title, setTitle] = useState("")
+  const [priority, setPriority] = useState("high")
+  const [assignee, setAssignee] = useState(teamMembers[0].id)
+ 
+
   return (
     <div className="min-h-screen bg-slate-100 flex">
 
@@ -59,20 +140,45 @@ export default function App() {
             <input
               type="text"
               placeholder="Task title..."
-              className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
-              readOnly
+              className="border border-slate-200 rounded-lg px-3 py-1.5 
+              text-sm outline-none focus:border-indigo-400"
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
             />
-            <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
+            <select 
+               value={priority}
+               onChange={(e) => setPriority(e.target.value)}
+            className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               <option>High</option>
               <option>Medium</option>
               <option>Low</option>
             </select>
-            <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
+            <select 
+               value={assignee}
+               onChange={(e) => setAssignee(Number(e.target.value))}
+            className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               {teamMembers.map(m => (
                 <option key={m.id} value={m.id}>{m.name.split(' ')[0]}</option>
               ))}
             </select>
-            <button className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+            <button 
+             onClick={() =>{
+              if(!title.trim()) return
+               
+              dispatch({
+                type: 'ADD_TASK',
+                payload: {
+                  id: Date.now(),
+                  title,
+                  priority: priority.toLowerCase(),
+                  assigneeId: assignee, 
+                  status: "todo"
+                }
+              })
+               setTitle("")
+            }}
+            className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 
+                               text-sm font-medium hover:bg-indigo-700 transition-colors">
               Add
             </button>
           </div>
@@ -80,22 +186,52 @@ export default function App() {
 
         {/* Filters */}
         <div className="flex gap-3 mb-5">
-          <select className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
+          <select 
+           value={state.filters.assignee || ""}
+           onChange={(e) => dispatch({
+            type: "SET_FILTER",
+            payload: {
+              assignee: e.target.value ? Number(e.target.value) : null
+            }
+           })}
+          className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
             <option>All Members</option>
             {teamMembers.map(m => <option key={m.id}>{m.name}</option>)}
           </select>
-          <select className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
-            <option>All Priorities</option>
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
+          <select 
+            value={state.filters.priority || ""}
+            onChange={(e) => {
+              dispatch({
+                type: "SET_FILTER",
+                payload:{
+                  priority: e.target.value || null
+                }
+              })
+            }}
+          className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
+            <option value="">All Priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
           </select>
         </div>
 
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
-            const colTasks = PLACEHOLDER_TASKS.filter(t => t.status === col.status)
+            const colTasks = state.tasks.filter(t => {
+               const matchStatus = t.status === col.status
+              
+               const matchAssignee = !state.filters.assignee || 
+               t.assigneeId === state.filters.assignee 
+
+               const matchPriority = !state.filters.priority ||
+               t.priority === state.filters.priority
+
+               return matchStatus && matchAssignee && matchPriority
+              })
+            
+              
             return (
               <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
