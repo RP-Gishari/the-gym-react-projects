@@ -71,15 +71,20 @@ export default function App() {
       <aside className="w-52 shrink-0 bg-white border-r border-slate-200 p-5">
         <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Team</h2>
         <ul className="space-y-3">
-          {teamMembers.map(member => (
-            <li key={member.id} className="flex items-center gap-2.5">
+          {teamMembers.map(member => {
+            const total = state.tasks.filter(t => t.assigneeId === member.id).length
+            const done  = state.tasks.filter(t => t.assigneeId === member.id && t.status === 'done').length
+            return(
+               <li key={member.id} className="flex items-center gap-2.5">
               <img src={member.avatar} alt={member.name} className="w-7 h-7 rounded-full" />
               <div>
                 <p className="text-sm font-medium text-slate-700">{member.name.split(' ')[0]}</p>
                 <p className="text-xs text-slate-400">{member.role}</p>
+                <p className="text-xs text-slate-400">{done}/{total} done</p>
               </div>
             </li>
-          ))} 
+            )
+            })}
         </ul>
       </aside>
 
@@ -130,7 +135,7 @@ export default function App() {
           value={filterMember}
           onChange={e=>setFilterMember(e.target.value)}
           className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
-            <option>All Members</option>
+            <option value="all">All Members</option>
             {teamMembers.map(m => 
             <option key={m.id} value={m.id}>{m.name}</option>
             )}
@@ -139,18 +144,18 @@ export default function App() {
           value={filterPriority}
           onChange={e=>setFilterPriority(e.target.value)}
            className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
-            <option>All Priorities</option>
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
+            <option value="all">All Priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
           </select>
         </div>
 
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
-            const colTasks =state.tasks.filter(t => t.status === col.status)//state-> real live state managed by reducer
-            //const colTasks= getFilteredTasks(col.status)
+            // const colTasks =state.tasks.filter(t => t.status === col.status)//state-> real live state managed by reducer
+            const colTasks= getFilteredTasks(col.status)
             return (
               <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
@@ -168,7 +173,7 @@ export default function App() {
                           {task.title}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className={`text-xs rounded-full px-2 py-0.5 font-medium capitalize ${state[task.priority]}`}>
+                          <span className={`text-xs rounded-full px-2 py-0.5 font-medium capitalize ${PRIORITY_COLORS[task.priority]}`}>
                             {task.priority}
                           </span>
                           {assignee && (
