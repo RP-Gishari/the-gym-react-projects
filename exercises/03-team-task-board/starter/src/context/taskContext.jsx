@@ -22,7 +22,7 @@ localStorage.setItem('tasks',JSON.stringify(nextState))
 return nextState;
 }
 const [state, dispatch] = useReducer(reducerOnReload,undefined, loadState)//prevents loadState to run on every render
-//taskReducer-> function that knows how to update state
+//reducerOnReload-> function that knows how to update state
 // dispatch-> a fxn to call to send a command to the reducer (what cpts will call to change tasks)
 
 return (

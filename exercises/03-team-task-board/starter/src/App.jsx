@@ -10,15 +10,6 @@ const COLUMNS = [
   { status: 'done', label: 'Done' }, 
 ]
 
-// Placeholder tasks — hardcoded for display only.
-// Your real tasks will come from useReducer state via Context.
-// const PLACEHOLDER_TASKS = [
-//   { id: 1, title: 'Set up project structure', priority: 'high', assigneeId: 1, status: 'done' },
-//   { id: 2, title: 'Build the task form', priority: 'medium', assigneeId: 2, status: 'inprogress' },
-//   { id: 3, title: 'Wire up Context API', priority: 'high', assigneeId: 1, status: 'todo' },
-//   { id: 4, title: 'Add priority filters', priority: 'low', assigneeId: 3, status: 'todo' },
-// ]
-
 const PRIORITY_COLORS = {
   high: 'bg-red-100 text-red-600',
   medium: 'bg-amber-100 text-amber-600',
@@ -29,13 +20,13 @@ const PRIORITY_COLORS = {
 export default function App() {
 
   const {state, dispatch} = useTask() // this line gives cpts access to everything
-  const [title, setTitle]= useState('') // sets the task title
+  const [title, setTitle]= useState('') // sets the task title in the input
   const [priority, setPriority] = useState('high')//helps to select priorities
   const [assigneeId, setAssigneeId] = useState(teamMembers[0]?.id ?? 1)//controlled assignee
  
 //for filter dropdowns
   const [filterMember, setFilterMember] = useState('all')//helps to control member filter
-  const [filterPriority, setFilterPriority] = useState('all')
+  const [filterPriority, setFilterPriority] = useState('all')// helps  to track priorities
 
 
   function handleAddTask(){
@@ -95,13 +86,12 @@ export default function App() {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-lg font-bold text-slate-800">Team Board</h1>
 
-          {/* Add task form — hardcoded, you will make this work */}
+          {/* Add task form */}
           <div className="flex gap-2">
             <input
               type="text"
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
-              //readOnly
               value= {title}
               onChange={(e)=>setTitle(e.target.value)}
             />
@@ -124,7 +114,7 @@ export default function App() {
             <button  
              onClick={handleAddTask} 
              className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
-              + Add
+               Add
             </button>
           </div>
         </div>
@@ -176,6 +166,7 @@ export default function App() {
                           <span className={`text-xs rounded-full px-2 py-0.5 font-medium capitalize ${PRIORITY_COLORS[task.priority]}`}>
                             {task.priority}
                           </span>
+                          <div className= "flex flex-col  items-center">
                           {assignee && (
                             <img
                               src={assignee.avatar}
@@ -183,18 +174,8 @@ export default function App() {
                               className="w-5 h-5 rounded-full"
                             />
                           )}
-                        </div>
-                       { /*Move controls*/}
-                        <div>
-                          <button   onClick={() => dispatch({ type: 'MOVE_TASK', payload: { id: task.id, direction: 'back' } })}
-      className="text-xs text-slate-400 hover:text-slate-600 px-1">
-        <FontAwesomeIcon icon={faArrowLeft}/>
-      </button>
-                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate-600 px-1">
-                            <FontAwesomeIcon icon={faArrowRight}/>
-                          </button>
-                        </div>
-                        {/*Delete button */}
+
+                            {/*Delete button */}
                         <div>
                           <button 
                            onClick={()=>dispatch({type:'DELETE_TASK',payload:{id:task.id}})}
@@ -202,6 +183,20 @@ export default function App() {
                            <FontAwesomeIcon icon={faTrash}/>
                           </button>
                         </div>
+                          </div>
+                        </div>
+
+                       { /*Move controls*/}
+                        <div>
+                          <button   onClick={() => dispatch({ type: 'MOVE_TASK', payload: { id: task.id, direction: 'back' } })}
+                            className="text-xs text-slate-400 hover:text-slate-600 px-1">
+                            <FontAwesomeIcon icon={faArrowLeft}/>
+                          </button>
+                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate-600 px-1">
+                            <FontAwesomeIcon icon={faArrowRight}/>
+                          </button>
+                        </div>
+                      
                       </div>
                     )
                   })}
