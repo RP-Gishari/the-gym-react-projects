@@ -33,3 +33,4 @@ switch (action.type){//action.type checks the kind of action sent
 }
 
 export const initialState = {tasks:[]}// We first open there will be no tasks
+

@@ -1,4 +1,5 @@
 import { useTask } from './context/taskContext'
+import {useState} from 'react'
 import { teamMembers } from './data/team'
 
 
@@ -28,8 +29,41 @@ const PRIORITY_COLORS = {
 export default function App() {
 
   const {state, dispatch} = useTask() // this line gives cpts access to everything
+  const [title, setTitle]= useState('') // sets the task title
+  const [priority, setPriority] = useState('high')//helps to select priorities
+  const [assigneeId, setAssigneeId] = useState(teamMembers[0]?.id ?? 1)//controlled assignee
+ 
+//for filter dropdowns
+  const [filterMember, setFilterMember] = useState('all')//helps to control member filter
+  const [filterPriority, setFilterPriority] = useState('all')
 
 
+  function handleAddTask(){
+    const trimmed =title.trim()
+    if(!trimmed)return 
+    dispatch({
+      type:'ADD_TASK',
+      payload: {
+        id:Date.now(),
+        title:trimmed,
+        priority: priority.toLowerCase(),
+        assigneeId: Number(assigneeId),
+        status:'todo',
+      }
+    })
+    setTitle('')//reset the input after adding
+  }
+
+  //filter tasks before rendering
+    function getFilteredTasks(status) {
+    return state.tasks.filter(t => {
+      if (t.status !== status) return false
+      if (filterMember !== 'all' && t.assigneeId !== Number(filterMember)) return false
+      if (filterPriority !== 'all' && t.priority !== filterPriority.toLowerCase()) return false
+      return true
+    })
+  
+  }
   return (
     <div className="min-h-screen bg-slate-100 flex">
 
@@ -63,30 +97,48 @@ export default function App() {
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
               //readOnly
+              value= {title}
+              onChange={(e)=>setTitle(e.target.value)}
             />
-            <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
+            <select 
+            value={priority}
+            onChange={e=>setPriority(e.target.value)}
+            className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               <option>High</option>
               <option>Medium</option>
               <option>Low</option>
             </select>
-            <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
+            <select 
+            value={assigneeId}
+            onChange={e=>setAssigneeId(e.target.value)}
+            className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               {teamMembers.map(m => (
                 <option key={m.id} value={m.id}>{m.name.split(' ')[0]}</option>
               ))}
             </select>
-            <button   className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
-              Add
+            <button  
+             onClick={handleAddTask} 
+             className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+              + Add
             </button>
           </div>
         </div>
 
         {/* Filters */}
         <div className="flex gap-3 mb-5">
-          <select className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
+          <select 
+          value={filterMember}
+          onChange={e=>setFilterMember(e.target.value)}
+          className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
             <option>All Members</option>
-            {teamMembers.map(m => <option key={m.id}>{m.name}</option>)}
+            {teamMembers.map(m => 
+            <option key={m.id} value={m.id}>{m.name}</option>
+            )}
           </select>
-          <select className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
+          <select
+          value={filterPriority}
+          onChange={e=>setFilterPriority(e.target.value)}
+           className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
             <option>All Priorities</option>
             <option>High</option>
             <option>Medium</option>
@@ -98,6 +150,7 @@ export default function App() {
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
             const colTasks =state.tasks.filter(t => t.status === col.status)//state-> real live state managed by reducer
+            //const colTasks= getFilteredTasks(col.status)
             return (
               <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
@@ -115,7 +168,7 @@ export default function App() {
                           {task.title}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className={`text-xs rounded-full px-2 py-0.5 font-medium capitalize ${PRIORITY_COLORS[task.priority]}`}>
+                          <span className={`text-xs rounded-full px-2 py-0.5 font-medium capitalize ${state[task.priority]}`}>
                             {task.priority}
                           </span>
                           {assignee && (
@@ -130,7 +183,15 @@ export default function App() {
                         <div>
                           <button   onClick={() => dispatch({ type: 'MOVE_TASK', payload: { id: task.id, direction: 'back' } })}
       className="text-xs text-slate-400 hover:text-slate-600 px-1"> ← Back</button>
-                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate600 px-1">Forward →</button>
+                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate-600 px-1">Forward →</button>
+                        </div>
+                        {/*Delete button */}
+                        <div>
+                          <button 
+                           onClick={()=>dispatch({type:'DELETE_TASK',payload:{id:task.id}})}
+                           className="text-xs text-red-400 hover:text-red-600 px-1">
+                           Delete
+                          </button>
                         </div>
                       </div>
                     )
