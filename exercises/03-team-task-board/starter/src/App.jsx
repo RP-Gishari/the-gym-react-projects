@@ -1,8 +1,8 @@
 import { useTask } from './context/taskContext'
 import {useState} from 'react'
 import { teamMembers } from './data/team'
-
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight,faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const COLUMNS = [
   { status: 'todo', label: 'To Do' },
@@ -187,15 +187,19 @@ export default function App() {
                        { /*Move controls*/}
                         <div>
                           <button   onClick={() => dispatch({ type: 'MOVE_TASK', payload: { id: task.id, direction: 'back' } })}
-      className="text-xs text-slate-400 hover:text-slate-600 px-1"> ← Back</button>
-                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate-600 px-1">Forward →</button>
+      className="text-xs text-slate-400 hover:text-slate-600 px-1">
+        <FontAwesomeIcon icon={faArrowLeft}/>
+      </button>
+                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate-600 px-1">
+                            <FontAwesomeIcon icon={faArrowRight}/>
+                          </button>
                         </div>
                         {/*Delete button */}
                         <div>
                           <button 
                            onClick={()=>dispatch({type:'DELETE_TASK',payload:{id:task.id}})}
                            className="text-xs text-red-400 hover:text-red-600 px-1">
-                           Delete
+                           <FontAwesomeIcon icon={faTrash}/>
                           </button>
                         </div>
                       </div>
