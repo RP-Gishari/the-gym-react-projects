@@ -1,13 +1,7 @@
 import { teamMembers } from './data/team'
 import { useReducer, useContext, useState } from 'react'
 import { createContext } from 'react'
-
-// The UI below is complete and styled — run npm run dev to see it.
-// Your job: make it interactive using React (useReducer + Context API).
-// Nothing here is wired up — no state, no dispatch, no context.
-// Do not change the className values. Focus on React.
-
-
+import Reducer from './ReducerFunction'
 
 // Columns the board will always show
 const COLUMNS = [
@@ -16,28 +10,13 @@ const COLUMNS = [
   { status: 'done', label: 'Done' },
 ]
 
-const ACTION = {
-  ADD_TASK: "ADD_TASK",
-  MOVE_TASK: "MOVE_TASK",
-  DELETE_TASK: "DELETE_TASK",
-  SET_FILTER: "SET_FILTER"
-}
-
-// Placeholder tasks — hardcoded for display only.
-
+// this is the initial state that also holds what we will consider while filtring task
 const initialState = {
   tasks:[], filters: {assignee: null, priority: null}
 }
 
 const TaskContext = createContext()
-// Your real tasks will come from useReducer state via Context.
 
-const PLACEHOLDER_TASKS = [
-  { id: 1, title: 'Set up project structure', priority: 'high', assigneeId: 1, status: 'done' },
-  { id: 2, title: 'Build the task form', priority: 'medium', assigneeId: 2, status: 'inprogress' },
-  { id: 3, title: 'Wire up Context API', priority: 'high', assigneeId: 1, status: 'todo' },
-  { id: 4, title: 'Add priority filters', priority: 'low', assigneeId: 3, status: 'todo' },
-]
 
 
 
@@ -47,40 +26,6 @@ const PRIORITY_COLORS = {
   low: 'bg-green-100 text-green-700',
 }
 
-// reducer function 
-function Reducer(state, action){
-  switch(action.type){
-
-    case "ADD_TASK":
-      return {
-        ...state, tasks: [...state.tasks, action.payload]
-      };
-
-    case "MOVE_TASK":
-      return {
-        ...state, tasks: state.tasks.map(task => 
-                   task.id === action.payload.id 
-          ? {...task, status: action.payload.status}
-          : task
-          )
-      };
-    case "DELETE_TASK":
-      return {...state, 
-              tasks: state.tasks.filter(task => 
-                task.id !== action.payload)}
-
-      case "SET_FILTER":
-        return {
-          ...state, filters: {
-            ...state.filters,
-            ...action.payload
-          }
-        };
-    default: 
-      return state
-  }
-}
-
 function TaskProvider({children}){
   const [state, dispatch] = useReducer(Reducer, initialState)
   return( 
@@ -88,16 +33,12 @@ function TaskProvider({children}){
            {children}
    </TaskContext.Provider>)
 }
-export default function Root(){
+export default function Board(){
   return (<TaskProvider>
     <App />
   </TaskProvider>)
 }
 
- function ShareAbleTask(){
-  const {state, dispatch} = useContext(TaskContext)
-  return {state, dispatch}
- }
 
 
 
@@ -105,26 +46,30 @@ function App() {
 
   const {state, dispatch} = useContext(TaskContext)
   const [title, setTitle] = useState("")
-  const [priority, setPriority] = useState("high")
+  const [priority, setPriority] = useState("")
   const [assignee, setAssignee] = useState(teamMembers[0].id)
  
 
   return (
     <div className="min-h-screen bg-slate-100 flex">
-
       {/* Sidebar */}
       <aside className="w-52 shrink-0 bg-white border-r border-slate-200 p-5">
         <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Team</h2>
         <ul className="space-y-3">
-          {teamMembers.map(member => (
+          {teamMembers.map(member => {
+                  const taskOfmember = state.tasks.filter(t=> t.assignedId === member.id).length
+                   const doneTasks = state.tasks.filter(t => t.assigneeId === member.id && t.status === "done").length
+            return (
             <li key={member.id} className="flex items-center gap-2.5">
+              
               <img src={member.avatar} alt={member.name} className="w-7 h-7 rounded-full" />
               <div>
                 <p className="text-sm font-medium text-slate-700">{member.name.split(' ')[0]}</p>
                 <p className="text-xs text-slate-400">{member.role}</p>
+                <span className="text-sm font-medium text-slate-700" >{taskOfmember} task . {doneTasks} Done</span>
               </div>
-            </li>
-          ))}
+            </li>)
+         })}
         </ul>
       </aside>
 
@@ -158,7 +103,7 @@ function App() {
                onChange={(e) => setAssignee(Number(e.target.value))}
             className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               {teamMembers.map(m => (
-                <option key={m.id} value={m.id}>{m.name.split(' ')[0]}</option>
+                <option key={m.id} value={m.id}>{m.name.split(' ')[0]} </option>
               ))}
             </select>
             <button 
@@ -188,17 +133,21 @@ function App() {
         <div className="flex gap-3 mb-5">
           <select 
            value={state.filters.assignee || ""}
-           onChange={(e) => dispatch({
+           onChange={(e) => 
+            dispatch({
             type: "SET_FILTER",
             payload: {
               assignee: e.target.value ? Number(e.target.value) : null
             }
            })}
           className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
-            <option>All Members</option>
-            {teamMembers.map(m => <option key={m.id}>{m.name}</option>)}
+            <option value="">All Members</option>
+            {teamMembers.map(m => 
+            <option key={m.id} value={m.id}>{m.name}</option>)}
+
           </select>
           <select 
+          //This allows user to filtering task based on priorties 
             value={state.filters.priority || ""}
             onChange={(e) => {
               dispatch({
@@ -230,10 +179,27 @@ function App() {
 
                return matchStatus && matchAssignee && matchPriority
               })
-            
+
               
             return (
-              <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
+              <div key={col.status} 
+
+              // this is where task draged are droped
+               onDragOver={(e) => e.preventDefault()}
+               onDrop={(e) => {
+                const taskId = e.dataTransfer.getData("taskId")
+
+                dispatch({
+                  type: "MOVE_TASK",
+                  payload:{
+                    id: Number(taskId),
+                    status: col.status
+                  }
+                })
+               }}
+               
+              className="bg-slate-200/70 rounded-xl p-3">
+                
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="text-sm font-semibold text-slate-600">{col.label}</h2>
                   <span className="bg-slate-300 text-slate-600 text-xs rounded-full px-2 py-0.5">
@@ -244,7 +210,13 @@ function App() {
                   {colTasks.map(task => {
                     const assignee = teamMembers.find(m => m.id === task.assigneeId)
                     return (
-                      <div key={task.id} className="bg-white rounded-lg p-3 shadow-sm">
+                      // this is the way to initialize dragable feature and sent task to its destination
+                      <div key={task.id} 
+                       draggable
+                       onDragStart={(e) => {
+                        e.dataTransfer.setData("taskId", task.id)
+                       }}
+                      className="bg-white rounded-lg p-3 shadow-sm">
                         <p className="text-sm font-medium text-slate-800 mb-2 leading-snug">
                           {task.title}
                         </p>
@@ -252,6 +224,19 @@ function App() {
                           <span className={`text-xs rounded-full px-2 py-0.5 font-medium capitalize ${PRIORITY_COLORS[task.priority]}`}>
                             {task.priority}
                           </span>
+                          {/* This is the deleting button on each task*/}
+                             <button 
+                                className='text-white bg-red-500 rounded-lg  w-15 p-1 ml-40'
+                                
+                             onClick={() =>{
+                              dispatch({
+                                type:"DELETE_TASK",
+                                payload:task.id
+                              })
+                             }}>
+                                    delete
+                             </button>
+
                           {assignee && (
                             <img
                               src={assignee.avatar}
