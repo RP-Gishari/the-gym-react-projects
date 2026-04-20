@@ -45,7 +45,7 @@ export default function App() {
     setTitle('')//reset the input after adding
   }
 
-  //filter tasks before rendering
+  //filter tasks before rendering connects filter dropdowns to display
     function getFilteredTasks(status) {
     return state.tasks.filter(t => {
       if (t.status !== status) return false
@@ -144,10 +144,16 @@ export default function App() {
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
-            // const colTasks =state.tasks.filter(t => t.status === col.status)//state-> real live state managed by reducer
-            const colTasks= getFilteredTasks(col.status)
+            const colTasks= getFilteredTasks(col.status)//checks whether the t.status === col.status
             return (
-              <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
+              <div key={col.status}
+              onDragOver={e=>e.preventDefault()}// allows dropping an item, since browser refuse dropping by default
+              onDrop={e=>{    
+              const id= Number(e.dataTransfer.getData('text/plain'));
+              dispatch({type:'MOVE_TASK',payload:{id,status:col.status}})
+              }
+              }
+               className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="text-sm font-semibold text-slate-600">{col.label}</h2>
                   <span className="bg-slate-300 text-slate-600 text-xs rounded-full px-2 py-0.5">
@@ -158,7 +164,10 @@ export default function App() {
                   {colTasks.map(task => {
                     const assignee = teamMembers.find(m => m.id === task.assigneeId)
                     return (
-                      <div key={task.id} className="bg-white rounded-lg p-3 shadow-sm">
+                      <div key={task.id} 
+                      draggable
+                      onDragStart={e=>e.dataTransfer.setData('text/plain',task.id)}//trigger the event of dragging, allowing to drag and drop
+                      className="bg-white rounded-lg p-3 shadow-sm">
                         <p className="text-sm font-medium text-slate-800 mb-2 leading-snug">
                           {task.title}
                         </p>

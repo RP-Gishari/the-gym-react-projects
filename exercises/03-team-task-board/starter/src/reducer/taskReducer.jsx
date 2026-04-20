@@ -11,13 +11,18 @@ export function taskReducer(state,action){
 //state: the current state of the app ({tasks:[]})
 //action: the command that was sent (if it is to add/move/delete etc {type, payload: { id } })
 //a reducer always takes two arguments and must return a new state to re-render UI
-switch (action.type){//action.type checks the kind of action sent
+switch (action.type){
 
     case "ADD_TASK" : return {...state, tasks:[...state.tasks, action.payload]}
     case "MOVE_TASK" : {
     const {id, direction}= action.payload //this is done to know which task to move based on id and direction (forward etc)
     return {
         ...state, tasks: state.tasks.map(t=>{if (t.id!==id )return t
+            //drag and drop sends status directly
+            if (action.payload.status){
+                return {...t,status:action.payload.status}
+            }
+            //direction with arrow buttons
             const idx= STATUSES.indexOf(t.status)// finds column position since they have indices in STATUSES
             const next= direction === 'forward'? idx + 1: idx - 1
             if (next < 0 || next >= STATUSES.length){// This stops it from moving behind todo or beyond done
@@ -32,5 +37,5 @@ switch (action.type){//action.type checks the kind of action sent
 }
 }
 
-export const initialState = {tasks:[]}// We first open there will be no tasks
+export const initialState = {tasks:[]}
 
