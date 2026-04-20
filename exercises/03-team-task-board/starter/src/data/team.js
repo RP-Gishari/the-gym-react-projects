@@ -23,4 +23,22 @@ export const teamMembers = [
     role: 'QA',
     avatar: 'https://i.pravatar.cc/48?img=33',
   },
+  {
+    id:5, 
+    name: "Vainqueur Nyawe",
+    role: "Frontend",
+    avatar:'https://i.pravatar.cc/48?img=12'
+  },
+  {
+    id:6, 
+    name: "Fredlick Gerayo",
+    role: "Frontend",
+    avatar:'https://i.pravatar.cc/48?img=33'
+  },
+  {
+    id:7, 
+    name: "Remy Rwemarika",
+    role: "Frontend",
+    avatar:'https://i.pravatar.cc/48?img=5'
+  }
 ]
