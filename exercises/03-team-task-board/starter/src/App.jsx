@@ -1,6 +1,6 @@
 import { teamMembers } from './data/team'
-import { useReducer, useContext, useState } from 'react'
-import { createContext } from 'react'
+import { useReducer, useContext, useState, createContext, useEffect } from 'react'
+
 import Reducer from './ReducerFunction'
 
 // Columns the board will always show
@@ -15,9 +15,9 @@ const initialState = {
   tasks:[], filters: {assignee: null, priority: null}
 }
 
+
+
 const TaskContext = createContext()
-
-
 
 
 const PRIORITY_COLORS = {
@@ -26,8 +26,23 @@ const PRIORITY_COLORS = {
   low: 'bg-green-100 text-green-700',
 }
 
+const getInitialState = () => {
+  const saved = localStorage.getItem("taskBoard")
+
+  if(saved) {
+return JSON.parse(saved)
+}else{
+  return initialState
+ } 
+} 
+
 function TaskProvider({children}){
-  const [state, dispatch] = useReducer(Reducer, initialState)
+  const [state, dispatch] = useReducer(Reducer, initialState, getInitialState)
+  
+  useEffect(() =>{
+    localStorage.setItem("taskBoard", JSON.stringify(state))
+  },[state])
+
   return( 
   <TaskContext.Provider value={{state, dispatch}}>
            {children}
@@ -46,7 +61,7 @@ function App() {
 
   const {state, dispatch} = useContext(TaskContext)
   const [title, setTitle] = useState("")
-  const [priority, setPriority] = useState("")
+  const [priority, setPriority] = useState("high")
   const [assignee, setAssignee] = useState(teamMembers[0].id)
  
 
@@ -57,12 +72,12 @@ function App() {
         <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Team</h2>
         <ul className="space-y-3">
           {teamMembers.map(member => {
-                  const taskOfmember = state.tasks.filter(t=> t.assignedId === member.id).length
+                  const taskOfmember = state.tasks.filter(t => t.assigneeId === member.id).length
                    const doneTasks = state.tasks.filter(t => t.assigneeId === member.id && t.status === "done").length
             return (
             <li key={member.id} className="flex items-center gap-2.5">
               
-              <img src={member.avatar} alt={member.name} className="w-7 h-7 rounded-full" />
+              <img src={member.avatar} alt={member.name}  className="w-7 h-7 rounded-full" />
               <div>
                 <p className="text-sm font-medium text-slate-700">{member.name.split(' ')[0]}</p>
                 <p className="text-xs text-slate-400">{member.role}</p>
@@ -94,7 +109,7 @@ function App() {
                value={priority}
                onChange={(e) => setPriority(e.target.value)}
             className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
-              <option>High</option>
+              <option value="high">High</option>
               <option>Medium</option>
               <option>Low</option>
             </select>
@@ -229,10 +244,15 @@ function App() {
                                 className='text-white bg-red-500 rounded-lg  w-15 p-1 ml-40'
                                 
                              onClick={() =>{
-                              dispatch({
+                              const confrimDeleting = window.confirm("Do you want to delete this task")
+
+                              if(confrimDeleting){
+                                dispatch({
                                 type:"DELETE_TASK",
                                 payload:task.id
                               })
+                              }
+                              
                              }}>
                                     delete
                              </button>
