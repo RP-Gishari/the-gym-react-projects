@@ -27,6 +27,7 @@ export default function App() {
 //for filter dropdowns
   const [filterMember, setFilterMember] = useState('all')//helps to control member filter
   const [filterPriority, setFilterPriority] = useState('all')// helps  to track priorities
+  const [confirmDelete, setConfirmDelete]= useState(null)// manages the delete pending
 
 
   function handleAddTask(){
@@ -55,6 +56,10 @@ export default function App() {
     })
   
   }
+
+  const isFiltering= filterMember !== 'all' || filterPriority !== 'all'
+  const totalFilteredTasks = COLUMNS.reduce((sum, col) => sum + getFilteredTasks(col.status).length, 0)
+
   return (
     <div className="min-h-screen bg-slate-100 flex">
 
@@ -140,6 +145,11 @@ export default function App() {
             <option value="low">Low</option>
           </select>
         </div>
+           {isFiltering && totalFilteredTasks === 0 && (
+          <p className="text-center text-slate-500 text-sm my-6">
+            No task matches your search
+          </p>
+        )}
 
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
@@ -183,15 +193,24 @@ export default function App() {
                               className="w-5 h-5 rounded-full"
                             />
                           )}
+                          {/*Updates modal */}
+                          <div>
+                            <button 
+                            onClick={()=>setConfirmDelete(task.id)}
+                            className="text-xs text-red-400 hover:text-red-600 px-1"
+                            > 
+                            <FontAwesomeIcon icon={faTrash}/>
+                            </button>
+                          </div>
 
                             {/*Delete button */}
-                        <div>
+                        {/* <div>
                           <button 
                            onClick={()=>dispatch({type:'DELETE_TASK',payload:{id:task.id}})}
                            className="text-xs text-red-400 hover:text-red-600 px-1">
                            <FontAwesomeIcon icon={faTrash}/>
                           </button>
-                        </div>
+                        </div> */}
                           </div>
                         </div>
 
@@ -216,6 +235,31 @@ export default function App() {
         </div>
 
       </div>
+        {/* ✅ new — Delete confirmation modal, renders on top of everything when confirmDelete is set */}
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-80">
+            <h3 className="text-slate-800 font-semibold text-base mb-1">Are you sure you want to delete this task?</h3>
+            <p className="text-slate-500 text-sm mb-5">This action cannot be undone.</p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="px-4 py-1.5 rounded-lg text-sm text-slate-600 border border-slate-200 hover:bg-slate-50">
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  dispatch({ type: 'DELETE_TASK', payload: { id: confirmDelete } })
+                  setConfirmDelete(null)
+                }}
+                className="px-4 py-1.5 rounded-lg text-sm text-white bg-red-500 hover:bg-red-600">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
