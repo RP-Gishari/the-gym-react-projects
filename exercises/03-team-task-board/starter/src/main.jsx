@@ -4,15 +4,15 @@ import { createContext } from 'react';
 import './index.css'
 import App from './App.jsx'
 import { TaskProvider } from './context/taskContext.jsx';
+import Reducer from './reducer/Reducer.jsx';
 
-export const ThemeContext= createContext('red')
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 
     <TaskProvider>
 
-      <App />
+     <App />
 
     </TaskProvider>
    
