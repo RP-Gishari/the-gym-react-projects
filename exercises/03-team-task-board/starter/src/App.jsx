@@ -50,7 +50,7 @@ export default function App() {
 
   const TasksFiltered = state.tasks.filter(task => {
     const matchAssignee = state.filterAssignee ? task.assigneeId === state.filterAssignee : true
-    const matchPriority = state.filterPriority ? task.priority === state.filterPriority : true
+    const matchPriority = state.filterPriority ? task.priority.toLowerCase() === state.filterPriority : true
     return matchAssignee && matchPriority
   })
 
@@ -88,16 +88,15 @@ export default function App() {
           {/* Add task form — hardcoded, you will make this work */}
           <div className="flex gap-2">
             <input
-             // type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
             />
             <select value={priority} onChange={e => setPriority(e.target.value)} className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
-              <option>High</option>
-              <option>Medium</option>
-              <option>Low</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
             </select>
             <select value={assigneeId} onChange={e => setAssigneeId(e.target.value)} className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               {teamMembers.map(m => (
