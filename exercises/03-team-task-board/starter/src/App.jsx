@@ -1,24 +1,13 @@
+import { useTask } from './context/taskContext'
+import {useState} from 'react'
 import { teamMembers } from './data/team'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight,faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-// The UI below is complete and styled — run npm run dev to see it.
-// Your job: make it interactive using React (useReducer + Context API).
-// Nothing here is wired up — no state, no dispatch, no context.
-// Do not change the className values. Focus on React.
-
-// Columns the board will always show
 const COLUMNS = [
   { status: 'todo', label: 'To Do' },
   { status: 'inprogress', label: 'In Progress' },
-  { status: 'done', label: 'Done' },
-]
-
-// Placeholder tasks — hardcoded for display only.
-// Your real tasks will come from useReducer state via Context.
-const PLACEHOLDER_TASKS = [
-  { id: 1, title: 'Set up project structure', priority: 'high', assigneeId: 1, status: 'done' },
-  { id: 2, title: 'Build the task form', priority: 'medium', assigneeId: 2, status: 'inprogress' },
-  { id: 3, title: 'Wire up Context API', priority: 'high', assigneeId: 1, status: 'todo' },
-  { id: 4, title: 'Add priority filters', priority: 'low', assigneeId: 3, status: 'todo' },
+  { status: 'done', label: 'Done' }, 
 ]
 
 const PRIORITY_COLORS = {
@@ -27,7 +16,50 @@ const PRIORITY_COLORS = {
   low: 'bg-green-100 text-green-700',
 }
 
+
 export default function App() {
+
+  const {state, dispatch} = useTask() // this line gives cpts access to everything
+  const [title, setTitle]= useState('') // sets the task title in the input
+  const [priority, setPriority] = useState('high')//helps to select priorities
+  const [assigneeId, setAssigneeId] = useState(teamMembers[0]?.id ?? 1)//controlled assignee
+ 
+//for filter dropdowns
+  const [filterMember, setFilterMember] = useState('all')//helps to control member filter
+  const [filterPriority, setFilterPriority] = useState('all')// helps  to track priorities
+  const [confirmDelete, setConfirmDelete]= useState(null)// manages the delete pending
+
+
+  function handleAddTask(){
+    const trimmed =title.trim()
+    if(!trimmed)return 
+    dispatch({
+      type:'ADD_TASK',
+      payload: {
+        id:Date.now(),
+        title:trimmed,
+        priority: priority.toLowerCase(),
+        assigneeId: Number(assigneeId),
+        status:'todo',
+      }
+    })
+    setTitle('')//reset the input after adding
+  }
+
+  //filter tasks before rendering connects filter dropdowns to display
+    function getFilteredTasks(status) {
+    return state.tasks.filter(t => {
+      if (t.status !== status) return false
+      if (filterMember !== 'all' && t.assigneeId !== Number(filterMember)) return false
+      if (filterPriority !== 'all' && t.priority !== filterPriority.toLowerCase()) return false
+      return true
+    })
+  
+  }
+
+  const isFiltering= filterMember !== 'all' || filterPriority !== 'all'
+  const totalFilteredTasks = COLUMNS.reduce((sum, col) => sum + getFilteredTasks(col.status).length, 0)
+
   return (
     <div className="min-h-screen bg-slate-100 flex">
 
@@ -35,15 +67,20 @@ export default function App() {
       <aside className="w-52 shrink-0 bg-white border-r border-slate-200 p-5">
         <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Team</h2>
         <ul className="space-y-3">
-          {teamMembers.map(member => (
-            <li key={member.id} className="flex items-center gap-2.5">
+          {teamMembers.map(member => {
+            const total = state.tasks.filter(t => t.assigneeId === member.id).length
+            const done  = state.tasks.filter(t => t.assigneeId === member.id && t.status === 'done').length
+            return(
+               <li key={member.id} className="flex items-center gap-2.5">
               <img src={member.avatar} alt={member.name} className="w-7 h-7 rounded-full" />
               <div>
                 <p className="text-sm font-medium text-slate-700">{member.name.split(' ')[0]}</p>
                 <p className="text-xs text-slate-400">{member.role}</p>
+                <p className="text-xs text-slate-400">{done}/{total} done</p>
               </div>
             </li>
-          ))}
+            )
+            })}
         </ul>
       </aside>
 
@@ -54,50 +91,79 @@ export default function App() {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-lg font-bold text-slate-800">Team Board</h1>
 
-          {/* Add task form — hardcoded, you will make this work */}
+          {/* Add task form */}
           <div className="flex gap-2">
             <input
               type="text"
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
-              readOnly
+              value= {title}
+              onChange={(e)=>setTitle(e.target.value)}
             />
-            <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
+            <select 
+            value={priority}
+            onChange={e=>setPriority(e.target.value)}
+            className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               <option>High</option>
               <option>Medium</option>
               <option>Low</option>
             </select>
-            <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
+            <select 
+            value={assigneeId}
+            onChange={e=>setAssigneeId(e.target.value)}
+            className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               {teamMembers.map(m => (
                 <option key={m.id} value={m.id}>{m.name.split(' ')[0]}</option>
               ))}
             </select>
-            <button className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
-              Add
+            <button  
+             onClick={handleAddTask} 
+             className="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-indigo-700 transition-colors">
+               Add
             </button>
           </div>
         </div>
 
         {/* Filters */}
         <div className="flex gap-3 mb-5">
-          <select className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
-            <option>All Members</option>
-            {teamMembers.map(m => <option key={m.id}>{m.name}</option>)}
+          <select 
+          value={filterMember}
+          onChange={e=>setFilterMember(e.target.value)}
+          className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
+            <option value="all">All Members</option>
+            {teamMembers.map(m => 
+            <option key={m.id} value={m.id}>{m.name}</option>
+            )}
           </select>
-          <select className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
-            <option>All Priorities</option>
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
+          <select
+          value={filterPriority}
+          onChange={e=>setFilterPriority(e.target.value)}
+           className="border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-sm outline-none">
+            <option value="all">All Priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
           </select>
         </div>
+           {isFiltering && totalFilteredTasks === 0 && (
+          <p className="text-center text-slate-500 text-sm my-6">
+            No task matches your search
+          </p>
+        )}
 
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
-            const colTasks = PLACEHOLDER_TASKS.filter(t => t.status === col.status)
+            const colTasks= getFilteredTasks(col.status)//checks whether the t.status === col.status
             return (
-              <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
+              <div key={col.status}
+              onDragOver={e=>e.preventDefault()}// allows dropping an item, since browser refuse dropping by default
+              onDrop={e=>{    
+              const id= Number(e.dataTransfer.getData('text/plain'));
+              dispatch({type:'MOVE_TASK',payload:{id,status:col.status}})
+              }
+              }
+               className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="text-sm font-semibold text-slate-600">{col.label}</h2>
                   <span className="bg-slate-300 text-slate-600 text-xs rounded-full px-2 py-0.5">
@@ -108,7 +174,10 @@ export default function App() {
                   {colTasks.map(task => {
                     const assignee = teamMembers.find(m => m.id === task.assigneeId)
                     return (
-                      <div key={task.id} className="bg-white rounded-lg p-3 shadow-sm">
+                      <div key={task.id} 
+                      draggable
+                      onDragStart={e=>e.dataTransfer.setData('text/plain',task.id)}//trigger the event of dragging, allowing to drag and drop
+                      className="bg-white rounded-lg p-3 shadow-sm">
                         <p className="text-sm font-medium text-slate-800 mb-2 leading-snug">
                           {task.title}
                         </p>
@@ -116,6 +185,7 @@ export default function App() {
                           <span className={`text-xs rounded-full px-2 py-0.5 font-medium capitalize ${PRIORITY_COLORS[task.priority]}`}>
                             {task.priority}
                           </span>
+                          <div className= "flex flex-col  items-center">
                           {assignee && (
                             <img
                               src={assignee.avatar}
@@ -123,7 +193,38 @@ export default function App() {
                               className="w-5 h-5 rounded-full"
                             />
                           )}
+                          {/*Updates modal */}
+                          <div>
+                            <button 
+                            onClick={()=>setConfirmDelete(task.id)}
+                            className="text-xs text-red-400 hover:text-red-600 px-1"
+                            > 
+                            <FontAwesomeIcon icon={faTrash}/>
+                            </button>
+                          </div>
+
+                            {/*Delete button */}
+                        {/* <div>
+                          <button 
+                           onClick={()=>dispatch({type:'DELETE_TASK',payload:{id:task.id}})}
+                           className="text-xs text-red-400 hover:text-red-600 px-1">
+                           <FontAwesomeIcon icon={faTrash}/>
+                          </button>
+                        </div> */}
+                          </div>
                         </div>
+
+                       { /*Move controls*/}
+                        <div>
+                          <button   onClick={() => dispatch({ type: 'MOVE_TASK', payload: { id: task.id, direction: 'back' } })}
+                            className="text-xs text-slate-400 hover:text-slate-600 px-1">
+                            <FontAwesomeIcon icon={faArrowLeft}/>
+                          </button>
+                          <button onClick={()=>dispatch({type: 'MOVE_TASK', payload: { id: task.id, direction: 'forward' }})}  className="text-xs text-slate-400 hover:text-slate-600 px-1">
+                            <FontAwesomeIcon icon={faArrowRight}/>
+                          </button>
+                        </div>
+                      
                       </div>
                     )
                   })}
@@ -134,6 +235,31 @@ export default function App() {
         </div>
 
       </div>
+        {/* ✅ new — Delete confirmation modal, renders on top of everything when confirmDelete is set */}
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-80">
+            <h3 className="text-slate-800 font-semibold text-base mb-1">Are you sure you want to delete this task?</h3>
+            <p className="text-slate-500 text-sm mb-5">This action cannot be undone.</p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="px-4 py-1.5 rounded-lg text-sm text-slate-600 border border-slate-200 hover:bg-slate-50">
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  dispatch({ type: 'DELETE_TASK', payload: { id: confirmDelete } })
+                  setConfirmDelete(null)
+                }}
+                className="px-4 py-1.5 rounded-lg text-sm text-white bg-red-500 hover:bg-red-600">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
