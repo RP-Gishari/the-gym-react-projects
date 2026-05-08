@@ -4,7 +4,7 @@ import { createContext } from 'react';
 import {BrowserRouter, Routes, Route,Link} from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
-import MemberPage from './routers/MembersPage.jsx';
+import MemberPage from './MembersPage.jsx';
 import { TaskProvider } from './context/taskContext.jsx';
 
 
