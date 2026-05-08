@@ -33,7 +33,7 @@ export default function App() {
         status:'todo',
       }
     })
-    setTitle('')//reset the input after adding
+    setTitle('')
   }
 
   // Apply filters then hand the result to TaskBoard
@@ -132,7 +132,7 @@ export default function App() {
           <p className="text-center text-slate-500 text-sm my-6">No task matches your search</p>
         )}
 
-        {/* Board */}
+        {/* Board-Dashboard*/}
         <TaskBoard tasks={filteredTasks} />
       </div>
     </div>

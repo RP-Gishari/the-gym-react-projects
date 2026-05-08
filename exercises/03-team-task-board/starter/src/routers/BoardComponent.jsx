@@ -2,6 +2,7 @@
 import { useTask } from '../context/taskContext'
 import TaskCard from './CardComponent'
 
+
 const COLUMNS = [
   { status: 'todo',       label: 'To Do' },
   { status: 'inprogress', label: 'In Progress' },
@@ -14,6 +15,17 @@ const COLUMNS = [
   MemberPage.jsx passes only that member's tasks.
   The board itself doesn't care which page it's on.
 */
+
+//  const filteredTasks = state.tasks.filter(t => {
+//     if (filterMember   !== 'all' && t.assigneeId !== Number(filterMember)) return false
+//     if (filterPriority !== 'all' && t.priority   !== filterPriority.toLowerCase()) return false
+//     return true
+//   })
+
+// const isFiltering = filterMember !== 'all' || filterPriority !== 'all'
+
+
+{/*Board connecting the dash and the members */}
 export default function TaskBoard({ tasks }) {
   const { dispatch } = useTask()
 
