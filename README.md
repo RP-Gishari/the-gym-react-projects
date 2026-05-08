@@ -12,6 +12,7 @@ Each exercise gives you a running app and a spec. What you build in between is y
 | 01 | [Quiz App](exercises/01-quiz-app/README.md) | Beginner | useState, events, conditional rendering, lists |
 | 02 | [Movie Watchlist](exercises/02-movie-watchlist/README.md) | Intermediate | useEffect, controlled inputs, derived state, localStorage |
 | 03 | [Team Task Board](exercises/03-team-task-board/README.md) | Advanced | useReducer, Context API, custom hooks, component architecture |
+| 04 | [Blog App](exercises/04-blog-app/README.md) | Advanced+ | React Router v7, Redux Toolkit, TypeScript, json-server, real dev workflow |
 
 Work through them in order. Each one introduces the concepts the next one depends on.
 

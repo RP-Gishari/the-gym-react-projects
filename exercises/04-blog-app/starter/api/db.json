@@ -1,0 +1,167 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Sarah Chen",
+      "email": "sarah@blogify.dev",
+      "password": "password123",
+      "bio": "Senior frontend engineer. Writes about React, performance, and the craft of building software.",
+      "avatar": "https://api.dicebear.com/9.x/initials/svg?seed=Sarah+Chen&backgroundColor=0a0a0a&fontColor=ffffff"
+    },
+    {
+      "id": "2",
+      "name": "Marcus Reid",
+      "email": "marcus@blogify.dev",
+      "password": "password123",
+      "bio": "Product designer turned developer. Obsessed with typography, spacing, and making things feel right.",
+      "avatar": "https://api.dicebear.com/9.x/initials/svg?seed=Marcus+Reid&backgroundColor=0a0a0a&fontColor=ffffff"
+    },
+    {
+      "id": "3",
+      "name": "Lena Okafor",
+      "email": "lena@blogify.dev",
+      "password": "password123",
+      "bio": "Science communicator and software engineer. Bridging the gap between technical depth and plain language.",
+      "avatar": "https://api.dicebear.com/9.x/initials/svg?seed=Lena+Okafor&backgroundColor=0a0a0a&fontColor=ffffff"
+    }
+  ],
+  "categories": [
+    { "id": "1", "name": "Technology", "slug": "technology" },
+    { "id": "2", "name": "Design", "slug": "design" },
+    { "id": "3", "name": "Career", "slug": "career" },
+    { "id": "4", "name": "Science", "slug": "science" },
+    { "id": "5", "name": "Culture", "slug": "culture" }
+  ],
+  "posts": [
+    {
+      "id": "1",
+      "title": "The Case for Boring Technology",
+      "slug": "the-case-for-boring-technology",
+      "excerpt": "Choosing a technology should be an act of boredom, not excitement. Here is why the most reliable systems are built on the dullest choices.",
+      "content": "Every few months a new framework promises to change how we build software. The ecosystem moves fast, and the temptation to adopt the latest tool is real. But the most resilient systems are usually built with what already works.\n\nBoring technology has a track record. You know its failure modes. The community has already hit the edge cases and written about them. Debugging is easier because someone else has already been lost in the same place. When something breaks at 2am, you want a tool with ten years of Stack Overflow answers, not six months of GitHub issues.\n\nThis is not an argument against learning new things. It is an argument for separating curiosity from production decisions. Experiment freely, adopt carefully. The best engineers I know are voracious learners who run extremely conservative systems.",
+      "authorId": "1",
+      "categoryId": "1",
+      "status": "published",
+      "publishedAt": "2025-03-10",
+      "readTime": 4,
+      "coverImage": "https://picsum.photos/seed/boring-tech/800/450"
+    },
+    {
+      "id": "2",
+      "title": "Typography Fundamentals Every Developer Should Know",
+      "slug": "typography-fundamentals-every-developer-should-know",
+      "excerpt": "You do not need to be a designer to make text readable. A handful of principles cover most cases.",
+      "content": "Most developers think about typography only when something looks wrong. A line too long, text too small, paragraphs that blur together. By then the problem is already affecting users. A few fundamentals applied early prevent most of these issues.\n\nLine length is the most underrated setting in any UI. Optimal reading width sits between 60 and 75 characters per line. Beyond that, the eye loses its place scanning back to the next line. Most layout problems traced to readability come back to this single constraint.\n\nFont size and line height work together. A body font at 16px needs a line height of at least 1.5 to breathe. Tighter than that and paragraphs feel dense. Looser than 1.8 and the text starts to feel disconnected. These are not rules to memorize but ratios to internalize through observation.",
+      "authorId": "2",
+      "categoryId": "2",
+      "status": "published",
+      "publishedAt": "2025-03-18",
+      "readTime": 5,
+      "coverImage": "https://picsum.photos/seed/typography/800/450"
+    },
+    {
+      "id": "3",
+      "title": "How to Give and Receive Code Reviews Well",
+      "slug": "how-to-give-and-receive-code-reviews-well",
+      "excerpt": "Code review is one of the highest leverage activities on any team. Most people do it poorly without realizing it.",
+      "content": "The goal of a code review is not to find bugs. Tests do that. The goal is to share context, surface assumptions, and keep the codebase coherent as more people touch it. That reframing changes everything about how you approach it.\n\nWhen giving a review, lead with questions before conclusions. \"Why is this extracted here?\" lands differently than \"this should be extracted.\" The first assumes you might be missing context. You often are. The second assumes you are right. You often are not.\n\nWhen receiving a review, separate the comment from the code. A critique of the implementation is not a critique of you. The fastest engineers I have worked with treat review comments as free consulting. They reply quickly, they push back when they disagree and explain why, and they rarely take anything personally. That disposition compounds over time.",
+      "authorId": "1",
+      "categoryId": "3",
+      "status": "published",
+      "publishedAt": "2025-03-25",
+      "readTime": 5,
+      "coverImage": "https://picsum.photos/seed/code-review/800/450"
+    },
+    {
+      "id": "4",
+      "title": "What CRISPR Means for the Next Decade",
+      "slug": "what-crispr-means-for-the-next-decade",
+      "excerpt": "Gene editing has moved from the lab bench to the clinic. The next ten years will test whether our institutions can keep up.",
+      "content": "CRISPR-Cas9 entered clinical trials less than a decade ago. In that time it has gone from a curiosity in bacterial immune systems to an approved therapy for sickle cell disease. The pace has surprised even researchers who were optimistic about its potential.\n\nThe therapeutic applications receiving the most funding are monogenic diseases — conditions caused by a single broken gene. These are the lowest-hanging fruit because the target is clear and the edit is relatively contained. Sickle cell, beta-thalassemia, and certain forms of inherited blindness are early proof points.\n\nThe harder and more consequential frontier is complex disease — conditions driven by dozens of genes interacting with each other and the environment. Cancer, cardiovascular disease, Alzheimer's. Here CRISPR is a tool in a much larger puzzle, not a solution on its own. The decade ahead will be defined less by what the technology can do and more by whether regulators, insurers, and ethicists can build frameworks fast enough to govern it responsibly.",
+      "authorId": "3",
+      "categoryId": "4",
+      "status": "published",
+      "publishedAt": "2025-04-02",
+      "readTime": 6,
+      "coverImage": "https://picsum.photos/seed/crispr/800/450"
+    },
+    {
+      "id": "5",
+      "title": "Building with React 19: What Actually Changed",
+      "slug": "building-with-react-19-what-actually-changed",
+      "excerpt": "React 19 is a meaningful release. Here is what matters in practice and what you can keep ignoring.",
+      "content": "React 19 ships a compiler that automatically memoizes your components. In practice this means you can delete most of your useMemo and useCallback calls. The compiler figures out what needs to be stable across renders without you annotating it. This alone removes a class of performance bugs that come from incorrect dependency arrays.\n\nThe new Actions API simplifies async state transitions. Instead of manually tracking loading, error, and success states across useEffect calls, you declare an async function and React manages the pending and error states for you. For forms especially, this is a significant reduction in boilerplate.\n\nServer Components are now stable. If you are not using a framework like Next.js, you will not feel this immediately. But the mental model shift matters: components that run only on the server have no client bundle cost and can read directly from databases or file systems. Understanding the client/server boundary is increasingly core React knowledge, not advanced knowledge.",
+      "authorId": "1",
+      "categoryId": "1",
+      "status": "published",
+      "publishedAt": "2025-04-10",
+      "readTime": 5,
+      "coverImage": "https://picsum.photos/seed/react19/800/450"
+    },
+    {
+      "id": "6",
+      "title": "Designing for Accessibility from Day One",
+      "slug": "designing-for-accessibility-from-day-one",
+      "excerpt": "Accessibility retrofitted onto a finished product is expensive and incomplete. Baking it in from the start costs almost nothing.",
+      "content": "The argument for accessibility is usually framed as ethics. That framing is correct but it rarely changes behavior. A more persuasive argument in practice is that accessible design is simply better design. High contrast benefits users in bright sunlight. Keyboard navigation benefits power users. Clear focus states benefit anyone who loses their mouse cursor.\n\nThe highest impact changes are also the simplest. Color contrast ratios. Semantic HTML. Meaningful alt text. Labels associated with form inputs. None of these require specialized knowledge. They require the habit of checking.\n\nThe biggest cost of accessibility is not implementation. It is discovery. Finding out that a flow is inaccessible after launch means rethinking interaction patterns that are already shipped. Building with a screen reader open during development, not after, changes what you notice and when. That shift in timing is where most of the cost savings come from.",
+      "authorId": "2",
+      "categoryId": "2",
+      "status": "published",
+      "publishedAt": "2025-04-17",
+      "readTime": 4,
+      "coverImage": "https://picsum.photos/seed/accessibility/800/450"
+    },
+    {
+      "id": "7",
+      "title": "Remote Work Two Years Later: What We Got Wrong",
+      "slug": "remote-work-two-years-later-what-we-got-wrong",
+      "excerpt": "The remote work conversation collapsed into camps too quickly. Here is what the evidence actually says.",
+      "content": "When offices closed in 2020, two camps immediately formed. Remote work was either the future of all knowledge work or a temporary concession that would erode culture and productivity. Neither prediction has held up cleanly.\n\nThe clearest finding from two years of data is that remote work is not a single variable. It interacts with role, team size, seniority, home environment, and management quality in ways that make blanket policies almost useless. A senior engineer with a dedicated home office and a well-documented codebase has a completely different remote experience than a junior hire sharing a studio apartment.\n\nWhat most teams got wrong was treating remote work as a location problem rather than a communication problem. The offices that were most effective in person were effective because of the informal communication infrastructure they supported — not because everyone was physically present. Rebuilding that infrastructure asynchronously, intentionally, and in writing is the actual work. Most companies skipped it.",
+      "authorId": "3",
+      "categoryId": "5",
+      "status": "published",
+      "publishedAt": "2025-04-22",
+      "readTime": 5,
+      "coverImage": "https://picsum.photos/seed/remote-work/800/450"
+    },
+    {
+      "id": "8",
+      "title": "The Fundamentals of Color Theory in UI",
+      "slug": "the-fundamentals-of-color-theory-in-ui",
+      "excerpt": "Color in interfaces is not decoration. It is information. Understanding how color works changes how you reach for it.",
+      "content": "Most developers pick colors by feel — a blue that looks trustworthy, a red that signals danger. This intuition is not wrong but it is fragile. It breaks down under pressure, in edge cases, and when someone asks why. A basic grasp of color theory gives you a principled answer.\n\nHue, saturation, and lightness are the three dimensions of color. Hue is what most people mean by color — the red, the blue, the green. Saturation is how vivid or grey the color is. Lightness is how close it sits to white or black. Most color problems in UI come from manipulating only hue and ignoring the other two.\n\nContrast is the most important property in interface color. Not aesthetic contrast — accessibility contrast. The WCAG standard requires a 4.5:1 contrast ratio between text and its background for normal body text. Most color pickers now show this ratio. Getting in the habit of checking it is faster than debugging a failed audit later.",
+      "authorId": "2",
+      "categoryId": "2",
+      "status": "draft",
+      "publishedAt": null,
+      "readTime": 5,
+      "coverImage": "https://picsum.photos/seed/color-theory/800/450"
+    },
+    {
+      "id": "9",
+      "title": "Writing Tests You Actually Want to Read",
+      "slug": "writing-tests-you-actually-want-to-read",
+      "excerpt": "A test suite that nobody reads is a test suite that nobody trusts. The fix is in how you write them.",
+      "content": "The most common complaint about test suites is that they are slow. The second most common is that they are brittle. But the complaint that predicts eventual abandonment is quieter: nobody reads them. A test that is not read is a test that is not trusted. A test that is not trusted is a test that does not change behavior.\n\nThe structure of a good test describes behavior, not implementation. It tells you what the code does when something happens, not which function was called. describe('when the user submits an empty form') reads differently than describe('validateForm returns false'). The first is a story. The second is a spec sheet.\n\nTest names are documentation. When a test fails, the name is the first thing you see. If the name tells you what was expected and what context triggered the failure, you already know where to look. If the name is 'should work correctly', you are starting from zero. Writing test names as full sentences — 'shows an error message when the email field is blank' — feels verbose until a test fails at 3am and you understand immediately what broke.",
+      "authorId": "1",
+      "categoryId": "1",
+      "status": "published",
+      "publishedAt": "2025-04-29",
+      "readTime": 5,
+      "coverImage": "https://picsum.photos/seed/testing/800/450"
+    },
+    {
+      "id": "10",
+      "title": "Open Source Burnout and How to Avoid It",
+      "slug": "open-source-burnout-and-how-to-avoid-it",
+      "excerpt": "Maintaining an open source project nobody asked you to maintain is a particular kind of exhaustion. Here is how to see it coming.",
+      "content": "Open source burnout follows a predictable arc. You build something useful and share it. People start depending on it. Issues accumulate. Pull requests sit unreviewed. The thing you made for fun becomes the thing you dread opening on Monday morning.\n\nThe root cause is almost never the volume of work. It is the mismatch between what you wanted the project to be and what users need it to become. You built a small, focused library. Users want a platform. Saying no to features is easy until the person asking has a genuinely good reason. Then it gets hard, and the hard decisions accumulate.\n\nThe most sustainable maintainers I have observed do one or more of three things. They set explicit scope in the README and enforce it without apology. They find co-maintainers early, before burnout, when they can still afford to onboard someone properly. Or they give themselves permission to archive the project when it no longer serves them. That last option is underused. Archiving is not failure. Continuing out of obligation is.",
+      "authorId": "3",
+      "categoryId": "3",
+      "status": "published",
+      "publishedAt": "2025-05-05",
+      "readTime": 5,
+      "coverImage": "https://picsum.photos/seed/opensource/800/450"
+    }
+  ]
+}
