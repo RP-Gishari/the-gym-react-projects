@@ -34,3 +34,6 @@ pnpm-debug.log*
 
 # Instructor material — kept locally, not pushed to the student-facing repo
 _instructor/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
