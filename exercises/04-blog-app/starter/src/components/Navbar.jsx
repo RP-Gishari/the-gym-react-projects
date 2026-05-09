@@ -1,6 +1,7 @@
 import React from "react";
 // import { Button, Input } from "./ui";
  import { NavLink } from "react-router-dom";
+ import { Search, Bookmark } from "lucide-react";
 
 export default function Navbar(){
 
@@ -12,7 +13,10 @@ export default function Navbar(){
                 <div className="flex gap-4">
                     <NavLink to='/posts'>Posts</NavLink>
                     <NavLink to='/authors'>Authors</NavLink>
-                    <NavLink to='/about'>About</NavLink>
+                    <NavLink to='/about'>About</NavLink> 
+                    <Search/>
+                    <Bookmark/>
+
                 </div>
             </nav>
         </>
