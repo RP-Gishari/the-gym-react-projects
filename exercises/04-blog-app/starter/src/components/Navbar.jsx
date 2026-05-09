@@ -7,9 +7,9 @@ export default function Navbar(){
 
     return(
         <>
-            <nav className="h-20 flex items-center p-2.5">
-                <h1 className="font-bold">Blogify</h1>
-                <div className="pl-190">
+            <nav className="flex items-center justify-around pl-1 w-auto h-auto">
+                <NavLink to='/' className='font-bold text-2xl'>Blogify</NavLink>
+                <div className="flex gap-4">
                     <NavLink to='/posts'>Posts</NavLink>
                     <NavLink to='/authors'>Authors</NavLink>
                     <NavLink to='/about'>About</NavLink>
