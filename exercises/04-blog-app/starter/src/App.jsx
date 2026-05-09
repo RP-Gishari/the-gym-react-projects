@@ -9,11 +9,12 @@
 
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
 import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
+import Navbar from './components/Navbar'
 
 export default function App() {
   return (
     <div className="min-h-screen bg-subtle">
-
+      <Navbar/>
       <header className="bg-paper border-b border-edge px-8 py-4 flex items-center justify-between sticky top-0">
         <span className="text-base font-bold tracking-tight">Blogify</span>
         <span className="text-sm text-muted">Design System — Milestone 1 reference</span>
@@ -182,5 +183,6 @@ function Row({ label, children }) {
       {label && <span className="text-xs text-muted w-20 shrink-0">{label}</span>}
       {children}
     </div>
+
   )
 }
