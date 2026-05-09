@@ -10,12 +10,11 @@ export default function Navbar(){
         <>
             <nav className="flex items-center justify-around pl-1 w-auto h-auto">
                 <NavLink to='/' className='font-bold text-2xl'>Blogify</NavLink>
-                <div className="flex gap-4">
+                <div className="flex gap-4 text-lg text-neutral-950">
                     <NavLink to='/posts'>Posts</NavLink>
                     <NavLink to='/authors'>Authors</NavLink>
-                    <NavLink to='/about'>About</NavLink> 
                     <Search/>
-                    <Bookmark/>
+                    <Bookmark/><span>0</span>
 
                 </div>
             </nav>
