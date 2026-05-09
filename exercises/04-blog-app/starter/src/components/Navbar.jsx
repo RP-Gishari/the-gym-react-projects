@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Input } from "./ui";
 
 
 export default function Navbar(){
@@ -6,7 +7,15 @@ export default function Navbar(){
 
     return(
         <>
-            <h1>Navbar goes here</h1>
+            <nav className="h-20 flex items-center p-1.5">
+                <h1>Blogify</h1>
+                <div className="pl-190">
+                    <button>Posts</button>
+                    <button>Authors</button>
+                </div>
+
+                <Button/>
+            </nav>
         </>
     )
 }
