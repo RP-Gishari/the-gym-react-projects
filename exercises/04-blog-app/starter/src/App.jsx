@@ -15,10 +15,10 @@ export default function App() {
   return (
     <div className="min-h-screen bg-subtle">
       <Navbar/>
-      <header className="bg-paper border-b border-edge px-8 py-4 flex items-center justify-between sticky top-0">
+      {/* <header className="bg-paper border-b border-edge px-8 py-4 flex items-center justify-between sticky top-0">
         <span className="text-base font-bold tracking-tight">Blogify</span>
         <span className="text-sm text-muted">Design System — Milestone 1 reference</span>
-      </header>
+      </header> */}
 
       <main className="max-w-3xl mx-auto px-8 py-12 space-y-16">
 
