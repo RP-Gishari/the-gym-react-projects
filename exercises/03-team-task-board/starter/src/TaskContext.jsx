@@ -4,7 +4,7 @@ import { useEffect } from "react"
 const TaskContext = createContext()
 
 const initialState = {
-  tasks: [],
+  tasks: loadTasks(),
   filterAssignee: null,
   filterPriority: null,
 }
@@ -51,7 +51,7 @@ function taskReducer(state, action) {
 }
 
 export function TaskProvider({ children }) {
-  const [state, dispatch] = useReducer(taskReducer, initialState)
+  const [state, dispatch] = useReducer(taskReducer, initialState, (init) => ({...init, tasks: loadTasks()}))
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(state.tasks))
   },[state.tasks])
