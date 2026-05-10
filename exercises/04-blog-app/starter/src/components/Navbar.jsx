@@ -13,7 +13,7 @@ export default function Navbar(){
                 <div className="items-start">
                         <NavLink to='/' className='font-bold text-2xl'>Blogify</NavLink>
                 </div>
-                <div className="flex gap-4 text-lg text-neutral-950">
+                <div className="flex gap-4 text-lg text-neutral-950 items-center">
                     <Button>
                         <NavLink to='/posts'>Posts</NavLink>
                     </Button>
