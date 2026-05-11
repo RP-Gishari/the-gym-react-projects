@@ -9,9 +9,12 @@
 
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
 import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
+import Navbar from './components/Navbar'
 
 export default function App() {
   return (
+    <>
+    <Navbar />
     <div className="min-h-screen bg-subtle">
 
       <header className="bg-paper border-b border-edge px-8 py-4 flex items-center justify-between sticky top-0">
@@ -163,6 +166,7 @@ export default function App() {
 
       </main>
     </div>
+    </>
   )
 }
 
