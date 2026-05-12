@@ -4,7 +4,7 @@
 // Run `npm run dev` to see all design system components in one place.
 // You will create your actual pages in src/pages/ starting from Milestone 2.
 //
-// Import any component like this:
+// Import any component like this:oo
 //   import { Button, Card, Badge } from './components/ui'
 
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
