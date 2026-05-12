@@ -1,11 +1,20 @@
 import Layouts from "./Layouts";
- import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Posts from "./Pages/Posts";
+import Authors from "./Pages/Authors";
+import Home  from "./Pages/Home";
+
 
  function App(){
  return(
   <BrowserRouter>
   <Routes>
-    <Route path="/" element={ <Layouts/>}/>
+    <Route path="/" element={ <Layouts/>}> 
+    <Route index element={<Home/>}/>
+     <Route path="/posts" element={<Posts/>}/>
+     <Route path="/authors" element={<Authors/>}/>
+
+    </Route>
   </Routes>
   </BrowserRouter>
  
