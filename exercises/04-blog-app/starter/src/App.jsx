@@ -7,9 +7,9 @@
 // Import any component like this:
 //   import { Button, Card, Badge } from './components/ui'
 
-import Navbar from './components/Navbar';
+import Navbar from './pages/Navbar'
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
-import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
+// import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
 
 export default function App() {
   return (
