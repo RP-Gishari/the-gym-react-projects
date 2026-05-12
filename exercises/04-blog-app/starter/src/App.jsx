@@ -4,20 +4,18 @@
 // Run `npm run dev` to see all design system components in one place.
 // You will create your actual pages in src/pages/ starting from Milestone 2.
 //
-// Import any component like this:
+// Import any component like this:oo
 //   import { Button, Card, Badge } from './components/ui'
 
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
 import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
+import Navbar from './components/ui/Navbar'
 
 export default function App() {
   return (
     <div className="min-h-screen bg-subtle">
 
-      <header className="bg-paper border-b border-edge px-8 py-4 flex items-center justify-between sticky top-0">
-        <span className="text-base font-bold tracking-tight">Blogify</span>
-        <span className="text-sm text-muted">Design System — Milestone 1 reference</span>
-      </header>
+    <Navbar/>
 
       <main className="max-w-3xl mx-auto px-8 py-12 space-y-16">
 
