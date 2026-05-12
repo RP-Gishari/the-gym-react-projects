@@ -1,27 +1,41 @@
-import Home from "./Pages/Home";
-import Layouts from "./Layouts";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Posts from "./Pages/Posts";
-import Authors from "./Pages/Authors";
 
+// import AppRouter from "./AppRouter"
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom"
+import Layouts from "./Layouts"
+import Posts from "./pages/Posts"
+import Authors, {AuthorLoader} from "./pages/Authors"
+import Home, { loader as homeLoader} from "./Pages/Home"
 
-function App(){
-  return(
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layouts/>}>
-            <Route index element={<Home/>}/>
-            <Route path="/posts" element={<Posts/>}/>
-            <Route path="/authors" element={<Authors/>}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
+const router = createBrowserRouter(createRoutesFromElements(
+ <Route path="/" element={<Layouts/>}>
+  <Route index element={<Home />} loader={homeLoader}/>
+  <Route path="/posts" element={ <Posts />}/>
+  <Route path="/Authors" element={ <Authors />} loader={AuthorLoader}/>
+ </Route>
+
+))
+
+function App() {
+  return <RouterProvider router={router} />
 }
 
 export default App
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // // Design System Showcase
@@ -32,6 +46,9 @@ export default App
 // //
 // // Import any component like this:
 // //   import { Button, Card, Badge } from './components/ui'
+
+// import { router } from "json-server"
+// import { RouterProvider } from "react-router-dom"
 
 // import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
 // import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
@@ -210,3 +227,4 @@ export default App
 //     </div>
 //   )
 // }
+
