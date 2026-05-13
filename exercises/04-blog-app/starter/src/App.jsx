@@ -5,17 +5,18 @@
 // You will create your actual pages in src/pages/ starting from Milestone 2.
 //
 // Import any component like this:
-//   import { Button, Card, Badge } from './components/ui'
+  // import { Button, Card, Badge } from './components/ui'
 
 import Navbar from './pages/Navbar'
+import Home from './pages/Home'
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
-// import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
+import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
 
 export default function App() {
   return (
     <>
-       <Navbar/>
-    
+       {/* <Navbar/> */}
+       <Home/>
    
      {/* <div className="min-h-screen bg-paper"> */}
 
