@@ -9,7 +9,7 @@ import Home, { loader as homeLoader} from "./Pages/Home"
 const router = createBrowserRouter(createRoutesFromElements(
  <Route path="/" element={<Layouts/>}>
   <Route index element={<Home />} loader={homeLoader}/>
-  <Route path="/posts" element={ <Posts />}/>
+  <Route path="/posts" element={ <Posts />} loader={homeLoader}/>
   <Route path="/Authors" element={ <Authors />} loader={AuthorLoader}/>
  </Route>
 

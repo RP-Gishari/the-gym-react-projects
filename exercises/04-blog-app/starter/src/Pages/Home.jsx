@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom"
 import { BookmarkPlus } from "lucide-react"
+import {Avatar, Badge, Button, Card, Input, Textarea} from '../components/ui'
 
 
 export async function loader() {
@@ -33,7 +34,7 @@ function Home() {
        
 
         return (
-          <div
+          <Card
             key={post.id}
             className="overflow-hidden rounded-3xl border border-edge bg-paper"
           >
@@ -90,7 +91,7 @@ function Home() {
               </div>
             </div>
              </Link>
-          </div>
+          </Card>
         )
       })}
     </div>
