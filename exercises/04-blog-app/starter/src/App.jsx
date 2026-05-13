@@ -10,7 +10,7 @@
 // import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
 // import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
 // import Navbar from './components/Navbar'
-import  MainLayout  from './components/MainLayout'
+import  MainLayout  from './layouts/MainLayout'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { Home, ReceiptPoundSterlingIcon } from 'lucide-react'
