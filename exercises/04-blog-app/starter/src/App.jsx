@@ -45,69 +45,17 @@ export default function App() {
           <Route path='/author' element={<Author/>}/>
         </Route>
       </Routes>
-
-      
-      {/* <div className="min-h-screen bg-subtle"> */}
-      
-      {/* <header className="bg-paper border-b border-edge px-8 py-4 flex items-center justify-between sticky top-0">
-        <span className="text-base font-bold tracking-tight">Blogify</span>
-        <span className="text-sm text-muted">Design System — Milestone 1 reference</span>
-      </header> */}
-
-
-
-        {/* ── Typography ─────────────────────────────────────────── */}
-       
-
-        {/* ── Buttons ────────────────────────────────────────────── */}
-      
-
-        {/* ── Badge ──────────────────────────────────────────────── */}
-        
-
-        {/* ── Avatar ─────────────────────────────────────────────── */}
-        
-
-        {/* ── Card ───────────────────────────────────────────────── */}
-      
-
-        {/* ── Form Elements ──────────────────────────────────────── */}
-        {/* <section className="space-y-4">
-          <SectionLabel>Form elements</SectionLabel>
-          <Card>
-            <div className="space-y-5">
-              <Input
-                id="email"
-                label="Email address"
-                type="email"
-                placeholder="you@example.com"
-              />
-              <Input
-                id="search"
-                type="search"
-                placeholder="Search posts..."
-              />
-              <Input
-                id="error-example"
-                label="With validation error"
-                placeholder="Enter a value"
-                error="This field is required"
-              />
-              <Textarea
-                id="bio"
-                label="Bio"
-                placeholder="Write a short bio..."
-                rows={3}
-              />
-            </div>
-          </Card>
-        </section> */}
-
-      {/* </main> */}
-    {/* </div> */}
     </>
   )
 }
+
+
+
+
+
+
+
+
 
 // ── Internal helper components ──────────────────────────────────────────────
 
