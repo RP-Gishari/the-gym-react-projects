@@ -25,6 +25,22 @@ export default function App() {
  
   
   return( 
+    const router = createBrowserRouter([
+      {
+        path: '/',
+        element: </>,
+        children: [
+          {path: '/', element: </>},
+          {path: '/posts', element: </>},
+          {path: '/posts/:slug', element: </>},
+          {path: '/categories/:slug', element: </>},
+          {path: '/authors/:id', element: </>},
+          
+        ]
+
+        
+      }
+    ])
 
     
 
