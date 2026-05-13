@@ -1,19 +1,8 @@
-// Design System Showcase
-//
-// This file is a living reference — not part of the app you are building.
-// Run `npm run dev` to see all design system components in one place.
-// You will create your actual pages in src/pages/ starting from Milestone 2.
-//
-// Import any component like this:
-//   import { Button, Card, Badge } from './components/ui'
 
-// import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
-// import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
-// import Navbar from './components/Navbar'
 import  MainLayout  from './layouts/MainLayout'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Navbar from './components/Navbar'
-import { Home, ReceiptPoundSterlingIcon } from 'lucide-react'
+
 
 
  function Posts(){
@@ -36,16 +25,17 @@ export default function App() {
  
   
   return( 
-    <>
 
-      <Routes>
+    
+
+      {/* <Routes>
         <Route element={<MainLayout/>}>
           <Route path='/' element={<HomePage/>}/>
           <Route path='/posts' element={<Posts/>}/>
           <Route path='/author' element={<Author/>}/>
         </Route>
-      </Routes>
-    </>
+      </Routes> */}
+   
   )
 }
 
