@@ -13,17 +13,21 @@ import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
 import MainLayout from './Layout/MainLayout';
 import Navbar from './pages/Navbar'
 import Home from './pages/Home'
-
+import { Loader } from './pages/Home';
 
 const router= createBrowserRouter([
       {
         path:"/",
-        element:<MainLayout/>
-      },
-      {
-        path:"/",
-        element:<Home/>
+        element:<MainLayout/>,
+        children: [
+           {
+        index:true,
+        element:<Home/>,
+        loader:Loader
       }
+        ]
+      },
+      
     ])
 export default function App() {
   return (
