@@ -1,8 +1,9 @@
 import react from "react";
-import {useApi} from '../hooks/useApi'
+import useApi from '../hooks/useApi'
+import {PostCard} from '../components/PostCard'
 
-export default function HomePage(){
-        const {data, error, loading } = useApi('/posts')
+export   function HomePage(){
+        const {data, error, loading } = useApi('http://localhost:3001/posts')
 
         if(loading){
             return(<h2>loading....</h2>)

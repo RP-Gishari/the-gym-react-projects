@@ -1,25 +1,11 @@
 
 import  MainLayout  from './layouts/MainLayout'
 import { createBrowserRouter, RouterProvider} from 'react-router-dom'
- 
-
-
- function Posts(){
-    return(
-      <h1>Posts page</h1>
-    )
-  }
-  function HomePage(){
-    return(
-      <h1>Home  page</h1>
-    )
-  }
-  function Author(){
-    return(
-      <h1>Authors page</h1>
-    )
-  }
-
+ import {HomePage} from './pages/HomePage'
+import {PostsPage} from './pages/PostsPage'
+import {PostDetailPage} from './pages/PostDetailPage'
+import {CategoryPage} from './pages/CategoryPage'
+import{AuthorPage} from './pages/AuthorPage'
 export default function App() {
  
       const router = createBrowserRouter([
@@ -27,11 +13,11 @@ export default function App() {
         path: '/',
         element: <MainLayout/>,
         children: [
-          {index:true, element: <Posts/>},
-          {path: 'posts', element: <Author/>},
-          {path: 'posts/:slug', element: <HomePage/>},
-          {path: 'categories/:slug', element: <HomePage/>},
-          {path: 'authors/:id', element: <HomePage/>},
+          {index:true, element: <HomePage/>},
+          {path: 'posts', element: <PostsPage/>},
+          {path: 'posts/:slug', element: <PostDetailPage/>},
+          {path: 'categories/:slug', element: <CategoryPage/>},
+          {path: 'authors/:id', element: <AuthorPage/>},
           
         ] 
       }

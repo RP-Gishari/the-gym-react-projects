@@ -1,7 +1,7 @@
 import react from "react";
-import {useApi} from '../hooks/useApi'
+import useApi from '../hooks/useApi'
 
-export default function PostsPage(){
+export   function PostsPage(){
     const {data, loading} = useApi('http://localhost:3001/posts')
 
     return(
