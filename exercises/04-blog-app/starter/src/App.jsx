@@ -1,7 +1,6 @@
 
 import  MainLayout  from './layouts/MainLayout'
 import { createBrowserRouter, RouterProvider} from 'react-router-dom'
-import Navbar from './components/Navbar'
 
 
 
@@ -23,18 +22,16 @@ import Navbar from './components/Navbar'
 
 export default function App() {
  
-  
-  return( 
-    const router = createBrowserRouter([
+      const router = createBrowserRouter([
       {
         path: '/',
-        element: </>,
+        element: <MainLayout/>,
         children: [
-          {path: '/', element: </>},
-          {path: '/posts', element: </>},
-          {path: '/posts/:slug', element: </>},
-          {path: '/categories/:slug', element: </>},
-          {path: '/authors/:id', element: </>},
+          {index:true, element: <Posts/>},
+          {path: 'posts', element: <Author/>},
+          {path: 'posts/:slug', element: <HomePage/>},
+          {path: 'categories/:slug', element: <HomePage/>},
+          {path: 'authors/:id', element: <HomePage/>},
           
         ]
 
@@ -42,15 +39,9 @@ export default function App() {
       }
     ])
 
-    
 
-      {/* <Routes>
-        <Route element={<MainLayout/>}>
-          <Route path='/' element={<HomePage/>}/>
-          <Route path='/posts' element={<Posts/>}/>
-          <Route path='/author' element={<Author/>}/>
-        </Route>
-      </Routes> */}
+  return( 
+    <RouterProvider router={router} />
    
   )
 }
@@ -60,25 +51,3 @@ export default function App() {
 
 
 
-
-
-
-// ── Internal helper components ──────────────────────────────────────────────
-
-// function SectionLabel({ children }) {
-//   return (
-//     <p className="text-xs font-semibold text-muted uppercase tracking-wider">
-//       {children}
-//     </p>
-//   )
-// }
-
-// function Row({ label, children }) {
-//   return (
-//     <div className="flex items-center gap-4 flex-wrap">
-//       {label && <span className="text-xs text-muted w-20 shrink-0">{label}</span>}
-//       {children}
-//     </div>
-
-//   )
-// }

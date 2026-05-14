@@ -18,7 +18,7 @@ export default function Navbar(){
                         <NavLink to='/posts'>Posts</NavLink>
                     </Button>
                     <Button>
-                        <NavLink to='/author'>Author</NavLink>
+                        <NavLink to='/authors/1'>Author</NavLink>
                     </Button>
                     
                     <Search/>
