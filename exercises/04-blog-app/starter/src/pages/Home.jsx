@@ -17,21 +17,35 @@ import { useLoaderData,Link } from "react-router-dom"
         // }catch (error){
         //     throw new Error("An error occured")
         // }
-        const allposts= await fetch("http://localhost:3001/posts")
-        return allposts
+        const [posts, categories, authors ] = await Promise.all([
+
+            fetch("http://localhost:3001/posts"),
+            fetch("http://localhost:3001/categories"),
+            fetch("http://localhost:3001/users")
+        ])
+
+        const [allposts, allcategories, allauthors]= await Promise.all([
+            posts.json(),
+            categories.json(),
+            authors.json()
+        ])
+     
+        const recentPosts= allposts. filter(p=>p.status==="published")
+                                    .sort((a,b)=>new Date(b.createdAt)- new Date(a.createdAt))
+                                    .slice(0,6)
+        return {post:recentPosts, category:allcategories, author:allauthors}
        
     }
 
 export default function Home(){
-    const allposts= useLoaderData()//moved in Home since data lives in route component
-    
-
+    const {post, category,author}= useLoaderData()//moved in Home since data lives in route component
+  
     return (
         <>
         {/*Hero section */}
         <section>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-               {allposts.map(p=>{
+               {post.map(p=>{
                 return <PostCard key={p.id} post={p}/>
                })}
             </div>
@@ -41,6 +55,7 @@ export default function Home(){
 }
 
 function PostCard({post}){
+
     return (
         <Link to={`/posts/${post.slug}`}>
        
