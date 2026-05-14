@@ -1,41 +1,29 @@
 import { Card, Badge,Avatar, Button } from "../components/ui"
 import { useState,useEffect } from "react"
+import { useLoaderData } from "react-router-dom"
 
 export default function Home(){
 
     const [posts, setPosts]= useState([])//holds the posts
-    const [loading, setLoading]= useState(true)//tracks if the data has arrived yet and prevents seeing empty broken grid-? bridges the gap of []
     const [error, setError] = useState (null)//tracks the errors
 
-    useEffect(()=>{
-        async function fetchPosts(){
-            try {
-            const allposts= await fetch ("/posts")
-
-            if (!allposts.ok){
+    export async function Loader(){
+        try{
+           const allposts= await fetch("http://localhost:3001/posts")
+          if (!allposts.ok){
                 throw new Error ("Failed to fetch the posts")
             }
             const result= await allposts.json()
-
-            const recent= result.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+              const recent= result.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
                                  .slice(0,6)
             setPosts(recent)
-        }catch (err){
-            setError ("Please, wait a moment. An error occured")
-        }finally{
-            setLoading (false)//prevents getting stuck on the loading screen
+             return result
+        }catch (error){
+            setError("An error occured")
         }
-
+       
     }
-    fetchPosts()
-    },[])
-
-    if (loading){
-        return "Loading posts..."
-    }
-    if (error){
-        return `Error: ${error}`
-    }
+ 
     return (
         <>
         {/*Hero section */}
@@ -52,6 +40,7 @@ export default function Home(){
 }
 
 function PostCard({p}){
+    const data= useLoaderData()
     return (
    <div className="rounded-xl overflow-hidden ">
         <img src={p.coverImage} alt={p.title} className="w-full h-48 object-cover"/>
