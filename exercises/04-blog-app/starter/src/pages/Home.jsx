@@ -2,27 +2,29 @@ import { Card, Badge,Avatar, Button } from "../components/ui"
 import { useState,useEffect } from "react"
 import { useLoaderData } from "react-router-dom"
 
-export default function Home(){
 
-    const [posts, setPosts]= useState([])//holds the posts
-    const [error, setError] = useState (null)//tracks the errors
-
-    export async function Loader(){
+ export async function Loader(){
         try{
            const allposts= await fetch("http://localhost:3001/posts")
           if (!allposts.ok){
                 throw new Error ("Failed to fetch the posts")
             }
             const result= await allposts.json()
-              const recent= result.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+              const recent= result.filter(p=>p.status ==="published")
+                                 .sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
                                  .slice(0,6)
-            setPosts(recent)
-             return result
+             return recent
         }catch (error){
-            setError("An error occured")
+            throw new Error("An error occured")
         }
        
     }
+
+export default function Home(){
+    const data= useLoaderData()//moved in Home since data lives in route component
+    const [posts, setPosts]= useState([])//holds the posts
+    const [error, setError] = useState (null)//tracks the errors
+
  
     return (
         <>
@@ -31,7 +33,7 @@ export default function Home(){
             <h1>Most recent posts goes here</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                {posts.map(p=>{
-                <PostCard key={p.id} post={p}/>
+                return <PostCard key={p.id} post={p}/>
                })}
             </div>
         </section>
@@ -39,8 +41,7 @@ export default function Home(){
     )
 }
 
-function PostCard({p}){
-    const data= useLoaderData()
+function PostCard(){
     return (
    <div className="rounded-xl overflow-hidden ">
         <img src={p.coverImage} alt={p.title} className="w-full h-48 object-cover"/>

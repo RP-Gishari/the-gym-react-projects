@@ -7,16 +7,30 @@
 // Import any component like this:
   // import { Button, Card, Badge } from './components/ui'
 
-import Navbar from './pages/Navbar'
-import Home from './pages/Home'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
 import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
+import MainLayout from './Layout/MainLayout';
+import Navbar from './pages/Navbar'
+import Home from './pages/Home'
 
+
+const router= createBrowserRouter([
+      {
+        path:"/",
+        element:<MainLayout/>
+      },
+      {
+        path:"/",
+        element:<Home/>
+      }
+    ])
 export default function App() {
   return (
     <>
+    <RouterProvider router={router}/>
        {/* <Navbar/> */}
-       <Home/>
+       {/* <Home/> */}
    
      {/* <div className="min-h-screen bg-paper"> */}
 
