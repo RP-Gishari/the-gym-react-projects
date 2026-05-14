@@ -4,19 +4,7 @@ import { useLoaderData,Link } from "react-router-dom"
 
 
  export  async function Loader(){
-        // try{
-        //    const allposts= await fetch("http://localhost:3001/posts")
-        //   if (!allposts.ok){
-        //         throw new Error ("Failed to fetch the posts")
-        //     }
-        //     const result= await allposts.json()
-        //       const recent= result.filter(p=>p.status ==="published")
-        //                          .sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
-        //                          .slice(0,6)
-        //      return recent
-        // }catch (error){
-        //     throw new Error("An error occured")
-        // }
+   
         const [posts, categories, authors ] = await Promise.all([
 
             fetch("http://localhost:3001/posts"),
@@ -33,7 +21,7 @@ import { useLoaderData,Link } from "react-router-dom"
         const recentPosts= allposts. filter(p=>p.status==="published")
                                     .sort((a,b)=>new Date(b.createdAt)- new Date(a.createdAt))
                                     .slice(0,6)
-        return {post:recentPosts, category:allcategories, author:allauthors}
+        return {post:recentPosts, category:allcategories, author:allauthors}//destructuring by name is much safer than by positions
        
     }
 
@@ -58,24 +46,22 @@ function PostCard({post}){
 
     return (
         <Link to={`/posts/${post.slug}`}>
-       
-   <div className="rounded-xl overflow-hidden ">
+       <Card padding={false} hover className="overflow-hidden">
         <img src={post.coverImage} alt={post.title} className="w-full h-48 object-cover"/>
         <div className="p-4 flex flex-col gap-3">
-            <span className="self-start text-xs py-1 px-2 rounded-full">
+            <Badge variant="outline" className="self-start">
                 {post.category}
-            </span>
-            <h2 className="text-lg leading-snug">{post.title}</h2>
+            </Badge>
+            <h2 className="text-lg font-semibold leading-snug">{post.title}</h2>
             <div className="flex items-center justify-between mt-auto">
                 <div className="flex items-center gap-2">
-
-                <img src={post.author?.avatar}  alt={post.author?.name} className="w-8 h-8 rounded-full object-cover"/>
-                <span className="text-sm"> {post.author?.name}.</span>
-            </div>
-            <span className="text-xs">{post.readTime} minutes read</span>
+                    <Avatar src={post.author?.avatar} name={post.author?.name} size="sm"/>
+                    <span className="text-sm text-muted">{post.author?.name}</span>
+                </div>
+                <span className="text-xs text-muted">{post.readTime}minutes read</span>
             </div>
         </div>
-    </div>
+       </Card>
 </Link>
     )
     
