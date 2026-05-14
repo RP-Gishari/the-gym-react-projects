@@ -1,7 +1,7 @@
 
 import  MainLayout  from './layouts/MainLayout'
 import { createBrowserRouter, RouterProvider} from 'react-router-dom'
-
+ 
 
 
  function Posts(){
@@ -33,13 +33,10 @@ export default function App() {
           {path: 'categories/:slug', element: <HomePage/>},
           {path: 'authors/:id', element: <HomePage/>},
           
-        ]
-
-        
+        ] 
       }
     ])
-
-
+    
   return( 
     <RouterProvider router={router} />
    
