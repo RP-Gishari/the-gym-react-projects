@@ -9,7 +9,7 @@ export function PostCard({post}){
                 
                 <section>
                 <Link to={`/posts/${post.slug}`}>
-                    <img src={post.coverImage} alt="cover-page"></img>
+                    <img src={post.coverImage} alt={`cover image for ${post.title}`}></img>
                 </Link>
                 <button>{post.category.name}</button>
                 <Link to={`/posts/${post.title}`}>
@@ -18,8 +18,13 @@ export function PostCard({post}){
                 <h2>{post.excerpt}</h2>
                 
                     <div>
-                        <img src={post.author.avatar} alt="author avatar"></img>
+                        <div>
+                            <img src={post.author.avatar} alt={`author avatar for ${post.author.name}`}></img>
                         <h3>{post.author.name}</h3>
+                        </div>
+                        <div>
+                            <h3>{post.readTime}</h3>
+                        </div>
                     </div>
                 </section>
                 
