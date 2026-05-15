@@ -40,6 +40,12 @@ export default function PostDetail(){
                 </Link>
                 <p className="text-muted">{post.readTime} read mins</p>
             </div>
+            <div className="m-auto space-y-6">
+                {paragraphs.map((para, index) =>(
+                    <p key={index} className="text-lg">{para}</p>
+                ))}
+            </div>
+           
         </div>
     )
 }

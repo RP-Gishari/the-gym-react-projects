@@ -48,13 +48,11 @@ export default function Posts() {
 
       <div className="flex flex-wrap gap-3">
         <Button variant={selectedCategory === "all" ? "primary" : "secondary"} onClick={() => setSelectedCategory("all")}>All</Button>
-
         {categories.map(category => (
           <Button key={category.id} variant={ selectedCategory === category.id ? "primary": "secondary"}
             onClick={() => setSelectedCategory(category.id)}
           >{category.name}</Button>
         ))}
-
       </div>
 
       {filteredPosts.length === 0 && (
