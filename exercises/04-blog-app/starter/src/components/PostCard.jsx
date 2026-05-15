@@ -1,5 +1,7 @@
 import React from "react";
-import {Card, Badge, Avatar} from './ui'
+import {Card} from './ui/Card'
+import {Badge} from './ui/Badge'
+import {Avatar} from './ui/Avatar'
 import {Link} from 'react-router-dom'
 
 export function PostCard({post}){
@@ -23,8 +25,9 @@ export function PostCard({post}){
                 
                     <div className="flex gap-7 items-center">
                         <div className="flex gap-1 items-center">
-                            <Avatar>
-                                <img src={post.author.avatar} alt={`author avatar for ${post.author.name}`}></img>
+                            <Avatar 
+                            src={post.author.avatar}>
+                            name={post.author.name}
                             </Avatar>
                         <h3>{post.author.name}</h3>
                         </div>
