@@ -1,7 +1,9 @@
 import react from "react";
 import { useParams } from "react-router-dom";
 import {useApi} from '../hooks/useApi'
-
+import { Badge } from "../components/ui/Badge";
+import {Avatar} from '../components/ui/Avatar'
+import { Link } from "react-router-dom";
 
 export   function PostDetailPage(){
     let params = useParams()
