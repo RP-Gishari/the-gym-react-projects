@@ -5,12 +5,14 @@ import Layouts from "./Layouts"
 import Posts from "./pages/Posts"
 import Authors, {AuthorLoader} from "./pages/Authors"
 import Home, { loader as homeLoader} from "./Pages/Home"
+import PostDetails from "./Pages/PostDetails"
 
 const router = createBrowserRouter(createRoutesFromElements(
  <Route path="/" element={<Layouts/>}>
   <Route index element={<Home />} loader={homeLoader}/>
   <Route path="/posts" element={ <Posts />} loader={homeLoader}/>
   <Route path="/Authors" element={ <Authors />} loader={AuthorLoader}/>
+  <Route path="/posts/:slug" element={<PostDetails/>} loader={homeLoader}/>
  </Route>
 
 ))

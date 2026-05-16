@@ -3,6 +3,7 @@ import Home from './Home'
 import { Button, Card, Badge, Input, Textarea, Avatar } from '../components/ui'
 import { Link,useLoaderData } from "react-router-dom"
 import { useState } from "react"
+import { BookmarkPlus } from "lucide-react"
 
 
 
@@ -10,10 +11,7 @@ function Posts() {
    const{posts, categories, users} = useLoaderData()
 
    const [selectedCategory, setSelectedCategory] = useState()
-    const [searchedTerm, setSearchedTerm] = useState('');
-
-    // const filteredCategory = selectedCategory ?
-    //  posts.filter(post => post.categoryId === selectedCategory) : posts
+   const [searchedTerm, setSearchedTerm] = useState('');
 
     const filteredPost = posts.filter(post => {
       const matchedCategory = selectedCategory ? 
@@ -25,6 +23,12 @@ function Posts() {
 
         return matchedCategory && matchedSearch
     })
+
+    if(!filteredPost){
+      return(
+        <h1>Post not found</h1>
+      )
+    }
 
    
 
@@ -41,7 +45,7 @@ function Posts() {
          <div className=" grid grid-cols-2 p-10 ">
          <div className="flex items-center ml-5  ">
          <Input placeholder="search..."
-               className="w-15 relative ml-15"
+               className="w-15 relative ml-10"
                value={searchedTerm}
                 onChange={handleSearchedTerm}
                />
@@ -119,7 +123,11 @@ function Posts() {
                   <p className="text-sm text-muted">
                     {post.readTime} mins
                   </p>
+                  <button className="rounded-md p-2 transition hover:bg-subtle">
+                    <BookmarkPlus size={18} />
+                  </button>
                 </div>
+                   
               </div>
             </div>
               </Link>

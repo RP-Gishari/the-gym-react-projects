@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "react-router-dom"
-import { BookmarkPlus } from "lucide-react"
+import { BookmarkPlus, SearchIcon } from "lucide-react"
 import {Avatar, Badge, Button, Card, Input, Textarea} from '../components/ui'
 
 
@@ -38,7 +38,7 @@ function Home() {
             key={post.id}
             className="overflow-hidden rounded-3xl border border-edge bg-paper"
           >
-            <Link to={"/posts/:slug"}>
+            <Link to={`/posts/${post.slug}`}>
            
             <img
               className="h-64 w-full object-cover"
@@ -82,8 +82,8 @@ function Home() {
                   <p className="text-sm text-muted">
                     {post.readTime} mins
                   </p>
-
-                  <button className="rounded-md p-2 transition hover:bg-subtle">
+                   
+                    <button className="rounded-md p-2 transition hover:bg-subtle">
                     <BookmarkPlus size={18} />
                   </button>
 
