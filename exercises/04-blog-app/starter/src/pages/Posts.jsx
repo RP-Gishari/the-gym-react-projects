@@ -1,42 +1,13 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BookmarkPlus } from "lucide-react";
-
+import useApi from "../hooks/useApi"
 import { Card, Input, Button } from "../components/ui";
 
 export default function Posts() {
-
-  const [posts, setPosts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
-  useEffect(() => {
-
-    async function fetchData() {
-      const [postsRes, categoriesRes, usersRes] = await Promise.all([
-        fetch("http://localhost:3001/posts"),
-        fetch("http://localhost:3001/categories"),
-        fetch("http://localhost:3001/users"),
-      ]);
-
-      const postsData = await postsRes.json();
-      const categoriesData = await categoriesRes.json();
-      const usersData = await usersRes.json();
-      const publishedPosts = postsData.filter( post => post.status === "published");
-      setPosts(publishedPosts);
-      setCategories(categoriesData);
-      setUsers(usersData);
-    }
-    fetchData();
-  }, []);
-
-  const filteredPosts = posts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = selectedCategory === "all" ? true : post.categoryId === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const { posts, categories, 
+    users, error, search, setSearch, 
+    selectedCategory, setSelectedCategory, 
+    filteredPosts } = useApi();
 
   return (
     <div className="space-y-8">
@@ -81,9 +52,7 @@ export default function Posts() {
                         <p className="text-sm font-medium text-ink">{author?.name}</p>
                         <p className="text-xs text-muted">{post.readTime} min read</p>
                       </div>
-
                     </div>
-
                     <button className="rounded-md p-2 hover:bg-subtle"><BookmarkPlus size={18} /></button>
                   </div>
                 </div>

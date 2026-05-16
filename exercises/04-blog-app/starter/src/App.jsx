@@ -3,9 +3,9 @@ import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
 import Navbar from './components/Navbar'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-import Home, {loader as HomeData } from "./pages/Home";
+import Home from "./pages/Home";
 import Posts from "./pages/Posts";
-import PostDetail, {loader as PostDetailData} from "./pages/PostDetail";
+import PostDetail from "./pages/PostDetail";
 import Category from "./pages/Category";
 import Author from "./pages/Author";
 
@@ -22,7 +22,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
-        loader: HomeData
       },
       {
         path: "posts",
@@ -31,7 +30,6 @@ const router = createBrowserRouter([
       {
         path: "posts/:slug",
         element: <PostDetail />,
-        loader: PostDetailData
       },
       {
         path: "categories/:slug",
