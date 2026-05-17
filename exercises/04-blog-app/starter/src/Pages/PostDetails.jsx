@@ -29,12 +29,11 @@ function PostDetails() {
 
     <div className="mx-auto max-w-5xl p-6">
 
-      <Button variant="ghost"> 
-        <Link to="/posts">
-       ← Back
-       </Link>
-       
-      </Button>
+      <Link to="/posts">
+        <Button variant="ghost">
+          ← Back
+        </Button>
+      </Link>
 
       <Card className="mt-6 overflow-hidden rounded-3xl">
 
@@ -47,7 +46,11 @@ function PostDetails() {
         <div className="space-y-6 p-8">
 
           <Badge>
-            {matchedCategory.name}
+
+            <Link to={`/categories/${matchedCategory.slug}`}>
+              {matchedCategory.name}
+            </Link>
+
           </Badge>
 
           <h1 className="text-5xl font-bold leading-tight text-ink">
@@ -67,7 +70,7 @@ function PostDetails() {
               <div>
 
                 <Link
-                  to={`/authors/${matchedAuthor?.id}`}
+                  to={`/authors/${matchedAuthor.id}`}
                   className="font-medium text-ink"
                 >
                   {matchedAuthor.name}
@@ -78,6 +81,7 @@ function PostDetails() {
                 </p>
 
               </div>
+
             </div>
 
             <p className="text-sm text-muted">
