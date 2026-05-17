@@ -6,13 +6,17 @@ import useApi from '../hooks/useApi'
 
 export  function AuthorPage(){
     let params = useParams()
-    const id = Number(params.id);
+    const id = params.id;
 
     const {data: users, error: usersError, loading: usersLoading } = useApi('http://localhost:3001/users')
 
     if(usersLoading) return <h1>User loading ....</h1>
     if(!users) return <h1>No user found</h1>
     if(usersError) return <h1>an error occured</h1>
+
+    const currentAuthor = users.find(user=> user.id === id)
+
+    
 
     return(
         <h2>author page goes in this file</h2>
