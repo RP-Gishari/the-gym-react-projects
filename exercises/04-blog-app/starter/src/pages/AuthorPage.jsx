@@ -1,6 +1,7 @@
 import react from "react";
 import { useParams } from "react-router-dom";
 import useApi from '../hooks/useApi'
+import { Avatar } from "../components/ui/Avatar";
 
 
 
@@ -15,10 +16,16 @@ export  function AuthorPage(){
     if(usersError) return <h1>an error occured</h1>
 
     const currentAuthor = users.find(user=> user.id === id)
+    if(!currentAuthor) return <h1>author not found</h1>
 
-    
 
     return(
-        <h2>author page goes in this file</h2>
+        <section>
+            
+             <Avatar
+             src={currentAuthor.avatar}
+             size="xl"
+             />
+        </section>
     )
 }
