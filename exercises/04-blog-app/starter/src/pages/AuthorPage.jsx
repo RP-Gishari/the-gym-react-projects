@@ -55,7 +55,7 @@ export  function AuthorPage(){
              </p>
 
              {authorPosts.map(post => {
-                return <PostCard post={post}/>
+                return <PostCard key={post.id} post={post}/>
              })}
         </section>
     )
