@@ -37,16 +37,17 @@ export   function PostDetailPage(){
     const paragraph = singlePost.content.split('\n\n')
     
     return(
-       <main className="max-w-180">
-        <img src={singlePost.coverImage}/>
+       <main className="p-7">
+        <img src={singlePost.coverImage}
+        className="w-full rounded-2xl pb-5"/>
         <Link to={`/categories/${singlePost.category.slug}`}>
-            <Badge>
+            <Badge >
                 {singlePost.category.name}
             </Badge>
         </Link>
-        <article>
-            <h1>{singlePost.title}</h1>
-            <div className="flex gap-50">
+        <article className="pt-5">
+            <h1 className="font-bold text-2xl">{singlePost.title}</h1>
+            <div className="flex gap-[810px] p-7">
                 <div className="flex items-center gap-2">
                     <Avatar
                     src={singlePost.author.avatar}/>
@@ -66,11 +67,13 @@ export   function PostDetailPage(){
                 })}
             </section>
 
-            <Link to='/posts'>
+            <section className="pt-5">
+                <Link to='/posts'>
                 <Button>
                 Back to posts
                 </Button>
             </Link>
+            </section>
             
 
         </article>

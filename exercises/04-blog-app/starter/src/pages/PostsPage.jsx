@@ -32,30 +32,31 @@ export   function PostsPage(){
         return searched && selected
     })
     return(
-        <>
-        <h2>PostsPage page goes in this file</h2>
+     <section className="p-5">
         <Input 
         value={search}
         onChange={((e)=>setSearch(e.target.value))}
          
         ></Input>
 
-        <section>
-            <button onClick={()=> setSelectedCategory('all')}>All</button>
+        <section className="font-bold pt-5">
+            <button onClick={()=> setSelectedCategory('all')}
+                className="rounded-2xl bg-gray-400 w-[80px] h-8"
+                >All</button>
         {categories.map(category=>(
             <button
             key={category.id}
             onClick={()=>setSelectedCategory(category.slug)}
+            className="bg-gray-400 rounded-2xl gap-3 p-1"
             >{category.name}</button>
         ))}
 
         </section>
-          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 pt-5">
               {searchFilteredPosts.map(post=>(
                 <PostCard key={post.id} post={post}/>
             ))}
           </section>
-        
-        </>
+     </section>
     )
 }

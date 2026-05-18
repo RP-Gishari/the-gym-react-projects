@@ -42,7 +42,7 @@ export   function HomePage(){
 
 
     return(
-        <main>
+        <main className="p-7">
             <section className="font-bold  pl-7">
                 <h1>Welcome to our Blog</h1>
                 <p>warm welcome here</p>

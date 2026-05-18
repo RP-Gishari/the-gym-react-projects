@@ -41,17 +41,19 @@ export  function AuthorPage(){
 
 
     return(
-        <section>
-            <h1>Posts by {currentAuthor.name}</h1>
-             <Avatar
+        <section className="p-7">
+            <h1 className="font-bold text-2xl pb-5">Posts by {currentAuthor.name}</h1>
+             <section className="flex items-center gap-2 pb-5">
+                <Avatar
              src={currentAuthor.avatar}
              size="xl"
              />
              <h1
-             className="font-bold text-xl">{currentAuthor.name}
+             className="text-xl">{currentAuthor.name}
              </h1>
+             </section>
              <p
-             className="font-bold text-xl">{currentAuthor.bio}
+             className="text-xl pb-5">{currentAuthor.bio}
              </p>
 
              <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
