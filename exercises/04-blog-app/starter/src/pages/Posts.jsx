@@ -40,7 +40,7 @@ export default function Posts() {
           return (
             <Card key={post.id} hover className="overflow-hidden">
               <Link to={`/posts/${post.slug}`}>
-                <img src={post.coverImage} alt={post.title} className="h-56 w-full object-cover"/>
+                <img src={post.coverImage} alt={post.title} className="h-56 w-full rounded-lg object-cover"/>
                 <div className="space-y-4 p-5">
                   <span className="rounded-full bg-subtle px-3 py-1 text-sm text-muted">{category?.name}</span>
                   <h2 className="text-2xl font-bold text-ink">{post.title}</h2>

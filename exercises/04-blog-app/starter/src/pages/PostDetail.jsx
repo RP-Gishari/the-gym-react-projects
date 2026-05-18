@@ -17,7 +17,7 @@ export default function PostDetail(){
             <Link to="/posts" className="inline-block text-sm text-muted">Back to posts</Link>
             <img src={post.coverImage} alt={post.title} className="h-400px w-full object-cover rounded-3xl" />
             <div className="space-y-8">
-             <span className="rounded-full px-3 py-2 text-sm leading-tight">{category?.name}</span>
+             <Link to={`/categories/${category?.slug}`}><span className="rounded-full px-3 py-1 text-sm leading-tight bg-subtle text-muted">{category?.name}</span></Link>
              <h1 className="text-5xl font-bold">{post.title}</h1>
             </div>
             <div className="flex items-center justify-between pb-6">

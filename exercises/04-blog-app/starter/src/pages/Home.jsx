@@ -11,7 +11,7 @@ function Home() {
         const matchCategory = categories.find(cat => cat.id === post.categoryId)
         const MatchedAuthor = users.find(user => user.id === post.authorId)
         return (
-          <div key={post.id} className="overflow-hidden rounded-3xl border border-edge bg-paper">
+          <div key={post.id} className="overflow-hidden rounded-lg border border-edge bg-paper">
             <Link to={`/posts/${post.slug}`}>
              <img className="h-64 w-full object-cover" src={post.coverImage} alt={post.title} />
               <div className="space-y-5 p-6"> 
