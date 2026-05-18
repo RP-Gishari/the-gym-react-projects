@@ -1,24 +1,19 @@
 import { Card, Badge,Avatar, Button } from "../components/ui"
-import { useState,useEffect } from "react"
 import { useLoaderData,Link } from "react-router-dom"
-
+import { apiFetch } from "../hooks/useApi"
 
  export  async function Loader(){
    
-        const [posts, categories, authors ] = await Promise.all([
+        // const [posts, categories, authors ] = await Promise.all([
 
-            fetch("http://localhost:3001/posts"),
-            fetch("http://localhost:3001/categories"),
-            fetch("http://localhost:3001/users")
-        ])
+        //     fetch("http://localhost:3001/posts"),
+        //     fetch("http://localhost:3001/categories"),
+        //     fetch("http://localhost:3001/users")
+        // ])
 
-        const [allposts, allcategories, allauthors]= await Promise.all([
-            posts.json(),
-            categories.json(),
-            authors.json()
-        ])
+        const [allposts, allcategories, allauthors]= await apiFetch('/posts','/categories','/users')
      
-        const recentPosts= allposts. filter(p=>p.status==="published")
+        const recentPosts= allposts.filter(p=>p.status==="published")
                                     .sort((a,b)=>new Date(b.createdAt)- new Date(a.createdAt))
                                     .slice(0,6)
         return {post:recentPosts, category:allcategories, author:allauthors}//destructuring by name is much safer than by positions
@@ -26,7 +21,7 @@ import { useLoaderData,Link } from "react-router-dom"
     }
 
 export default function Home(){
-    const {post, category,author}= useLoaderData()//moved in Home since data lives in route component
+    const {post}= useLoaderData()//moved in Home since data lives in route component
   
     return (
         <>
