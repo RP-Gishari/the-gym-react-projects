@@ -43,11 +43,11 @@ export   function HomePage(){
 
     return(
         <main>
-            <section>
+            <section className="font-bold  pl-7">
                 <h1>Welcome to our Blog</h1>
                 <p>warm welcome here</p>
             </section>
-            <section>
+            <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {topPosts.map((post) => {
             return <PostCard key={post.id} post={post} />;
           })}

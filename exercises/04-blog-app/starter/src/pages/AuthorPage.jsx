@@ -54,9 +54,11 @@ export  function AuthorPage(){
              className="font-bold text-xl">{currentAuthor.bio}
              </p>
 
-             {authorPosts.map(post => {
+             <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {authorPosts.map(post => {
                 return <PostCard key={post.id} post={post}/>
              })}
+             </section>
         </section>
     )
 }

@@ -37,9 +37,11 @@ export   function PostsPage(){
         <Input 
         value={search}
         onChange={((e)=>setSearch(e.target.value))}
+         
         ></Input>
 
-        <button onClick={()=> setSelectedCategory('all')}>All</button>
+        <section>
+            <button onClick={()=> setSelectedCategory('all')}>All</button>
         {categories.map(category=>(
             <button
             key={category.id}
@@ -47,9 +49,12 @@ export   function PostsPage(){
             >{category.name}</button>
         ))}
 
-            {searchFilteredPosts.map(post=>(
+        </section>
+          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {searchFilteredPosts.map(post=>(
                 <PostCard key={post.id} post={post}/>
             ))}
+          </section>
         
         </>
     )
