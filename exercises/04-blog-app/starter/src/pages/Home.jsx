@@ -1,6 +1,7 @@
 import { Card, Badge,Avatar, Button } from "../components/ui"
 import { useLoaderData,Link } from "react-router-dom"
 import { apiFetch } from "../hooks/useApi"
+import PostCard from "./PostCard"
 
  export  async function Loader(){
    
@@ -27,7 +28,7 @@ export default function Home(){
         <>
         {/*Hero section */}
         <section>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-10 ">
                {post.map(p=>{
                 return <PostCard key={p.id} post={p}/>
                })}
@@ -37,28 +38,3 @@ export default function Home(){
     )
 }
 
-function PostCard({post}){
-
-    return (
-        <Link to={`/posts/${post.slug}`}>
-       <Card padding={false} hover className="overflow-hidden">
-        <img src={post.coverImage} alt={post.title} className="w-full h-48 object-cover"/>
-        <div className="p-4 flex flex-col gap-3">
-            <Badge variant="outline" className="self-start">
-                {post.category}
-            </Badge>
-            <h2 className="text-lg font-semibold leading-snug">{post.title}</h2>
-            <div className="flex items-center justify-between mt-auto">
-                <div className="flex items-center gap-2">
-                    <Avatar src={post.author?.avatar} name={post.author?.name} size="sm"/>
-                    <span className="text-sm text-muted">{post.author?.name}</span>
-                </div>
-                <span className="text-xs text-muted">{post.readTime}minutes read</span>
-            </div>
-        </div>
-       </Card>
-</Link>
-    )
-    
-
-}
