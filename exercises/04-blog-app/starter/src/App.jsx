@@ -12,6 +12,7 @@ import Posts from "./pages/Posts"
 import Authors, { AuthorLoader } from "./pages/Authors"
 import PostDetails from "./Pages/PostDetails"
 import Category from "./Pages/Category"
+import AuthorProfile from "./Pages/AuthorProfile"
 
 const router = createBrowserRouter(
 
@@ -28,6 +29,9 @@ const router = createBrowserRouter(
       <Route path="/posts/:slug" element={<PostDetails />} loader={homeLoader} />
 
       <Route path="/categories/:slug" element={<Category />} loader={homeLoader} />
+
+      <Route path="/authors/:id" element={ <AuthorProfile />} loader={homeLoader}/>
+      
 
     </Route>
   )

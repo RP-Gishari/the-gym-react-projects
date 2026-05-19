@@ -61,6 +61,10 @@ function PostDetails() {
 
             <div className="flex items-center gap-4">
 
+             <Link
+                  to={`/authors/${matchedAuthor.id}`}
+                   className="font-medium text-ink"
+                >
               <Avatar
                 src={matchedAuthor.avatar}
                 name={matchedAuthor.name}
@@ -69,20 +73,19 @@ function PostDetails() {
 
               <div>
 
-                <Link
-                  to={`/authors/${matchedAuthor.id}`}
-                  className="font-medium text-ink"
-                >
+                
+                 
                   {matchedAuthor.name}
-                </Link>
+               
 
                 <p className="text-sm text-muted">
                   {matchedPost.publishedAt}
                 </p>
 
               </div>
-
+                 </Link>
             </div>
+
 
             <p className="text-sm text-muted">
               {matchedPost.readTime} mins read
