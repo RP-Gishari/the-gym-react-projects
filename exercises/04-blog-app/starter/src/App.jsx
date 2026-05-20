@@ -12,9 +12,10 @@ import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
 import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
 import MainLayout from './Layout/MainLayout';
 import Navbar from './pages/Navbar'
-import Home from './pages/Home'
-import PostList from './pages/PostList';
-import { Loader } from './pages/Home';
+import Home,{ Loader } from './pages/Home'
+import PostList,{PostListLoader} from './pages/PostList';
+import PostDetail, {PostDetailLoader} from './pages/PostDetail';
+
 
 const router= createBrowserRouter([
       {
@@ -28,8 +29,14 @@ const router= createBrowserRouter([
       },
       {
         path:"posts",
-        element: <PostList/>
+        element: <PostList/>,
+        loader: PostListLoader
 
+      },
+      {
+        path:"posts/:slug",
+        element: <PostDetail/>,
+        loader: PostDetailLoader
       }
         ]
       },
