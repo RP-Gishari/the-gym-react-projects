@@ -16,6 +16,7 @@ import Home,{ Loader } from './pages/Home'
 import PostList,{PostListLoader} from './pages/PostList';
 import PostDetail, {PostDetailLoader} from './pages/PostDetail';
 import Category,{CategoryLoader} from './pages/Category';
+import AuthorProfile,{ AuthorProfileLoader } from './pages/AuthorProfile';
 
 const router= createBrowserRouter([
       {
@@ -42,6 +43,11 @@ const router= createBrowserRouter([
         path:"categories/:slug",
         element:<Category/>,
         loader:CategoryLoader
+      },
+      {
+        path:"authors/:id",
+        element:<AuthorProfile/>,
+        loader: AuthorProfileLoader
       }
         ]
       },
