@@ -27,7 +27,7 @@ export default function PostDetail(){
 
     return (
         <>
-        <div className="max-w-[720px] mx-auto px-4 py-10 flex flex-col gap-8">
+        <div className="max-w-180 mx-auto px-4 py-10 flex flex-col gap-8">
 
       <Button
         onClick={() => navigate('/posts')}
