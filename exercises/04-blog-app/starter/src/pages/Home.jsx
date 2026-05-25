@@ -5,25 +5,29 @@ import PostCard from "../components/PostCard"
 
  export  async function Loader(){
    
-        // const [posts, categories, authors ] = await Promise.all([
-
-        //     fetch("http://localhost:3001/posts"),
-        //     fetch("http://localhost:3001/categories"),
-        //     fetch("http://localhost:3001/users")
-        // ])
-
+   
         const [allposts, allcategories, allauthors]= await apiFetch('/posts','/categories','/users')
      
         const recentPosts= allposts.filter(p=>p.status==="published")
-                                    .sort((a,b)=>new Date(b.createdAt)- new Date(a.createdAt))
+                                    .sort((a,b)=>new Date(b.publishedAt)- new Date(a.publishedAt))
                                     .slice(0,6)
-        return {post:recentPosts, category:allcategories, author:allauthors}//destructuring by name is much safer than by positions
+                                    .map(p=>{
+                                const catego= allcategories.find(c=>c.id === p.categoryId)
+                                const author= allauthors.find(u=> u.id===p.authorId)
+                                return {
+                                    ...p,
+                                    category: catego?.name ?? '',
+                                    categorySlug: catego?.slug ?? '',
+                                    author: author ?? null
+                                }
+                              })
+        return {post:recentPosts}//destructuring by name is much safer than by positions
        
     }
 
 export default function Home(){
     const {post}= useLoaderData()//moved in Home since data lives in route component
-  
+ 
     return (
         <>
         {/*Hero section */}
