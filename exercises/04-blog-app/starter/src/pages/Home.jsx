@@ -1,7 +1,7 @@
 import { Card, Badge,Avatar, Button } from "../components/ui"
 import { useLoaderData,Link } from "react-router-dom"
-import { apiFetch } from "../hooks/useApi"
-import PostCard from "./PostCard"
+import { apiFetch } from "../customhooks/useApi"
+import PostCard from "../components/PostCard"
 
  export  async function Loader(){
    

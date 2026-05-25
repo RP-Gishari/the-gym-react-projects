@@ -6,20 +6,22 @@ import { ArrowLeft } from "lucide-react"
 
 
 export async function PostDetailLoader({params}){
-    const [posts,users]= await apiFetch('/posts','/users')
+    const [posts,users, categories]= await apiFetch('/posts','/users','/categories')
     
     const post= posts.find(p=>p.slug=== params.slug && p.status=== 'published')
     if(!post){
         throw new Response('Post not found',{status:404})
     }
-    const author= users.filter(u=>u.id===post.authorId)
-    return {post,author}
+    const author = users.find(u=>u.id === post.authorId)
+    // const author= users.filter(u=>u.id===post.authorId)
+    const category= categories.find(c=>c.id === post.categoryId)
+    return {post,author,category}
 
 }
 
 export default function PostDetail(){
 
-    const {post,author} = useLoaderData()
+    const {post,author,category} = useLoaderData()
     const navigate= useNavigate()
     const paragraphs= post.content.split("\n\n")
 
@@ -41,12 +43,20 @@ export default function PostDetail(){
       />
 
       <div className="flex flex-col gap-4">
-        <Badge variant="outline" className="self-start">{post.category}</Badge>
-        <h1 className="text-3xl font-bold leading-tight">{post.title}</h1>
+        {/*category links to /categories/:slug */}
+        <Link to={`/categories/${category?.slug}`}>
+        <Badge variant="outline" className="self-start">{category?.name}</Badge>
+        </Link>
+
+        <h1 className="text-3xl font-bold text-ink leading-tight">{post.title}</h1>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Avatar src={author?.avatar} name={author?.name} size="md" />
+            <Avatar 
+            src={author?.avatar} 
+            name={author?.name} 
+            size="md" 
+            />
             <div className="flex flex-col">
               <Link
                 to={`/authors/${author?.id}`}
@@ -55,15 +65,16 @@ export default function PostDetail(){
                 {author?.name}
               </Link>
               <span className="text-xs text-muted">
-                {new Date(post.createdAt).toLocaleDateString('en-US', {
+                {  post.publishedAt ? 
+                new Date(post.publishedAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
-                })}
+                }):""}
               </span>
             </div>
           </div>
-          <span className="text-sm text-muted">{post.readTime} min read</span>
+          <span className="text-sm text-muted">{post.readTime} minutes read</span>
         </div>
       </div>
 
