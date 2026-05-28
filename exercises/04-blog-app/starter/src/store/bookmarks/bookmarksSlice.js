@@ -3,26 +3,8 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-{/*import Bookmark from "../../components/Bookmark";
-
-export const userSlice= createSlice({
-    name: "user",
-    initialState:{value:{name:"Pedro", age:0,email:"@gmail.com"}},
-    reducers:{
-        Bookmark: (state,action)=>{
-          state.value=action.payload;
-
-        }
-    }
-})
-
-export const {Bookmark}=userSlice.actions
-
-export default userSlice.reducer;
-*/}
 
 //localStorage to help bookmark survive the refresh
-
 function loadFromStorage(){
     try{
         const raw= localStorage.getItem('bookmarks')
@@ -35,3 +17,36 @@ function loadFromStorage(){
 }
 
 
+const bookmarksSlice= createSlice({
+    name:'bookmarks',
+    initialState: {
+        ids: loadFromStorage() //the restored ids(the already added ones) from the local storage
+    },
+    reducers: {
+        addBookmark(state,action){
+
+            const id= action.payload
+            //only add post to bookmark if it's not already on the list
+            if (!state.ids.includes(id)){
+                state.ids.push(id)
+            }
+        },
+
+        removeBookmark(state,action){
+
+            const id= action.payload
+            //only remove the choosen id/post that was bookmarked
+            state.ids= state.ids.filter(existingId=> existingId !== id)
+        }
+    }
+})
+
+
+export const {addBookmark,removeBookmark} = bookmarksSlice.actions;
+
+//Returns the full array of bookmarkedIds 
+export const selectBookmarkIds= (state) => state.bookmarks.ids
+
+
+
+export default bookmarksSlice.reducer
