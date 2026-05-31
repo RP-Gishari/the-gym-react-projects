@@ -1,11 +1,14 @@
 import { Search, Bookmark } from "lucide-react";
 import { Button } from "./ui";
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { selectBookmarkIds } from "../features/bookmarks/bookmarksSlice"
 
 // I implemented the Blogify navbar with navigation links to the home pages,
 // a search action button, and a bookmark button displaying an initial count of 0.
 
 export default function Navbar() {
+  const bookmarksIds = useSelector(selectBookmarkIds)
   return (
     <nav className="bg-paper border-b border-edge px-8 py-4">
       <div className="max-w-5xl mx-auto flex items-center justify-between">
@@ -19,7 +22,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3">
           <Button variant="ghost"><Search size={16} /></Button>
-          <Button variant="ghost"><Bookmark size={16} /> 0 </Button>
+          <Button variant="ghost"><Bookmark size={16} />{bookmarksIds.length}</Button>
         </div>
       </div>
     </nav>
