@@ -7,6 +7,13 @@
 import {configureStore} from '@reduxjs/toolkit'
 import bookmarksReducer from './bookmarks/bookmarksSlice'
 
+function saveToStorage(ids){
+try{
+    localStorage.setItem('bookmarks',JSON.stringify(ids))//setItem here is storing the data
+}catch{
+    return []
+}
+}
 
 export const store = configureStore({
     reducer:{
