@@ -1,0 +1,14 @@
+//It is the single source of truth
+//Holds all states that you want to make global
+//--reducers show how the store updates itself when it receives instruction(actions=instructions)
+
+//NO CPT PASSES BOOKMARK DATA TO ANOTHER THROUGH PROPS, EVERY CPT CAN TALK TO STORE
+import {configureStore} from '@reduxjs/toolkit'
+import bookmarksReducer from './bookmarks/bookmarksSlice'
+
+export const store = configureStore({
+    reducer:{
+        //the slices go here 
+        user: userReducer
+    }
+})
