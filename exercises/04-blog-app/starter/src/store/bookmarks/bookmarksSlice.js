@@ -7,7 +7,7 @@ import { createSlice } from "@reduxjs/toolkit";
 //localStorage to help bookmark survive the refresh
 function loadFromStorage(){
     try{
-        const raw= localStorage.getItem('bookmarks')
+        const raw= localStorage.getItem('bookmarks')//getItem here is retrieving data
         //parse to array since local storage stores only strings
         return raw? JSON.parse(raw) : []
     }catch{
@@ -47,6 +47,6 @@ export const {addBookmark,removeBookmark} = bookmarksSlice.actions;
 //Returns the full array of bookmarkedIds 
 export const selectBookmarkIds= (state) => state.bookmarks.ids
 
-
+export const selectIsBookmarked= (id)=> (state)=> state.bookmarks.ids.includes(id)
 
 export default bookmarksSlice.reducer

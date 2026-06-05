@@ -18,6 +18,8 @@ import PostDetail, {PostDetailLoader} from './pages/PostDetail';
 import Category,{CategoryLoader} from './pages/Category';
 import AuthorProfile,{ AuthorProfileLoader } from './pages/AuthorProfile';
 
+
+
 const router= createBrowserRouter([
       {
         path:"/",

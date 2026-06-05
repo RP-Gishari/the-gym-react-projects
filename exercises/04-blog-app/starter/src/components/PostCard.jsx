@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Card,Badge,Avatar } from "./ui";
-
+import BookmarkButton from "./BookmarkButton";
 
 
 export default function PostCard({post}){
@@ -25,6 +25,7 @@ export default function PostCard({post}){
                     <span className="text-sm text-muted">{post.author?.name}</span>
                 </div>
                 <span className="text-xs text-muted">{post.readTime}minutes read</span>
+                <BookmarkButton postId={post.id}/>
             </div>
         </div>
        </Card>

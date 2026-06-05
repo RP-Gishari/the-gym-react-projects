@@ -11,7 +11,7 @@ function saveToStorage(ids){
 try{
     localStorage.setItem('bookmarks',JSON.stringify(ids))//setItem here is storing the data
 }catch{
-    return []
+    // return []
 }
 }
 
@@ -20,4 +20,10 @@ export const store = configureStore({
         //the slices go here 
         bookmarks: bookmarksReducer
     }
+})
+
+
+store.subscribe(()=>{
+    const state= store.getState()
+    saveToStorage(state.bookmarks.ids)
 })
