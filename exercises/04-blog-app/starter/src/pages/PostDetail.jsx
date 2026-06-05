@@ -3,6 +3,7 @@ import PostCard from "../components/PostCard"
 import { useLoaderData, useNavigate,Link } from "react-router-dom"
 import { apiFetch } from "../customhooks/useApi"
 import { ArrowLeft } from "lucide-react"
+import Bookmark from "../components/Bookmark"
 
 
 export async function PostDetailLoader({params}){
@@ -49,6 +50,7 @@ export default function PostDetail(){
         </Link>
 
         <h1 className="text-3xl font-bold text-ink leading-tight">{post.title}</h1>
+        <Bookmark postId={post.id}/>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
