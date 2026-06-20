@@ -7,22 +7,22 @@
 // Import any component like this:
 //   import { Button, Card, Badge } from './components/ui'
 
+import Navbar from './pages/Navbar'
 import { BookmarkPlus, Search, ArrowRight } from 'lucide-react'
-import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
+// import { Avatar, Badge, Button, Card, Input, Textarea } from './components/ui'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-subtle">
+    <>
+       <Navbar/>
+    
+   
+     {/* <div className="min-h-screen bg-paper"> */}
 
-      <header className="bg-paper border-b border-edge px-8 py-4 flex items-center justify-between sticky top-0">
-        <span className="text-base font-bold tracking-tight">Blogify</span>
-        <span className="text-sm text-muted">Design System — Milestone 1 reference</span>
-      </header>
-
-      <main className="max-w-3xl mx-auto px-8 py-12 space-y-16">
+      {/* <main className="max-w-3xl mx-auto px-8 py-12 space-y-16"> */}
 
         {/* ── Typography ─────────────────────────────────────────── */}
-        <section className="space-y-4">
+        {/* <section className="space-y-4">
           <SectionLabel>Typography</SectionLabel>
           <Card>
             <div className="space-y-3">
@@ -41,10 +41,10 @@ export default function App() {
               </p>
             </div>
           </Card>
-        </section>
+        </section> */}
 
         {/* ── Buttons ────────────────────────────────────────────── */}
-        <section className="space-y-4">
+        {/* <section className="space-y-4">
           <SectionLabel>Button</SectionLabel>
           <Card>
             <div className="space-y-4">
@@ -69,10 +69,10 @@ export default function App() {
               </Row>
             </div>
           </Card>
-        </section>
+        </section> */}
 
         {/* ── Badge ──────────────────────────────────────────────── */}
-        <section className="space-y-4">
+        {/* <section className="space-y-4">
           <SectionLabel>Badge</SectionLabel>
           <Card>
             <Row label="Variants">
@@ -81,10 +81,10 @@ export default function App() {
               <Badge variant="outline">Career</Badge>
             </Row>
           </Card>
-        </section>
+        </section> */}
 
         {/* ── Avatar ─────────────────────────────────────────────── */}
-        <section className="space-y-4">
+        {/* <section className="space-y-4">
           <SectionLabel>Avatar</SectionLabel>
           <Card>
             <div className="space-y-4">
@@ -108,10 +108,10 @@ export default function App() {
               </Row>
             </div>
           </Card>
-        </section>
+        </section> */}
 
         {/* ── Card ───────────────────────────────────────────────── */}
-        <section className="space-y-4">
+        {/* <section className="space-y-4">
           <SectionLabel>Card</SectionLabel>
           <div className="grid grid-cols-2 gap-4">
             <Card>
@@ -127,10 +127,10 @@ export default function App() {
             In Milestone 2 you will compose Card into a PostCard component.
             See <strong>post-card-reference.png</strong> in the exercise folder for the expected design.
           </p>
-        </section>
+        </section> */}
 
         {/* ── Form Elements ──────────────────────────────────────── */}
-        <section className="space-y-4">
+        {/* <section className="space-y-4">
           <SectionLabel>Form elements</SectionLabel>
           <Card>
             <div className="space-y-5">
@@ -181,6 +181,7 @@ function Row({ label, children }) {
     <div className="flex items-center gap-4 flex-wrap">
       {label && <span className="text-xs text-muted w-20 shrink-0">{label}</span>}
       {children}
-    </div>
-  )
+    </div> */}
+    </>
+        )
 }
