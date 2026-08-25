@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { movies } from './data/movies'
+import { useEffect } from 'react';
 
 // The UI below is complete and styled — run npm run dev to see it.
 // Your job: make it interactive using React.
@@ -9,13 +11,55 @@ import { movies } from './data/movies'
 const GENRES = ['All', ...new Set(movies.map(m => m.genre))]
 
 export default function App() {
-  const search = ''
-  const selectedGenre = 'All'
-  const watchlistIds = []
+  //added states to manage changes
+  const [search, setSearch] = useState(''); 
+  const [selectedGenre, setSelectedGenre] = useState('All')
+  const [watchlistIds, setWatchlistIds] = useState(()=> {
+    try {
+      const saved = localStorage.getItem('watchlist')
+      return saved ? JSON.parse(saved) : []
+    } catch (error) {
+      return []
+    }
+  })
+  //saving to localstorage with useEffect hook
+  useEffect(() => {
+    localStorage.setItem('watchlist', JSON.stringify(watchlistIds))
+  }, [watchlistIds])
 
-  // display all movies for now — you will filter this with state
-  const visibleMovies = movies
+  // filtering movies depending on user input to search
+  const visibleMovies = movies.filter(movie => {
+    const titlee = movie.title.toLowerCase();
+    const directorr = movie.director.toLowerCase();
+    const searchh = search.toLowerCase();
 
+    const matchesSearch = titlee.includes(searchh) || 
+      directorr.includes(searchh);
+    const matchesGenre = selectedGenre === 'All' || movie.genre === selectedGenre;
+
+    return matchesSearch && matchesGenre;
+  })
+  //fn to update the user search inputs
+  function searcher(e){
+    let valueSearched = e.target.value;
+    setSearch(valueSearched)
+  }
+  //genre selector
+  function genreSelector(genre){
+    setSelectedGenre(genre)
+  }
+
+  function toggleWatch(movieId){
+    setWatchlistIds(prev =>prev.includes(movieId)
+    ?prev.filter(id => id !== movieId) 
+    : [...prev, movieId]);
+  }
+
+  const watchlistMovies = movies.filter(movie =>
+  watchlistIds.includes(movie.id)
+  ) 
+
+  
   return (
     <div className="min-h-screen bg-slate-50">
 
@@ -36,7 +80,7 @@ export default function App() {
             value={search}
             placeholder="Search by title or director..."
             className="w-full border border-slate-200 rounded-lg px-3.5 py-2 text-sm outline-none focus:border-indigo-400 mb-4"
-            readOnly
+            onChange={searcher}
           />
 
           {/* Genre filters */}
@@ -49,6 +93,7 @@ export default function App() {
                     ? 'bg-indigo-600 border-indigo-600 text-white'
                     : 'border-slate-200 text-slate-500 hover:border-slate-400'
                 }`}
+                onClick={()=>genreSelector(genre)}
               >
                 {genre}
               </button>
@@ -57,8 +102,10 @@ export default function App() {
 
           {/* Movie grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {visibleMovies.map(movie => (
-              <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            {visibleMovies.map(movie => {
+              //changing ux for add n remove button
+              const isSaved = watchlistIds.includes(movie.id)
+              return <div key={movie.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <img
                   src={movie.poster}
                   alt={movie.title}
@@ -71,20 +118,47 @@ export default function App() {
                   <p className="text-xs text-slate-400 mb-3">
                     {movie.year} · {movie.genre}
                   </p>
-                  <button className="w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors">
-                    + Add
+                  <button className={isSaved ? "bg-red-500 text-white w-full rounded-md":"w-full bg-indigo-600 text-white text-xs rounded-lg py-1.5 font-medium hover:bg-indigo-700 transition-colors"}
+                  onClick={()=> toggleWatch(movie.id)}
+                  >
+                    {isSaved ? 'Remove'  : '+ Add'}
                   </button>
                 </div>
               </div>
-            ))}
+             })}
           </div>
         </main>
 
         {/* Watchlist — right side */}
         <aside className="w-64 shrink-0">
           <div className="bg-white border border-slate-200 rounded-xl p-4 sticky top-8">
-            <h2 className="font-semibold text-sm text-slate-800 mb-4">My Watchlist</h2>
-            <p className="text-xs text-slate-400 text-center py-6">Nothing saved yet.</p>
+            <h2 className="font-semibold text-sm text-slate-800 mb-4">
+  My Watchlist
+</h2>
+
+{watchlistMovies.length === 0 ? (
+  <p className="text-xs text-slate-400 text-center py-6">
+    Nothing saved yet.
+  </p>
+) : (
+  <div className="flex flex-col gap-2">
+    {watchlistMovies.map(movie => (
+      <div
+        key={movie.id}
+        className="flex justify-between items-center text-xs"
+      >
+        <span className="truncate">{movie.title}</span>
+
+        <button
+          className="text-red-500"
+          onClick={() => toggleWatch(movie.id)}
+        >
+          Remove
+        </button>
+      </div>
+    ))}
+  </div>
+)}
           </div>
         </aside>
 

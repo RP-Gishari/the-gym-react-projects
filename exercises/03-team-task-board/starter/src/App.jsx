@@ -1,4 +1,6 @@
 import { teamMembers } from './data/team'
+import { useTasks } from './context/TaskContext.jsx'; 
+import { useState } from 'react';
 
 // The UI below is complete and styled — run npm run dev to see it.
 // Your job: make it interactive using React (useReducer + Context API).
@@ -28,6 +30,14 @@ const PRIORITY_COLORS = {
 }
 
 export default function App() {
+
+  const {state} = useTasks();
+  const [title, setTitle] = useState('');
+  const [priority, setPriority] = useState('high');
+  const [assigneeId,  setAssigneeId] = useState(1);
+
+
+
   return (
     <div className="min-h-screen bg-slate-100 flex">
 
@@ -60,7 +70,7 @@ export default function App() {
               type="text"
               placeholder="Task title..."
               className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
-              readOnly
+              onChange={(e) => setTitle(e.target.value)}
             />
             <select className="border border-slate-200 rounded-lg px-2 py-1.5 text-sm outline-none">
               <option>High</option>
@@ -95,7 +105,7 @@ export default function App() {
         {/* Board */}
         <div className="grid grid-cols-3 gap-4">
           {COLUMNS.map(col => {
-            const colTasks = PLACEHOLDER_TASKS.filter(t => t.status === col.status)
+            const colTasks = state.tasks.filter(t => t.status === col.status)
             return (
               <div key={col.status} className="bg-slate-200/70 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
