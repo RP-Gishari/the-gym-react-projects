@@ -23,7 +23,7 @@ The movie data is in `src/data/movies.js`. Each movie has:
 }
 ```
 
----
+--- 
 
 ## Acceptance criteria
 

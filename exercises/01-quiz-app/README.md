@@ -5,7 +5,7 @@
 ---
 
 ## What you're building
-
+ 
 A multiple-choice quiz that walks through 10 questions one at a time, gives immediate feedback on each answer, tracks the score, and shows a results screen at the end.
 
 The questions are provided in `src/data/questions.js`. Each question has:
@@ -56,4 +56,4 @@ Your job is to make it interactive. You can create as many component files as yo
 
 ## When you're stuck
 
-[State: A Component's Memory — React Docs](https://react.dev/learn/state-a-components-memory)
+ 
